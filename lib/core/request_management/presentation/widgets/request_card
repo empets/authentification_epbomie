@@ -1,0 +1,114 @@
+// import 'package:flutter/material.dart';
+// import 'package:ma_box_orange/core/rechargement/theme/app_colors.dart';
+// import 'package:ma_box_orange/core/rechargement/theme/app_text_styles.dart';
+
+// enum RequestStatus {
+//   inProgress,
+//   pending,
+// }
+
+// extension RequestStatusExtension on RequestStatus {
+//   String get label {
+//     switch (this) {
+//       case RequestStatus.inProgress:
+//         return 'En cours';
+//       case RequestStatus.pending:
+//         return 'En attente';
+//     }
+//   }
+
+//   Color get backgroundColor {
+//     switch (this) {
+//       case RequestStatus.inProgress:
+//         return AppColors.info;
+//       case RequestStatus.pending:
+//         return AppColors.warning;
+//     }
+//   }
+
+//   Color get textColor {
+//     switch (this) {
+//       case RequestStatus.inProgress:
+//         return AppColors.white;
+//       case RequestStatus.pending:
+//         return AppColors.black;
+//     }
+//   }
+// }
+
+// class RequestCard extends StatelessWidget {
+//   const RequestCard({
+//     super.key,
+//     required this.requestId,
+//     required this.date,
+//     required this.status,
+//   });
+//   final String requestId;
+//   final String date;
+//   final RequestStatus status;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: () {
+//         // TODO: Navigate to request details
+//       },
+//       borderRadius: BorderRadius.circular(12),
+//       child: Container(
+//         padding: const EdgeInsets.all(16),
+//         decoration: BoxDecoration(
+//           color: AppColors.white,
+//           borderRadius: BorderRadius.circular(12),
+//           border: Border.all(
+//             color: AppColors.greyLight,
+//             width: 1,
+//           ),
+//         ),
+//         child: Row(
+//           children: [
+//             Expanded(
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 spacing: 4,
+//                 children: [
+//                   Text(
+//                     requestId,
+//                     style: AppTextStyles.heading4,
+//                   ),
+//                   Text(
+//                     date,
+//                     style: AppTextStyles.bodyMedium.copyWith(
+//                       color: AppColors.grey,
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//             Container(
+//               padding: const EdgeInsets.symmetric(
+//                 horizontal: 16,
+//                 vertical: 8,
+//               ),
+//               decoration: BoxDecoration(
+//                 color: status.backgroundColor,
+//                 borderRadius: BorderRadius.circular(16),
+//               ),
+//               child: Text(
+//                 status.label,
+//                 style: AppTextStyles.label.copyWith(
+//                   color: status.textColor,
+//                 ),
+//               ),
+//             ),
+//             const SizedBox(width: 8),
+//             const Icon(
+//               Icons.chevron_right,
+//               color: AppColors.grey,
+//               size: 24,
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

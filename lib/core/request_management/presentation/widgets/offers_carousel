@@ -1,0 +1,115 @@
+// import 'package:flutter/material.dart';
+// import 'package:ma_box_orange/core/rechargement/theme/app_colors.dart';
+// import 'package:ma_box_orange/features/request_management/domain/entities/offer.dart';
+// import 'package:ma_box_orange/features/request_management/presentation/widgets/offer_card.dart';
+
+// class OffersCarousel extends StatefulWidget {
+//   const OffersCarousel({
+//     super.key,
+//     required this.offers,
+//     this.selectedOffer,
+//     this.onOfferSelected,
+//     this.initialPage = 0,
+//   });
+//   final List<Offer> offers;
+//   final Offer? selectedOffer;
+//   final ValueChanged<Offer>? onOfferSelected;
+//   final int initialPage;
+
+//   @override
+//   State<OffersCarousel> createState() => _OffersCarouselState();
+// }
+
+// class _OffersCarouselState extends State<OffersCarousel> {
+//   late PageController _pageController;
+//   late int _currentPage;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _currentPage = widget.initialPage;
+//     _pageController = PageController(
+//       viewportFraction: 0.9,
+//       initialPage: widget.initialPage,
+//     );
+//   }
+
+//   @override
+//   void dispose() {
+//     _pageController.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       spacing: 16,
+//       children: [
+//         // Carousel
+//         SizedBox(
+//           height: 450,
+//           child: PageView.builder(
+//             controller: _pageController,
+//             itemCount: widget.offers.length,
+//             onPageChanged: (index) {
+//               setState(() {
+//                 _currentPage = index;
+//                 widget.onOfferSelected?.call(widget.offers[index]);
+//               });
+//             },
+//             itemBuilder: (context, index) {
+//               final offer = widget.offers[index];
+//               final isSelected = widget.selectedOffer?.id == offer.id;
+
+//               return Padding(
+//                 padding: const EdgeInsets.symmetric(horizontal: 8),
+//                 child: OfferCard(
+//                   offer: offer,
+//                   isSelected: isSelected,
+//                   onTap: () => widget.onOfferSelected?.call(offer),
+//                 ),
+//               );
+//             },
+//           ),
+//         ),
+
+//         // Page indicator
+//         PageIndicator(
+//           itemCount: widget.offers.length,
+//           currentIndex: _currentPage,
+//         ),
+//       ],
+//     );
+//   }
+// }
+
+// class PageIndicator extends StatelessWidget {
+//   const PageIndicator({
+//     super.key,
+//     required this.itemCount,
+//     required this.currentIndex,
+//   });
+//   final int itemCount;
+//   final int currentIndex;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: List.generate(itemCount, (index) {
+//         final isActive = index == currentIndex;
+//         return AnimatedContainer(
+//           duration: const Duration(milliseconds: 300),
+//           width: isActive ? 20 : 6,
+//           height: isActive ? 8 : 6,
+//           margin: const EdgeInsets.symmetric(horizontal: 4),
+//           decoration: BoxDecoration(
+//             color: isActive ? AppColors.primaryOrange : AppColors.grey,
+//             shape: BoxShape.rectangle,
+//             borderRadius: BorderRadius.circular(4),
+//           ),
+//         );
+//       }),
+//     );
+//   }
+// }

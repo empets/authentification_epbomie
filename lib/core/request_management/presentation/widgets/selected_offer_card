@@ -1,0 +1,142 @@
+// import 'package:flutter/material.dart';
+// import 'package:ma_box_orange/core/rechargement/theme/app_colors.dart';
+// import 'package:ma_box_orange/core/rechargement/theme/app_text_styles.dart';
+// import 'package:ma_box_orange/features/request_management/domain/entities/offer.dart';
+// import 'package:ma_box_orange/features/request_management/domain/entities/offer_feature.dart';
+
+// class SelectedOfferCard extends StatelessWidget {
+//   const SelectedOfferCard({
+//     super.key,
+//     required this.offer,
+//     this.onEdit,
+//   });
+//   final Offer offer;
+//   final VoidCallback? onEdit;
+
+//   /// Extrait la vitesse de connexion depuis les features de l'offre
+//   String? _extractSpeed() {
+//     // Cherche une feature avec l'icône highSpeed
+//     final speedFeature = offer.features.firstWhere(
+//       (f) => f.icon == FeatureIcon.highSpeed,
+//       orElse: () => const OfferFeature(
+//         icon: FeatureIcon.highSpeed,
+//         label: '',
+//       ),
+//     );
+
+//     // Si on trouve une valeur, on la retourne
+//     if (speedFeature.value != null && speedFeature.value!.isNotEmpty) {
+//       return speedFeature.value!.toUpperCase();
+//     }
+
+//     // Sinon, on essaie d'extraire depuis le nom de l'offre
+//     final name = offer.name;
+//     final regExp = RegExp(r'(\d+)\s*Mb/s', caseSensitive: false);
+//     final match = regExp.firstMatch(name);
+//     if (match != null) {
+//       return '${match.group(1)}MBPS';
+//     }
+
+//     return null;
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final speed = _extractSpeed();
+
+//     return Container(
+//       padding: const EdgeInsets.all(16),
+//       decoration: BoxDecoration(
+//         color: AppColors.white,
+//         borderRadius: BorderRadius.circular(12),
+//         border: Border.all(
+//           color: AppColors.greyLight,
+//           width: 1,
+//         ),
+//       ),
+//       child: Row(
+//         children: [
+//           // Icon/Logo
+//           Container(
+//             width: 48,
+//             height: 48,
+//             decoration: BoxDecoration(
+//               color: AppColors.black,
+//               borderRadius: BorderRadius.circular(24),
+//             ),
+//             child: const Icon(
+//               Icons.wifi,
+//               color: AppColors.white,
+//               size: 24,
+//             ),
+//           ),
+
+//           const SizedBox(width: 12),
+
+//           // Offer info
+//           Expanded(
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               spacing: 4,
+//               children: [
+//                 Text(
+//                   offer.name,
+//                   style: AppTextStyles.heading4,
+//                   maxLines: 1,
+//                   overflow: TextOverflow.ellipsis,
+//                 ),
+//                 Text(
+//                   offer.formattedPriceWithPeriod,
+//                   style: AppTextStyles.bodySmall.copyWith(
+//                     color: AppColors.grey,
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+
+//           const SizedBox(width: 12),
+
+//           // Speed badge (if available)
+//           if (speed != null) ...[
+//             Container(
+//               padding: const EdgeInsets.symmetric(
+//                 horizontal: 12,
+//                 vertical: 6,
+//               ),
+//               decoration: BoxDecoration(
+//                 color: AppColors.success.withValues(alpha: 0.1),
+//                 borderRadius: BorderRadius.circular(6),
+//               ),
+//               child: Text(
+//                 speed,
+//                 style: AppTextStyles.bodySmall.copyWith(
+//                   color: AppColors.success,
+//                   fontWeight: FontWeight.bold,
+//                 ),
+//               ),
+//             ),
+//             const SizedBox(width: 8),
+//           ],
+
+//           // Edit button
+//           GestureDetector(
+//             onTap: onEdit,
+//             child: Container(
+//               padding: const EdgeInsets.all(8),
+//               decoration: BoxDecoration(
+//                 color: AppColors.backgroundGrey,
+//                 borderRadius: BorderRadius.circular(8),
+//               ),
+//               child: const Icon(
+//                 Icons.edit_outlined,
+//                 color: AppColors.primaryOrange,
+//                 size: 20,
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

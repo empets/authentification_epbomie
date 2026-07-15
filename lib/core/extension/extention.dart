@@ -461,6 +461,10 @@ String formatTimeDifference(DateTime date) {
 // permet de donner la couleur a une bordure du tag selon le type
 Color getTagTextColor({required BuildContext context, required String tag}) {
   switch (tag.toLowerCase()) {
+    
+    ///---------------------
+    ///   ALERTE
+    ///---------------------
     case 'urgent':
       return Colors.red;
     case 'rappel':
@@ -468,10 +472,31 @@ Color getTagTextColor({required BuildContext context, required String tag}) {
     case 'info':
       return context.appColor.primaryBlue;
 
+    ///---------------------
+    ///   STATUT
+    ///---------------------  
     case 'terminer':
       return context.appColor.primarySuccess.withValues(alpha: 0.5);
     case 'en_cours':
       return context.appColor.primaryWarning.withValues(alpha: 0.5);
+
+    ///---------------------
+    ///   DEPARTEMENT
+    ///---------------------  
+    
+    case 'bureau':
+      return context.appColor.primarySuccess.withValues(alpha: 0.5);
+    case 'finance':
+      return context.appColor.primaryWarning.withValues(alpha: 0.5);
+
+    ///---------------------
+    ///   Etudiant ou travalleur
+    ///---------------------  
+    
+    case 'etudiant':
+      return context.appColor.primaryBlue.withValues(alpha: 0.5);
+    case 'travaille':
+      return context.appColor.primaryWarning.withValues(alpha: 0.5);  
     default:
       return Colors.grey;
   }

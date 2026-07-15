@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gracechurchadmine/core/about_internet/not_internet.dart';
 import 'package:gracechurchadmine/core/constante/const.dart';
 import 'package:gracechurchadmine/core/style/app_theme.dart';
 import 'package:gracechurchadmine/feature/menbre/presentation/pages/menbers_overview.dart';

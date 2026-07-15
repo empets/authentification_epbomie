@@ -189,6 +189,7 @@ dependencies:
   cached_network_image: ^3.4.1
   syncfusion_flutter_pdfviewer: ^28.1.37
   responsive_builder: ^0.7.1
+  fl_chart: ^1.2.0
   # workmanager: ^0.5.2
 
 

@@ -662,3 +662,58 @@ Pour toute question relative à la sécurité ou à la protection des données, 
 
 En utilisant l'application, vous reconnaissez avoir pris connaissance de cette politique et acceptez ses dispositions.
 ''';
+
+
+
+
+
+
+  final List<Map<String, dynamic>> tableHeaders = [
+    {'title': 'Membre', 'icon': Icon(Icons.person, color: Colors.grey.shade400)},
+    {'title': 'Departement', 'icon': Icon(Icons.location_city, color: Colors.grey.shade400)},
+    {'title': 'Statut', 'icon': Icon(Icons.check_circle, color: Colors.grey.shade400)},
+    {'title': 'Statut professionnel', 'icon': Icon(Icons.work, color: Colors.grey.shade400)},
+    {'title': 'Activité/Filière', 'icon': Icon(Icons.business, color: Colors.grey.shade400)},
+    {'title': 'Zone de résidence', 'icon': Icon(Icons.map, color: Colors.grey.shade400)},
+    {'title': 'Consulter', 'icon': Icon(Icons.visibility, color: Colors.grey.shade400)},
+  ];
+
+
+  final List<Map<String, dynamic>> filterOptions = [
+    {'label': 'Tous', 'value': 'all'},
+    {'label': 'Etudiants', 'value': 'student'},
+    {'label': 'Travailleurs', 'value': 'worker'},
+  ];
+
+  
+    final List<Map<String, dynamic>> headerItem = [
+    {'label': 'Dashboard', 'value': 'dashboard'},
+    {'label': 'Membres', 'value': 'members'},
+    {'label': 'Départements', 'value': 'departments'},
+    {'label': 'Activités', 'value': 'activities'},
+    {'label': 'Attribution de rôle', 'value': 'roles'},
+  ];
+
+
+
+
+
+
+  final List<Map<String, dynamic>> filterByCommune = [
+    {'label': 'Tous', 'id': 'all'},
+    {'label': 'Abobo', 'id': 'abobo'},
+    {'label': 'Adjamé', 'id': 'adjame'},
+    {'label': 'Anyama', 'id': 'anyama'},
+    {'label': 'Attécoubé', 'id': 'attecoube'},
+    {'label': 'Bingerville', 'id': 'bingerville'},
+    {'label': 'Cocody', 'id': 'cocody'},
+    {'label': 'Koumassi', 'id': 'koumassi'},
+    {'label': 'Marcory', 'id': 'marcory'},
+    {'label': 'Plateau', 'id': 'plateau'},
+    {'label': 'Port-Bouët', 'id': 'port_bouet'},
+    {'label': 'Treichville', 'id': 'treichville'},
+    {'label': 'Yopougon', 'id': 'yopougon'},
+    {'label': 'Songon', 'id': 'songon'},
+  ];
+
+

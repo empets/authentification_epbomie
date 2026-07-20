@@ -251,6 +251,7 @@ flutter:
     - assets/building_screen/
     - assets/empty_screen/
     - assets/alerte/
+    - assets/auth/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

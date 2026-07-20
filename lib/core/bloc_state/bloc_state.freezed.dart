@@ -203,12 +203,12 @@ $FailedStateCopyWith<T, FailedState<T>> get copyWith => _$FailedStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FailedState<T>&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other.errorType, errorType));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FailedState<T>&&(identical(other.message, message) || other.message == message)&&(identical(other.errorType, errorType) || other.errorType == errorType));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message,const DeepCollectionEquality().hash(errorType));
+int get hashCode => Object.hash(runtimeType,message,errorType);
 
 @override
 String toString() {
@@ -586,12 +586,12 @@ $FailedStateOtherCopyWith<T, FailedStateOther<T>> get copyWith => _$FailedStateO
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FailedStateOther<T>&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other.errorType, errorType));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FailedStateOther<T>&&(identical(other.message, message) || other.message == message)&&(identical(other.errorType, errorType) || other.errorType == errorType));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message,const DeepCollectionEquality().hash(errorType));
+int get hashCode => Object.hash(runtimeType,message,errorType);
 
 @override
 String toString() {

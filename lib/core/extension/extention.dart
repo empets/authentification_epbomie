@@ -719,3 +719,19 @@ if (await canLaunchUrl(gmailUri)) {
   // Fallback → app mail par défaut 
   await launchUrl(Uri(scheme: 'mailto', path: 'emmanuelpeters@gmail.com')); 
 } }
+
+
+
+ // "Dimanche 20 juillet 2026 · Semaine 29"
+String formatDateWithWeek(String date) {
+  DateTime dateTime = DateTime.parse(date);
+  String jour = DateFormat("EEEE d MMMM y", 'fr').format(dateTime);
+  jour = jour[0].toUpperCase() + jour.substring(1);
+  int semaine = weekNumber(dateTime);
+  return "$jour · Semaine $semaine";
+}
+//permet de définir la semaine a la quelle nous somme dans lannée
+int weekNumber(DateTime date) {
+  final dayOfYear = int.parse(DateFormat("D").format(date));
+  return ((dayOfYear - date.weekday + 10) / 7).floor();
+}

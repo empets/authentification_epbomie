@@ -55,7 +55,7 @@ class _ScreenNotAvailableState extends State<ScreenNotAvailable> {
           Text(
             widget.title,
             style: GoogleFonts.roboto(
-              fontSize: 3.sp,
+              fontSize: 4.sp,
               color: context.appColor.primaryGray700,
               fontWeight: FontWeight.bold,
             ),
@@ -64,7 +64,7 @@ class _ScreenNotAvailableState extends State<ScreenNotAvailable> {
           Text(
             widget.message,
             style: GoogleFonts.roboto(
-              fontSize: 2.sp,
+              fontSize: 3.sp,
               color: context.appColor.primaryGray500,
               fontWeight: FontWeight.w500,
             ),
@@ -101,7 +101,7 @@ class _ScreenNotAvailableState extends State<ScreenNotAvailable> {
               child: Text(
                 "Retour",
                 style: GoogleFonts.roboto(
-                  fontSize: 2.sp,
+                  fontSize: 3.sp,
                   color: context.appColor.primaryGray500,
                   fontWeight: FontWeight.w500,
                 ),

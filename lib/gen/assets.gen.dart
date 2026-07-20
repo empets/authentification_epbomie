@@ -9,6 +9,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: deprecated_member_use,directives_ordering,implicit_dynamic_list_literal,unnecessary_import
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 class $AssetsAlerteGen {
@@ -19,6 +20,19 @@ class $AssetsAlerteGen {
 
   /// List of all assets
   List<String> get values => [alertePoint];
+}
+
+class $AssetsAuthGen {
+  const $AssetsAuthGen();
+
+  /// File path: assets/auth/sign_in.svg
+  String get signIn => 'assets/auth/sign_in.svg';
+
+  /// File path: assets/auth/undraw_join_niai.svg
+  String get undrawJoinNiai => 'assets/auth/undraw_join_niai.svg';
+
+  /// List of all assets
+  List<String> get values => [signIn, undrawJoinNiai];
 }
 
 class $AssetsBuildingScreenGen {
@@ -184,9 +198,9 @@ class $AssetsRapportTemplateGen {
 
 class MyAssets {
   const MyAssets._();
-   static const String package = 'gracechurchadmine';
 
   static const $AssetsAlerteGen alerte = $AssetsAlerteGen();
+  static const $AssetsAuthGen auth = $AssetsAuthGen();
   static const $AssetsBuildingScreenGen buildingScreen =
       $AssetsBuildingScreenGen();
   static const $AssetsEmptyScreenGen emptyScreen = $AssetsEmptyScreenGen();

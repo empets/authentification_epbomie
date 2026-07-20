@@ -5,9 +5,9 @@ import 'package:gracechurchadmine/core/build_screen/building_screen.dart';
 import 'package:gracechurchadmine/core/constante/const.dart';
 import 'package:gracechurchadmine/core/custome_widget/custome_text.dart';
 import 'package:gracechurchadmine/core/extension/custome_extension.dart';
-import 'package:gracechurchadmine/feature/menbre/presentation/pages/wideget/menber_profile_header.dart';
-import 'package:gracechurchadmine/feature/menbre/presentation/pages/wideget/menber_profile_table_body.dart';
-import 'package:gracechurchadmine/feature/menbre/presentation/pages/wideget/menbre_filtre.dart';
+import 'wideget/menber_profile_header.dart';
+import 'wideget/menber_profile_table_body.dart';
+import 'wideget/menbre_filtre.dart';
 import 'package:gracechurchadmine/gen/assets.gen.dart';
 
 class MenbersOverview extends StatefulWidget {

@@ -1,0 +1,4 @@
+storePassword=androider
+keyPassword=androider
+keyAlias=testsandroid
+storeFile=keys/keystore.jks

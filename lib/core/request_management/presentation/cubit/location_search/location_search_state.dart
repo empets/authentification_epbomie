@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:gracechurchadmine/core/geocoding/domain/entities/geocoding_result.dart';
+import 'package:grace_church/core/geocoding/domain/entities/geocoding_result.dart';
 
 abstract class LocationSearchState extends Equatable {
   const LocationSearchState();

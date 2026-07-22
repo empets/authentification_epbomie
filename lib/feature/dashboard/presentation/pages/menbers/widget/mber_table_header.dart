@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:gracechurchadmine/core/moke/moke_data.dart';
+import 'package:grace_church/core/moke/moke_data.dart';
 
 class MenberTableHeader extends StatelessWidget {
   final String text;

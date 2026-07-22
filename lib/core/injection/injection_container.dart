@@ -2,7 +2,7 @@
 import 'package:firebase_database/firebase_database.dart' as databaseReference;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
-import 'package:gracechurchadmine/core/injection/injection_container.config.dart';
+import 'package:grace_church/core/injection/injection_container.config.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:injectable/injectable.dart';

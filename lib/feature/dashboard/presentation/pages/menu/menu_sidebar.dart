@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gracechurchadmine/core/build_screen/building_screen.dart';
-import 'package:gracechurchadmine/core/extension/custome_extension.dart';
-import 'package:gracechurchadmine/core/moke/moke_data.dart';
-import 'package:gracechurchadmine/feature/authen/presentation/signin.dart';
-import 'package:gracechurchadmine/feature/dashboard/presentation/pages/menu/widget/side_bar_component.dart';
-import 'package:gracechurchadmine/gen/assets.gen.dart';
+import 'package:grace_church/core/build_screen/building_screen.dart';
+import 'package:grace_church/core/extension/custome_extension.dart';
+import 'package:grace_church/core/moke/moke_data.dart';
+import 'package:grace_church/feature/authen/page/login.dart';
+import 'package:grace_church/feature/dashboard/presentation/pages/menu/widget/side_bar_component.dart';
+import 'package:grace_church/gen/assets.gen.dart';
 
 class BuildSideBar extends StatefulWidget {
   const BuildSideBar({super.key, required this.navItems});
@@ -28,7 +28,6 @@ class _BuildSideBarState extends State<BuildSideBar> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          // colors: [Color(0xFF0F2418), Color(0xFF071A0E)],
           colors: [Color(0xFF0F1824), Color(0xFF071018)],
         ),
       ),
@@ -56,13 +55,13 @@ class _BuildSideBarState extends State<BuildSideBar> {
                       },
                       errorBuilder: (_, __, ___) => ClipOval(
                         child: Image.asset(
-                          MyAssets.iconLauncher.icon.path,
+                          Assets.iconLauncher.icon.path,
                           fit: BoxFit.contain,
                           height: 0.04.sh,
                           width: 0.04.sh,
                         ),
                       ),
-                      MyAssets.iconLauncher.icon.path,
+                      Assets.iconLauncher.icon.path,
                       fit: BoxFit.cover,
                       height: 0.06.sh,
                       width: 0.06.sh,

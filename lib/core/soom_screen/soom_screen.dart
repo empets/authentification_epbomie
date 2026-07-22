@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gracechurchadmine/core/custome_widget/custome_text.dart';
-import 'package:gracechurchadmine/core/extension/custome_extension.dart';
-import 'package:gracechurchadmine/gen/assets.gen.dart';
+import 'package:grace_church/core/custome_widget/custome_text.dart';
+import 'package:grace_church/core/extension/custome_extension.dart';
+import 'package:grace_church/gen/assets.gen.dart';
 
 class SoomScreen extends StatelessWidget {
   const SoomScreen({super.key});
@@ -15,7 +15,7 @@ class SoomScreen extends StatelessWidget {
         children: [
           SizedBox(height: 20.h),
           SvgPicture.asset(
-            MyAssets.buildingScreen.construction, 
+            Assets.buildingScreen.construction, 
             width: 100.w,
             height: 100.h,
           ),

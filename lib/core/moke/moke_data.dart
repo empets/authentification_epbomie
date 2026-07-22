@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -17,6 +18,24 @@ class C {
   static const blue = Color(0xFF4A7FA5);
   static const violet = Color(0xFF7C5A8C);
   static const input = Color(0xFFE4F0E9);
+  static const red = Colors.red;
+
+
+   static final List<Color> _randomColors = [
+    green,
+    greenLight,
+    gold,
+    blue,
+    violet,
+    muted,
+    sidebarMuted,
+  ];
+
+  static final Random _random = Random();
+
+  Color randomColor() {
+    return _randomColors[_random.nextInt(_randomColors.length)];
+  }
 }
 
 class Membre {

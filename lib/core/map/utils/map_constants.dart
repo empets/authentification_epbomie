@@ -1,4 +1,4 @@
-import 'package:gracechurchadmine/core/map/models/map_location.dart';
+import 'package:grace_church/core/map/models/map_location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class MapConstants {

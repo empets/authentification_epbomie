@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gracechurchadmine/core/constante/const.dart';
-import 'package:gracechurchadmine/core/custome_widget/custome_text.dart';
-import 'package:gracechurchadmine/core/extension/custome_extension.dart';
-import 'package:gracechurchadmine/gen/assets.gen.dart';
+import 'package:grace_church/core/constante/const.dart';
+import 'package:grace_church/core/custome_widget/custome_text.dart';
+import 'package:grace_church/core/extension/custome_extension.dart';
+import 'package:grace_church/gen/assets.gen.dart';
 
 class ConnectivityWrapper extends StatefulWidget {
   final Widget child;
@@ -37,7 +37,7 @@ class NoInternetDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 0.3.sh),
-              SvgPicture.asset(MyAssets.images.wifiCheck, height: 50.h),
+              SvgPicture.asset(Assets.images.wifiCheck, height: 50.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

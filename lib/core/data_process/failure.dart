@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:gracechurchadmine/core/extension/extention.dart';
+import 'package:grace_church/core/extension/extention.dart';
 
  class Failure extends Equatable {
   const Failure({this.code, this.message});

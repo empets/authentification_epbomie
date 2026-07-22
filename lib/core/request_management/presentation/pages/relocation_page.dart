@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gracechurchadmine/core/request_management/domain/entities/housing_type.dart';
-import 'package:gracechurchadmine/core/request_management/presentation/cubit/map_location/map_location_cubit.dart';
-import 'package:gracechurchadmine/core/request_management/presentation/cubit/map_location/map_location_state.dart';
+import 'package:grace_church/core/request_management/domain/entities/housing_type.dart';
+import 'package:grace_church/core/request_management/presentation/cubit/map_location/map_location_cubit.dart';
+import 'package:grace_church/core/request_management/presentation/cubit/map_location/map_location_state.dart';
 
 
 class RelocationPage extends StatefulWidget {

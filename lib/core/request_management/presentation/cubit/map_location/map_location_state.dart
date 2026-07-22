@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:gracechurchadmine/core/map/models/map_location.dart' show MapLocation;
+import 'package:grace_church/core/map/models/map_location.dart' show MapLocation;
 
 /// Base state for map location operations
 abstract class MapLocationState extends Equatable {

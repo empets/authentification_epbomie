@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:gracechurchadmine/core/request_management/data/models/offer_model.dart';
-import 'package:gracechurchadmine/core/request_management/domain/entities/offer.dart';
+import 'package:grace_church/core/request_management/data/models/offer_model.dart';
+import 'package:grace_church/core/request_management/domain/entities/offer.dart';
 import 'package:http/http.dart' as http;
 
 

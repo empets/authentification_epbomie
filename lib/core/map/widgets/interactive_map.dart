@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:gracechurchadmine/core/map/models/map_location.dart';
-import 'package:gracechurchadmine/core/map/models/map_marker_data.dart';
-import 'package:gracechurchadmine/core/map/utils/map_constants.dart';
-import 'package:gracechurchadmine/core/map/widgets/map_marker.dart';
+import 'package:grace_church/core/map/models/map_location.dart';
+import 'package:grace_church/core/map/models/map_marker_data.dart';
+import 'package:grace_church/core/map/utils/map_constants.dart';
+import 'package:grace_church/core/map/widgets/map_marker.dart';
 
 
 class InteractiveMap extends StatefulWidget {

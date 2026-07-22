@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gracechurchadmine/core/extension/custome_extension.dart';
-import 'package:gracechurchadmine/gen/assets.gen.dart';
+import 'package:grace_church/core/extension/custome_extension.dart';
+import 'package:grace_church/gen/assets.gen.dart';
 
 // ignore: must_be_immutable
 class ScreenNotAvailable extends StatefulWidget {
@@ -43,14 +43,14 @@ class _ScreenNotAvailableState extends State<ScreenNotAvailable> {
               child: Align(
                 alignment: Alignment.topRight,
                 child: SvgPicture.asset(
-                  MyAssets.alerte.alertePoint,
+                  Assets.alerte.alertePoint,
                   height: 20.h,
                 ),
               ),
             ),
           ],
 
-          SvgPicture.asset(MyAssets.emptyScreen.emptyData),
+          SvgPicture.asset(Assets.emptyScreen.emptyData),
           SizedBox(height: 10.h),
           Text(
             widget.title,

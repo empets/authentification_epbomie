@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:gracechurchadmine/core/request_management/data/models/order_model.dart';
+import 'package:grace_church/core/request_management/data/models/order_model.dart';
 import 'package:http/http.dart' as http;
 
 /// Interface du DataSource pour la création de commandes

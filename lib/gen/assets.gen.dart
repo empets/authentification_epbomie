@@ -9,7 +9,6 @@
 // ignore_for_file: type=lint
 // ignore_for_file: deprecated_member_use,directives_ordering,implicit_dynamic_list_literal,unnecessary_import
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 class $AssetsAlerteGen {
@@ -196,8 +195,8 @@ class $AssetsRapportTemplateGen {
   List<String> get values => [emptyPaper, rapport, rapportEm];
 }
 
-class MyAssets {
-  const MyAssets._();
+class Assets {
+  const Assets._();
 
   static const $AssetsAlerteGen alerte = $AssetsAlerteGen();
   static const $AssetsAuthGen auth = $AssetsAuthGen();

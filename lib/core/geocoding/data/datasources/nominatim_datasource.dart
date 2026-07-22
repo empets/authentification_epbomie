@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:gracechurchadmine/core/geocoding/data/datasources/geocoding_remote_datasource.dart';
-import 'package:gracechurchadmine/core/geocoding/data/models/nominatim_response_model.dart';
+import 'package:grace_church/core/geocoding/data/datasources/geocoding_remote_datasource.dart';
+import 'package:grace_church/core/geocoding/data/models/nominatim_response_model.dart';
 import 'package:http/http.dart' as http;
 
 

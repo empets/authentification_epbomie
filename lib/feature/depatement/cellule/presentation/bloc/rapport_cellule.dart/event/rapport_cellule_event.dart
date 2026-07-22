@@ -1,0 +1,101 @@
+
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:grace_church/feature/depatement/cellule/domaine/entities/request/cellule_request.dart';
+import 'package:grace_church/feature/depatement/cellule/domaine/entities/response/cellule_response.dart';
+part 'rapport_cellule_event.freezed.dart';
+
+@freezed
+class RapportCelluleRequestSectionAdministrationEvent with _$RapportCelluleRequestSectionAdministrationEvent {
+   factory RapportCelluleRequestSectionAdministrationEvent.changeCodeZone(String codeZone ) = ChangeCodeZoneRapportCelluleRequestSectionAdministrationEvent;
+   factory RapportCelluleRequestSectionAdministrationEvent.changeFullNameRespoZone(String fullNameRespoZone ) = ChangeFullNameRespoZoneRapportCelluleRequestSectionAdministrationEvent;
+   factory RapportCelluleRequestSectionAdministrationEvent.changeContactRespoZone(String contactRespoZone ) = ChangeContactRespoZoneRapportCelluleRequestSectionAdministrationEvent;
+
+   factory RapportCelluleRequestSectionAdministrationEvent.changeCodeSecteur(String codeSecteur ) = ChangeCodeSecteurRapportCelluleRequestSectionAdministrationEvent;
+   factory RapportCelluleRequestSectionAdministrationEvent.changeFullNameRespoSecteur(String fullNameRespoSecteur ) = ChangeFullNameRespoSecteurRapportCelluleRequestSectionAdministrationEvent;
+   factory RapportCelluleRequestSectionAdministrationEvent.changeContactRespoSecteur(String contactRespoSecteur ) = ChangeContactRespoSecteurRapportCelluleRequestSectionAdministrationEvent;
+   factory RapportCelluleRequestSectionAdministrationEvent.changeReponsableCelluleId(String reponsableCelluleId ) = ChangeReponsableCelluleIdRapportCelluleRequestSectionAdministrationEvent;
+   factory RapportCelluleRequestSectionAdministrationEvent.changeLieu(String lieu ) = ChangeLieuRapportCelluleRequestSectionAdministrationEvent;
+
+   factory RapportCelluleRequestSectionAdministrationEvent.changeCodeCellule(String codeCellule ) = ChangeCodeCelluleRapportCelluleRequestSectionAdministrationEvent;
+   factory RapportCelluleRequestSectionAdministrationEvent.changeFullNameRespoCellule(String fullNameRespoCellule ) = ChangeFullNameRespoCelluleRapportCelluleRequestSectionAdministrationEvent;
+   factory RapportCelluleRequestSectionAdministrationEvent.changeContactRespoCellule(String contactRespoCellule ) = ChangeContactRespoCelluleRapportCelluleRequestSectionAdministrationEvent;
+
+   factory RapportCelluleRequestSectionAdministrationEvent.changeJourCellule(String jourCellule ) = ChangeJourCelluleRapportCelluleRequestSectionAdministrationEvent;
+   factory RapportCelluleRequestSectionAdministrationEvent.changeOffrande(String offrande ) = ChangeOffrandeRapportCelluleRequestSectionAdministrationEvent;
+
+   factory RapportCelluleRequestSectionAdministrationEvent.changeNombreBaptiser(String nombreBaptiser ) = ChangeNombreBaptiserRapportCelluleRequestSectionAdministrationEvent;
+   factory RapportCelluleRequestSectionAdministrationEvent.changeNombreNonBaptiser(String nombreNonBaptiser ) = ChangeNombreNonBaptiserRapportCelluleRequestSectionAdministrationEvent;
+   factory RapportCelluleRequestSectionAdministrationEvent.changeNombreListDicipleCellule(List<DiscipleCellule> discipleCelluleResponse ) = ChangeNombreListDicipleCelluleRapportCelluleRequestSectionAdministrationEvent;
+   factory RapportCelluleRequestSectionAdministrationEvent.submit() = SubmitRapportCelluleRequestSectionAdministrationEvent;
+
+}
+
+
+@freezed
+ class RapportCelluleRequestSectionAssistanceEvent with _$RapportCelluleRequestSectionAssistanceEvent {
+   factory RapportCelluleRequestSectionAssistanceEvent.changeNombreBaptiser(String nombreBaptiser ) = ChangeNombreBaptiserRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.updateSectionId(String id) = RapportCelluleRequestSectionAssistanceEventUpdateSectionId;
+   factory RapportCelluleRequestSectionAssistanceEvent.changeNomBaptiserStatic(RequestHumaneSectionAssistance nonBaptiserStatic ) = ChangeNomBaptiserStaticRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.changeNoveauBaptiser(RequestHumaneSectionAssistance nouveauBaptiserStat ) = ChangeNoveauBaptiserRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.formationNewDFB(String formationNewDFB ) = FormationNewDFBRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.formationNewBaptDFD(String formationNewBaptDFD ) = FormationNewBaptDFDRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.visiteMenbre(String visiteMenbre ) = VisiteMenbreRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.visiteDisciple(String visiteDisciple ) = VisiteDiscipleRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.nbTravailleurs(String nbTravailleurs ) = NbTravailleursRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.nbEleveAndEtudiants(String nbEleveAndEtudiants ) = NbEleveAndEtudiantsRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.nbOuvrierEM(String nbOuvrierEM ) = NbOuvrierEMRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.nbOuvrierAutreDepatementDirigeantEM(String nbOuvrierAutreDepatementDirigeantEM ) = NbOuvrierAutreDepatementDirigeantEMRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.nbFormationNiveau2(String nbFormationNiveau2 ) = NbFormationNiveau2RapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.ngAgendaEM(String ngAgendaEM ) = NgAgendaEMRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.nbDecisionnaires(String nbDecisionnaires ) = NbDecisionnairesRapportCelluleRequestSectionAssistanceEvent;
+
+
+
+
+
+   
+   factory RapportCelluleRequestSectionAssistanceEvent.changeInviter(RequestHumaneSectionAssistance inviterStat ) = ChangeInviterRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.changeFormation(RequestAuherInformation formationStat ) = ChangeFormationRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.changeSectionVisite(RequestAuherInformation sectionVisite ) = ChangeSectionVisiteRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.changeSectionActivite(RequestAuherInformation sectionActivite ) = ChangeSectionActiviteRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.changeSectionOuvrier(RequestAuherInformation sectionOuvrier ) = ChangeSectionOuvrierRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.changeAutres(String autres ) = ChangeAutresRapportCelluleRequestSectionAssistanceEvent;
+   factory RapportCelluleRequestSectionAssistanceEvent.submit() = SubmitRapportCelluleRequestSectionAssistanceEvent;
+  //  factory RapportCelluleRequestSectionAssistanceEvent.id(String id) = RapportCelluleRequestSectionAssistanceEventUpdateSectionId;
+
+
+
+}
+
+
+
+
+@freezed
+sealed class RapportCelluleRequestActivityEvent with _$RapportCelluleRequestActivityEvent {
+   factory RapportCelluleRequestActivityEvent.changeDisciple(List<VisiteDisciple> visiteDisciple ) = ChangeDiscipleRapportCelluleRequestActivityEvent;
+   factory RapportCelluleRequestActivityEvent.changeMenbre(List<VisiteDisciple> visiteMenre ) = ChangeMenbreRapportCelluleRequestActivityEvent;
+   factory RapportCelluleRequestActivityEvent.changeAtivity(List<WeekActivity> activity) = ChangeActivityRapportCelluleRequestActivityEvent;
+   factory RapportCelluleRequestActivityEvent.updateSectionId(String id) = RapportCelluleRequestActivityEventUpdateSectionId;
+   factory RapportCelluleRequestActivityEvent.submit() = SubmitRapportCelluleRequestActivityEvent;
+}
+
+
+@freezed
+sealed class RapportCelluleRequestSuggestionEvent with _$RapportCelluleRequestSuggestionEvent {
+   factory RapportCelluleRequestSuggestionEvent.changeDisciple(List<RapportSuggestion> suggestion ) = ChangeDiscipleRapportCelluleRequestSuggestionEvent;
+   factory RapportCelluleRequestSuggestionEvent.changeResumerPredication(String resumerPredication ) = ChangeResumerPredicationRapportCelluleRequestSuggestionEvent;
+   factory RapportCelluleRequestSuggestionEvent.faisAssignaler(String isAssignaler) = FaisAssignalerRapportCelluleRequestSuggestionEvent;
+   factory RapportCelluleRequestSuggestionEvent.etatsSprituelOuvrier(String etatsSprituelOuvrier) = EtatsSprituelOuvrierRapportCelluleRequestSuggestionEvent;
+   factory RapportCelluleRequestSuggestionEvent.updateSectionId(String id) = RapportCelluleRequestSuggestionEventUpdateSectionId;
+   factory RapportCelluleRequestSuggestionEvent.submit() = SubmitRapportCelluleRequestSuggestionEvent;
+}
+
+
+@freezed
+class FecthDataEvent with _$FecthDataEvent {
+   factory FecthDataEvent.fetchData() = FetchDataFecthDataEvent;
+   factory FecthDataEvent.fetchDataById({required String responsableCelluleId}) = FetchDataByIdFecthDataEvent;
+   factory FecthDataEvent.fetchRapportByTag({required String tag, required String responsableCelluleId}) = FetchRapportByTagFecthDataEvent;
+   factory FecthDataEvent.fetchRapportByDate({required String date, required String responsableCelluleId}) = FetchRapportByDateFecthDataEvent;
+
+}

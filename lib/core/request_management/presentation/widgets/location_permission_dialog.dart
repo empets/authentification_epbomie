@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gracechurchadmine/core/extension/custome_extension.dart';
+import 'package:grace_church/core/extension/custome_extension.dart';
 
 class LocationPermissionDialog extends StatelessWidget {
   const LocationPermissionDialog({

@@ -1,6 +1,6 @@
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:gracechurchadmine/core/api/failure/fail.dart';
+import 'package:grace_church/core/api/failure/fail.dart';
 part 'bloc_state.freezed.dart';
 
 @freezed

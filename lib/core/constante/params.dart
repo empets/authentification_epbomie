@@ -15,10 +15,6 @@ class GlobalParams {
 
   static const String supabaseUrl = "https://fmuatlxmaevqaobpkvyq.supabase.co";
   static const String supabaseAnonKey = "sb_publishable_7giZ3h24vVQzKeNMH15FWg_cjAM_42y";
-
-
-
-
   static const String userRealBdPath = "users";
 
   static const String poliqueOfConfidentialite =

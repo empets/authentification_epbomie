@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gracechurchadmine/core/build_screen/building_screen.dart';
-import 'package:gracechurchadmine/core/extension/extention.dart';
-import 'package:gracechurchadmine/core/moke/moke_data.dart';
-import 'package:gracechurchadmine/feature/dashboard/presentation/pages/evenement/evenement_card.dart';
-import 'package:gracechurchadmine/feature/dashboard/presentation/pages/graphes/goupe_pie_card.dart';
-import 'package:gracechurchadmine/feature/dashboard/presentation/pages/graphes/presence_graphe.dart';
-import 'package:gracechurchadmine/feature/dashboard/presentation/pages/kpi/kpi_card.dart';
-import 'package:gracechurchadmine/feature/dashboard/presentation/pages/menbers/menber_table.dart';
-import 'package:gracechurchadmine/feature/dashboard/presentation/pages/menu/menu_sidebar.dart';
-import 'package:gracechurchadmine/feature/dashboard/presentation/pages/menu/widget/side_bar_component.dart';
+import 'package:grace_church/core/bloc_state/bloc_state.dart';
+import 'package:grace_church/core/build_screen/building_screen.dart';
+import 'package:grace_church/core/extension/extention.dart';
+import 'package:grace_church/core/moke/moke_data.dart';
+import 'package:grace_church/feature/dashboard/domaine/entities/response/home_response.dart';
+import 'package:grace_church/feature/dashboard/presentation/bloc/get_profile/get_profile_bloc.dart';
+import 'package:grace_church/feature/dashboard/presentation/pages/evenement/evenement_card.dart';
+import 'package:grace_church/feature/dashboard/presentation/pages/graphes/goupe_pie_card.dart';
+import 'package:grace_church/feature/dashboard/presentation/pages/graphes/presence_graphe.dart';
+import 'package:grace_church/feature/dashboard/presentation/pages/kpi/bloc/menber_kpi_bloc.dart';
+import 'package:grace_church/feature/dashboard/presentation/pages/kpi/kpi_card.dart';
+import 'package:grace_church/feature/dashboard/presentation/pages/menbers/menber_table.dart';
+import 'package:grace_church/feature/dashboard/presentation/pages/menu/menu_sidebar.dart';
+import 'package:grace_church/feature/dashboard/presentation/pages/menu/widget/side_bar_component.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -46,11 +51,43 @@ class _DashboardPageState extends State<DashboardPage> {
           // ── Sidebar ────────────────────────────────────────────────────────────────
           BuildSideBar(navItems: _navItems),
           Expanded(
-            child: Column(
-              children: [
-                _buildTopbar(isOpened: false),
-                Expanded(child: _buildContent()),
-              ],
+            child: BlocBuilder<GetProfileBloc, ApiState<List<ProfileResponse>>>(
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    _buildTopbar(isOpened: false),
+                    Expanded(
+                      child:
+                          BlocBuilder<
+                            GetProfileBloc,
+                            ApiState<List<ProfileResponse>>
+                          >(
+                            builder: (context, state) {
+                              switch (state) {
+                                case LoadState<List<ProfileResponse>>():
+                                  return const Center(
+                                    child: CircularProgressIndicator.adaptive(
+                                      backgroundColor: C.border,
+                                      valueColor: AlwaysStoppedAnimation<Color>(C.gold),
+                                      
+                                    )
+                                  );
+                                case FailedState<List<ProfileResponse>>():
+                                  return Center(
+                                    child: Text(state.message.getOrEmpty()),
+                                  );
+                                case SuccessState<List<ProfileResponse>>():
+                                  final _profile = state.data;
+                                  return _buildContent(profile: _profile);
+                                default:
+                                  return const SizedBox();
+                              }
+                            },
+                          ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ],
@@ -219,13 +256,13 @@ class _DashboardPageState extends State<DashboardPage> {
 
   // ── Content ────────────────────────────────────────────────────────────────
 
-  Widget _buildContent() {
-    final filteredMembres = membres
+  Widget _buildContent({required List<ProfileResponse> profile}) {
+    final filteredMembres = profile
         .where(
           (m) =>
-              m.nom.toLowerCase().contains(_search) ||
-              m.groupe.toLowerCase().contains(_search) ||
-              m.role.toLowerCase().contains(_search),
+              m.activity.toLowerCase().contains(_search) ||
+              m.dateBaptme.toLowerCase().contains(_search) ||
+              m.name.toLowerCase().contains(_search),
         )
         .toList();
 
@@ -235,53 +272,161 @@ class _DashboardPageState extends State<DashboardPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // KPI row
-          Row(
-            children: [
-              KpiCard(
-                label: "Membres actifs",
-                value: "312",
-                delta: "+8 ce mois",
-                icon: Icons.water_drop_outlined,
-                color: C.green,
-                isLocked: false,
-              ),
-              const SizedBox(width: 16),
-              KpiCard(
-                label: "Membres non actifs",
-                value: "256",
-                delta: "+10 ce mois",
-                icon: Icons.people_outline,
-                color: C.greenLight,
-                isLocked: false,
-              ),
-              const SizedBox(width: 16),
-              KpiCard(
-                label: "Visiteurs",
-                value: "20",
-                delta: "12% du total",
-                icon: Icons.volunteer_activism_outlined,
-                color: C.greenLight,
-                isLocked: false,
-              ),
-              const SizedBox(width: 16),
-              KpiCard(
-                label: "Groupes & Cellules",
-                value: "14",
-                delta: "5 catégories",
-                icon: Icons.groups,
-                color: C.violet,
-                isLocked: true,
-              ),
-              const SizedBox(width: 16),
-              KpiCard(
-                label: "Événements ce mois",
-                value: "9",
-                delta: "+2 vs juillet",
-                icon: Icons.event_available,
-                color: C.blue,
-                isLocked: true,
-              ),
-            ],
+          BlocBuilder<MenberKpiBloc, ApiState<List<ProfileResponse>>>(
+            builder: (context, state) {
+              if (state is SuccessState<List<ProfileResponse>>) {
+                // permet de calculer le nombre de membres actifs
+                final totalActive = state.data
+                    .where(
+                      (m) =>
+                          m.statusSpirituel.toLowerCase().contains("baptiser"),
+                    )
+                    .length;
+                // permet de calculer le nombre de membres actifs ce mois
+                final totalActiveThisMonth = state.data
+                    .where(
+                      (m) =>
+                          m.statusSpirituel.toLowerCase().contains(
+                            "baptiser",
+                          ) &&
+                          m.dateInscription.contains(
+                            DateTime.now().month.toString(),
+                          ),
+                    )
+                    .length;
+                // permet de calculer le nombre de membres actifs le mois dernier
+                final totalActiveLastMonth = state.data
+                    .where(
+                      (m) =>
+                          m.statusSpirituel.toLowerCase().contains(
+                            "baptiser",
+                          ) &&
+                          m.dateInscription.contains(
+                            (DateTime.now().month - 1).toString(),
+                          ),
+                    )
+                    .length;
+
+                // permet de calculer le nombre de membres non actifs
+                final totalInactive = state.data
+                    .where(
+                      (m) =>
+                          !m.statusSpirituel.toLowerCase().contains("baptiser"),
+                    )
+                    .length;
+                final totalNonActiveThisMonth = state.data
+                    .where(
+                      (m) =>
+                          !m.statusSpirituel.toLowerCase().contains(
+                            "baptiser",
+                          ) &&
+                          m.dateInscription.contains(
+                            DateTime.now().month.toString(),
+                          ),
+                    )
+                    .length;
+                final totalNonActiveLastMonth = state.data
+                    .where(
+                      (m) =>
+                          !m.statusSpirituel.toLowerCase().contains(
+                            "baptiser",
+                          ) &&
+                          m.dateInscription.contains(
+                            (DateTime.now().month - 1).toString(),
+                          ),
+                    )
+                    .length;
+
+                // permet de calculer le nombre de visiteurs
+                final totalVisitors = state.data
+                    .where((m) => m.activity == "Visiteur")
+                    .length;
+
+                /// cette méthode permet de formater la comparaison entre le nombre de membres actifs ce mois et le mois dernier
+                String _formatActiveComparison(int thisMonth, int lastMonth) {
+                  final diff = thisMonth - lastMonth;
+                  final sign = diff >= 0 ? '+' : '-';
+                  return '$sign${diff.abs()} ce mois';
+                }
+
+                ///
+                IconData _activeComparisonIcon(int thisMonth, int lastMonth) {
+                  return thisMonth >= lastMonth
+                      ? Icons.trending_up
+                      : (thisMonth == 0 ? Icons.remove : Icons.trending_down);
+                }
+
+                return Row(
+                  children: [
+                    KpiCard(
+                      label: "Membres actifs",
+                      value: totalActive.toString(),
+                      delta: _formatActiveComparison(
+                        totalActiveThisMonth,
+                        totalActiveLastMonth,
+                      ),
+                      icon: Icons.water_drop_outlined,
+                      color: C.green,
+                      isLocked: false,
+                      trendIcon: _activeComparisonIcon(
+                        totalActiveThisMonth,
+                        totalActiveLastMonth,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    KpiCard(
+                      label: "Membres non actifs",
+                      value: totalInactive.toString(),
+                      delta: _formatActiveComparison(
+                        totalNonActiveThisMonth,
+                        totalNonActiveLastMonth,
+                      ),
+                      icon: Icons.people_outline,
+                      color: C.greenLight,
+                      isLocked: false,
+                      trendIcon: _activeComparisonIcon(
+                        totalNonActiveThisMonth,
+                        totalNonActiveLastMonth,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    KpiCard(
+                      label: "Visiteurs",
+                      value: totalVisitors.toString(),
+                      delta: "12% du total",
+                      icon: Icons.volunteer_activism_outlined,
+                      color: C.greenLight,
+                      isLocked: false,
+                      trendIcon: _activeComparisonIcon(
+                        totalVisitors,
+                        totalVisitors,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    KpiCard(
+                      label: "Groupes & Cellules",
+                      value: "14",
+                      delta: "5 catégories",
+                      icon: Icons.groups,
+                      color: C.violet,
+                      isLocked: true,
+                      trendIcon: Icons.lock,
+                    ),
+                    const SizedBox(width: 16),
+                    KpiCard(
+                      label: "Événements ce mois",
+                      value: "9",
+                      delta: "+2 vs juillet",
+                      icon: Icons.event_available,
+                      color: C.blue,
+                      isLocked: true,
+                      trendIcon: Icons.lock,
+                    ),
+                  ],
+                );
+              }
+              return const SizedBox();
+            },
           ),
           // presence dimanche
           //Groupes & Cellules
@@ -296,7 +441,7 @@ class _DashboardPageState extends State<DashboardPage> {
               Expanded(flex: 2, child: const PresenceChart()),
               const SizedBox(width: 16),
               // ── Pie Card ──────────────────────────────────────────────────────────────────
-              SizedBox(width: 220, child: const GroupePieCard()),
+              SizedBox(width: 220, child:  GroupePieCard(profile :profile )),
             ],
           ),
           const SizedBox(height: 20),

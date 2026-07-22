@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gracechurchadmine/core/custome_widget/button.dart';
-import 'package:gracechurchadmine/core/moke/moke_data.dart';
+import 'package:grace_church/core/custome_widget/button.dart';
+import 'package:grace_church/core/moke/moke_data.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});

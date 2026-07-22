@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gracechurchadmine/core/geocoding/domain/usecases/search_location_usecase.dart';
-import 'package:gracechurchadmine/core/request_management/presentation/cubit/location_search/location_search_state.dart';
+import 'package:grace_church/core/geocoding/domain/usecases/search_location_usecase.dart';
+import 'package:grace_church/core/request_management/presentation/cubit/location_search/location_search_state.dart';
 
 
 class LocationSearchCubit extends Cubit<LocationSearchState> {

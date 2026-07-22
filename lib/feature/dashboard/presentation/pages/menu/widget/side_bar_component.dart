@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gracechurchadmine/core/moke/moke_data.dart';
+import 'package:grace_church/core/moke/moke_data.dart';
 
 // ── Nav tile ──────────────────────────────────────────────────────────────────
 class NavItem {

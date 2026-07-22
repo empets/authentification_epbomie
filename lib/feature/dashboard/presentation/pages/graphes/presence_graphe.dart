@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gracechurchadmine/core/moke/moke_data.dart';
+import 'package:grace_church/core/moke/moke_data.dart';
 
 class PresenceChart extends StatelessWidget {
   const PresenceChart();
@@ -85,6 +85,7 @@ class PresenceChart extends StatelessWidget {
                 maxY: 280,
                 lineBarsData: [
                   LineChartBarData(
+                    
                     spots: List.generate(presenceData.length, (i) => FlSpot(i.toDouble(), presenceData[i])),
                     isCurved: true,
                     color: C.gold,
@@ -105,6 +106,7 @@ class PresenceChart extends StatelessWidget {
                 ],
                 lineTouchData: LineTouchData(
                   enabled: true,
+                  handleBuiltInTouches: true,
                   touchTooltipData: LineTouchTooltipData(
                     getTooltipColor: (_) => const Color.fromARGB(115, 101, 44, 44),
                     getTooltipItems: (spots) {
@@ -115,7 +117,29 @@ class PresenceChart extends StatelessWidget {
                       );
                     }).toList();
                   },
+                  
                 ),
+                getTouchedSpotIndicator: (barData, spotIndexes) {
+    return spotIndexes.map((index) {
+      return TouchedSpotIndicatorData(
+        FlLine(
+          color: C.gold,
+          strokeWidth: 2,
+          dashArray: [5, 5],
+        ),
+        FlDotData(
+          getDotPainter: (spot, percent, barData, index) {
+            return FlDotCirclePainter(
+              radius: 8, // le point grossit au survol
+              color: C.gold,
+              strokeWidth: 3,
+              strokeColor: Colors.white,
+            );
+          },
+        ),
+      );
+    }).toList();
+  },
               ),
               ),
             ),

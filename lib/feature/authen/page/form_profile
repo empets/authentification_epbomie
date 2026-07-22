@@ -1,0 +1,657 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:formz/formz.dart';
+import 'package:grace_church/gen/assets.gen.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
+
+import 'package:grace_church/core/alert/app_alerte.dart';
+import 'package:grace_church/core/constante/const.dart';
+import 'package:grace_church/core/custome_widget/button.dart';
+import 'package:grace_church/core/custome_widget/custome_text.dart';
+import 'package:grace_church/core/custome_widget/form_filed.dart';
+import 'package:grace_church/core/custome_widget/navigate.dart';
+import 'package:grace_church/core/extension/custome_extension.dart';
+import 'package:grace_church/core/injection/injection_container.dart';
+import 'package:grace_church/feature/authen/domaine/usercase/create_social_profile_usercase.dart';
+import 'package:grace_church/feature/authen/page/bloc/create_compte/event/event_create_compte.dart';
+import 'package:grace_church/feature/authen/page/bloc/create_compte/form_profile_bloc.dart';
+import 'package:grace_church/feature/authen/page/bloc/create_compte/form_profile_social_bloc.dart';
+import 'package:grace_church/feature/authen/page/bloc/create_compte/state/state_create_compte.dart';
+import 'package:grace_church/feature/authen/page/form_geographie.dart';
+import 'package:grace_church/feature/authen/page/form_social_professionnal';
+
+class FormProfile extends StatefulWidget {
+  const FormProfile({
+    super.key,
+    this.profile = false,
+    this.isFormSignIn = false,
+  });
+
+  final bool profile;
+  final bool isFormSignIn;
+
+  @override
+  State<FormProfile> createState() => _FormProfileState();
+}
+
+class _FormProfileState extends State<FormProfile> {
+  DateTime? selectedDate;
+  String? selectedValues;
+
+  TextEditingController textEditingControllerDateNaissance =
+      TextEditingController();
+  TextEditingController textEditingControllerZoneResidence =
+      TextEditingController();
+
+  Future<void> _openCalendar() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime(2012),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(), // pas de futur
+      selectableDayPredicate: (day) {
+        final now = DateTime.now();
+
+        // 🔥 âge minimum 14 ans
+        final maxDate = DateTime(now.year - 14, now.month, now.day);
+
+        if (day.isAfter(maxDate)) {
+          return false;
+        }
+
+        return true;
+      },
+
+      /// 🎨 Custom Theme
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Colors.blue, // 🔵 header + selected date
+              onPrimary: Colors.white, // texte sur header
+              onSurface: Colors.black, // texte normal
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.blue, // boutons OK / CANCEL
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+      setState(() {
+        selectedDate = picked;
+        textEditingControllerDateNaissance.text = selectedDate
+            .toString()
+            .substring(0, 10);
+      });
+      context.read<FormProfileBloc>().add(
+        EventCreateCompteProfile.changeDateNaissance(selectedDate.toString()),
+      );
+    }
+  }
+
+  File? imageFile;
+  late String profileImage = '';
+  Future<File?> pickImage() async {
+    final picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image == null)
+      return null;
+    else {
+      setState(() {
+        imageFile = File(image.path);
+        profileImage = image.path;
+      });
+      if (profileImage.trim().isNotEmpty) {
+        context.read<FormProfileBloc>().add(
+          EventCreateCompteProfile.changeProfileImage(profileImage),
+        );
+      }
+      return File(image.path);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [BlocProvider.value(value: context.read<FormProfileBloc>())],
+      child: BlocListener<FormProfileBloc, CreateCompteProfileState>(
+        listener: (context, state) async {
+          if (state.status.isSuccess) {
+            //----------------------------
+            // Handle sign in flow
+            //----------------------------
+            if (widget.isFormSignIn) {
+              final shared = await SharedPreferences.getInstance();
+              await shared.setString('isAppLauncher', 'isAppLauncher');
+            }
+            //----------------------------
+            // Handle navigation based on profile flag
+            //----------------------------
+            if (widget.profile) {
+              Navigator.of(context).pop(widget.profile);
+            } else {
+              Navigator.of(context).push(
+                fadeRoute(
+                  BlocProvider(
+                    create: (context) => CreateCompteProfileSocialBloc(
+                      createSocialProfileUsercase:
+                          getIt<CreateSocialProfileUsercase>(),
+                    ),
+                    child: FormSocialProfessionnal(),
+                  ),
+                ),
+              );
+            }
+          } else if (state.status.isFailure) {
+            return AppAlert.showError(
+              context,
+              state.errorMessage,
+              showOnTop: true,
+            );
+          }
+        },
+        child: Scaffold(
+          backgroundColor: Colors.grey.shade50,
+          appBar: AppBar(
+            backgroundColor: Colors.grey.shade50,
+            leading: IconButton(
+              icon: SvgPicture.asset(assets.images.arrowBack.path),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
+                child: Column(
+                  children: [
+                    Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            padding: EdgeInsets.all(5.r),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: imageFile != null
+                                    ? context.appColor.primaryLightBlue
+                                    : Colors.grey.withOpacity(.5),
+                              ),
+                              shape: BoxShape.circle,
+                            ),
+                            child: imageFile != null
+                                ? ClipOval(
+                                    child: Image.file(
+                                      imageFile!,
+
+                                      fit: BoxFit.cover,
+                                      height: 0.14.sh,
+                                      width: 0.14.sh,
+                                    ),
+                                  )
+                                : ClipOval(
+                                    child: Image.network(
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                            return child;
+                                          },
+                                      errorBuilder: (_, __, ___) => ClipOval(
+                                        child: Image.network(
+                                          "yAssets.icons.profileAvatarPlaceholderLarge .path",
+                                          fit: BoxFit.contain,
+                                          height: 0.08.sh,
+                                          width: 0.08.sh,
+                                        ),
+                                      ),
+                                      "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png",
+
+                                      fit: BoxFit.cover,
+                                      height: 0.1.sh,
+                                      width: 0.1.sh,
+                                    ),
+                                  ),
+                          ),
+                        ),
+
+                        Positioned(
+                          right: 0.30.sw,
+                          bottom: 5.w,
+                          child:
+                              BlocBuilder<
+                                FormProfileBloc,
+                                CreateCompteProfileState
+                              >(
+                                builder: (context, state) {
+                                  return GestureDetector(
+                                    onTap: state.status.isInProgress
+                                        ? () {}
+                                        : pickImage,
+                                    child: Container(
+                                      margin: EdgeInsets.only(top: 4.h),
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            context.appColor.primaryLightBlue,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(Icons.edit, size: 13.h),
+                                    ),
+                                  );
+                                },
+                              ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 15.h),
+
+                        CustomeText(
+                          text: 'Mettre a jour mon profile',
+                          style: context.appTypographie.body.copyWith(
+                            color: context.appColor.primaryGray500,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        CustomeText(
+                          text: 'Etape 1: Identité personnel',
+                          style: context.appTypographie.small.copyWith(
+                            color: context.appColor.primaryBlue,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(height: 19.h),
+                      ],
+                    ),
+
+                    BlocBuilder<FormProfileBloc, CreateCompteProfileState>(
+                      builder: (context, state) {
+                        return ProductionFormCustomer(
+                          isColorBlue: state.name.isValid ? true : false,
+                          readOnly: state.status.isInProgress,
+                          letSpace: [],
+                          inputLabel: 'Nom Comple',
+                          textLabel: 'Ex: jean-Baptise Koffi',
+                          errorText: state.name.isPure || state.name.isValid
+                              ? null
+                              : '',
+                          msgError: 'Veuillez renseigner ce champ',
+                          prefixIcon: Icon(
+                            Icons.person,
+                            color: context.appColor.primaryGray500.withValues(
+                              alpha: 0.6,
+                            ),
+                          ),
+                          onChanged: (name) {
+                            context.read<FormProfileBloc>().add(
+                              EventCreateCompteProfile.changeName(name),
+                            );
+                          },
+                        );
+                      },
+                    ),
+
+                    SizedBox(height: 8.h),
+
+                    BlocBuilder<FormProfileBloc, CreateCompteProfileState>(
+                      builder: (context, state) {
+                        return ProductionFormCustomer(
+                          readOnly: state.status.isInProgress,
+                          isColorBlue: state.email.isValid ? true : false,
+                          inputLabel: 'Email',
+                          textLabel: 'Ex: emma@gmail.com',
+                          errorText: state.email.isPure || state.email.isValid
+                              ? null
+                              : '',
+                          msgError: 'Veuillez renseigner ce champ',
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: context.appColor.primaryGray500.withValues(
+                              alpha: 0.6,
+                            ),
+                          ),
+                          onChanged: (email) {
+                            context.read<FormProfileBloc>().add(
+                              EventCreateCompteProfile.changeEmail(email),
+                            );
+                          },
+                        );
+                      },
+                    ),
+
+                    SizedBox(height: 8.h),
+
+                    BlocBuilder<FormProfileBloc, CreateCompteProfileState>(
+                      builder: (context, state) {
+                        return ProductionFormCustomer(
+                          readOnly: state.status.isInProgress,
+                          isColorBlue: state.contact.isValid ? true : false,
+                          textInputType: TextInputType.number,
+                          inputLabel: 'Contact ou numéro whatsapp',
+                          textLabel: 'Ex: 0788884115',
+                          errorText:
+                              state.contact.isPure || state.contact.isValid
+                              ? null
+                              : '',
+                          msgError: 'Veuillez renseigner ce champ',
+                          prefixIcon: Icon(
+                            Icons.phone,
+                            color: context.appColor.primaryGray500.withValues(
+                              alpha: 0.6,
+                            ),
+                          ),
+                          onChanged: (contact) {
+                            context.read<FormProfileBloc>().add(
+                              EventCreateCompteProfile.changeContact(contact),
+                            );
+                          },
+                        );
+                      },
+                    ),
+
+                    SizedBox(height: 8.h),
+
+                    BlocBuilder<FormProfileBloc, CreateCompteProfileState>(
+                      builder: (context, state) {
+                        return ProductionFormCustomer(
+                          isColorBlue: state.dateNaissance.isValid
+                              ? true
+                              : false,
+                          readOnly: true,
+                          controller: textEditingControllerDateNaissance,
+                          inputLabel: 'Date de naissance',
+                          textLabel: "Cliquer sur l'icon juste à droite ",
+                          errorText:
+                              state.dateNaissance.isPure ||
+                                  state.dateNaissance.isValid
+                              ? null
+                              : '',
+                          msgError: 'Veuillez renseigner ce champ',
+                          sufixIcon: Container(
+                            margin: EdgeInsets.only(right: 3.w),
+                            decoration: BoxDecoration(
+                              color: context.appColor.primaryLightBlue,
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            child: IconButton(
+                              onPressed: _openCalendar,
+                              icon: Icon(
+                                Icons.calendar_month_sharp,
+                                color: context.appColor.primaryBlue,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+
+                    SizedBox(height: 8.h),
+                    BlocBuilder<FormProfileBloc, CreateCompteProfileState>(
+                      builder: (context, state) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 9.h),
+                            Text(
+                              "Nationalité",
+                              style: context.appTypographie.small.copyWith(
+                                color: Colors.grey.shade700,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 4.h),
+                              padding: EdgeInsets.symmetric(horizontal: 12),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: state.nationalite.isValid
+                                      ? context.appColor.primaryLightBlue
+                                      : Colors.grey.withOpacity(.5),
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: CustomDropdown(
+                                readOnly: state.status.isInProgress,
+                                hint: "Sélectionez votre nationalité",
+                                value: selectedValues,
+                                items: nationalites,
+                                icons: Icons.flag_outlined,
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    selectedValues = value;
+                                  });
+                                  log('sssss------>> $value');
+                                  context.read<FormProfileBloc>().add(
+                                    EventCreateCompteProfile.changeNationalite(
+                                      value.toString(),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+
+                    SizedBox(height: 8.h),
+                    BlocBuilder<FormProfileBloc, CreateCompteProfileState>(
+                      builder: (context, state) {
+                        return ProductionFormCustomer(
+                          controller: textEditingControllerZoneResidence,
+                          isColorBlue: state.zoneResidence.isValid
+                              ? true
+                              : false,
+                          readOnly: state.status.isInProgress,
+                          inputLabel: 'Zonde de résidence (Commune/Quartier)',
+                          textLabel:
+                              "Cliquer sur l'icon affichier votre position",
+                          errorText:
+                              state.zoneResidence.isPure ||
+                                  state.zoneResidence.isValid
+                              ? null
+                              : '',
+                          msgError: 'Veuillez renseigner ce champ',
+                          sufixIcon: Container(
+                            margin: EdgeInsets.only(right: 3.w),
+                            decoration: BoxDecoration(
+                              color: context.appColor.primaryLightBlue,
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            child: IconButton(
+                              onPressed: () async {
+                                final filBack = await Navigator.of(
+                                  context,
+                                ).push<dynamic>(fadeRoute(FormGeographie()));
+
+                                if (filBack != null &&
+                                    filBack.toString().trim().isNotEmpty) {
+                                  log('File back :: $filBack');
+                                  setState(() {
+                                    textEditingControllerZoneResidence.text =
+                                        filBack.toString();
+                                  });
+                                  context.read<FormProfileBloc>().add(
+                                    EventCreateCompteProfile.changeZoneResidence(
+                                      filBack.toString(),
+                                    ),
+                                  );
+                                }
+                              },
+                              icon: Icon(
+                                Icons.location_on,
+                                color: context.appColor.primaryBlue,
+                              ),
+                            ),
+                          ),
+
+                          onChanged: (zoneResidence) {},
+                        );
+                      },
+                    ),
+
+                    SizedBox(height: 8.h),
+                    BlocBuilder<FormProfileBloc, CreateCompteProfileState>(
+                      builder: (context, state) {
+                        return ProductionFormCustomer(
+                          isColorBlue: state.password.isValid ? true : false,
+                          readOnly: state.status.isInProgress,
+                          inputLabel: 'Mot de passe',
+                          textLabel: "Ex 12Asl@",
+                          errorText:
+                              state.password.isPure || state.password.isValid
+                              ? null
+                              : '',
+                          msgError: 'Veuillez renseigner ce champ',
+                          sufixIcon: Container(
+                            margin: EdgeInsets.only(right: 3.w),
+                            decoration: BoxDecoration(
+                              color: context.appColor.primaryLightBlue,
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            child: Icon(Icons.lock),
+                          ),
+
+                          onChanged: (password) {
+                            context.read<FormProfileBloc>().add(
+                              EventCreateCompteProfile.changePassword(
+                                password.toString(),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+
+                    BlocBuilder<FormProfileBloc, CreateCompteProfileState>(
+                      builder: (context, state) {
+                        return Container(
+                          margin: EdgeInsets.only(bottom: 8.h),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 0.03.sh),
+                              Align(
+                                alignment: Alignment.bottomLeft,
+                                child: CustomeText(
+                                  text: 'Prochaine étape',
+                                  style: context.appTypographie.subtitle
+                                      .copyWith(
+                                        color: context.appColor.primaryGray700,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+
+                    BlocBuilder<FormProfileBloc, CreateCompteProfileState>(
+                      builder: (context, state) {
+                        return FormNextTeps(
+                          icons: Icons.badge_rounded,
+                          title: 'Profile Socio-Professionnel ',
+                          description: 'Statut, Emploi ou Etudes',
+                          isNextForm: state.isValide,
+                        );
+                      },
+                    ),
+                    SizedBox(height: 9.h),
+
+                    Container(
+                      margin: EdgeInsets.only(top: 18.h),
+                      child: BlocBuilder<FormProfileBloc, CreateCompteProfileState>(
+                        builder: (context, state) {
+                          return PrimaryButton(
+                            isLoading: state.status.isInProgress,
+                            label: 'Continuer',
+                            backgroundColor:
+                                state.status.isInProgress || state.isValide
+                                ? context.appColor.primaryBlue
+                                : context.appColor.primaryLightBlue,
+                            colorText: context.appColor.primaryWhite,
+                            onPressed: state.status.isInProgress
+                                ? null
+                                : () {
+                                    FocusScope.of(context).unfocus();
+                                    if (widget.isFormSignIn) {
+                                      context.read<FormProfileBloc>().add(
+                                        EventCreateCompteProfile.changeIsUpdate(
+                                          false,
+                                        ),
+                                      );
+                                    } else {
+                                      context.read<FormProfileBloc>().add(
+                                        EventCreateCompteProfile.changeIsUpdate(
+                                          true,
+                                        ),
+                                      );
+                                    }
+                                    context.read<FormProfileBloc>().add(
+                                      EventCreateCompteProfile.submit(),
+                                    );
+                                  },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ImageShimmer extends StatelessWidget {
+  final double width;
+  final double height;
+  final BorderRadius borderRadius;
+
+  const ImageShimmer({
+    super.key,
+    required this.width,
+    required this.height,
+    this.borderRadius = BorderRadius.zero,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: Colors.grey,
+          borderRadius: borderRadius,
+        ),
+      ),
+    );
+  }
+}

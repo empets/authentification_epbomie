@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:formz/formz.dart';
-import 'package:gracechurchadmine/core/extension/extention.dart';
-import 'package:gracechurchadmine/core/style/app_theme.dart';
+import 'package:grace_church/core/extension/extention.dart';
+import 'package:grace_church/core/style/app_theme.dart';
 
 
 

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gracechurchadmine/core/build_screen/building_screen.dart';
-import 'package:gracechurchadmine/core/constante/const.dart';
-import 'package:gracechurchadmine/core/custome_widget/custome_text.dart';
-import 'package:gracechurchadmine/core/extension/custome_extension.dart';
+import 'package:grace_church/core/build_screen/building_screen.dart';
+import 'package:grace_church/core/constante/const.dart';
+import 'package:grace_church/core/custome_widget/custome_text.dart';
+import 'package:grace_church/core/extension/custome_extension.dart';
 import 'wideget/menber_profile_header.dart';
 import 'wideget/menber_profile_table_body.dart';
 import 'wideget/menbre_filtre.dart';
-import 'package:gracechurchadmine/gen/assets.gen.dart';
+import 'package:grace_church/gen/assets.gen.dart';
 
 class MenbersOverview extends StatefulWidget {
   const MenbersOverview({super.key});

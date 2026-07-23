@@ -373,4 +373,285 @@ as String,
 
 }
 
+
+/// @nodoc
+mixin _$PresenceResponse {
+
+ String get id; int get totalEnfant; int get totalFemme; int get totalHomme; String get commentaire; String get date; String get time;
+/// Create a copy of PresenceResponse
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PresenceResponseCopyWith<PresenceResponse> get copyWith => _$PresenceResponseCopyWithImpl<PresenceResponse>(this as PresenceResponse, _$identity);
+
+  /// Serializes this PresenceResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PresenceResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.totalEnfant, totalEnfant) || other.totalEnfant == totalEnfant)&&(identical(other.totalFemme, totalFemme) || other.totalFemme == totalFemme)&&(identical(other.totalHomme, totalHomme) || other.totalHomme == totalHomme)&&(identical(other.commentaire, commentaire) || other.commentaire == commentaire)&&(identical(other.date, date) || other.date == date)&&(identical(other.time, time) || other.time == time));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,totalEnfant,totalFemme,totalHomme,commentaire,date,time);
+
+@override
+String toString() {
+  return 'PresenceResponse(id: $id, totalEnfant: $totalEnfant, totalFemme: $totalFemme, totalHomme: $totalHomme, commentaire: $commentaire, date: $date, time: $time)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $PresenceResponseCopyWith<$Res>  {
+  factory $PresenceResponseCopyWith(PresenceResponse value, $Res Function(PresenceResponse) _then) = _$PresenceResponseCopyWithImpl;
+@useResult
+$Res call({
+ String id, int totalEnfant, int totalFemme, int totalHomme, String commentaire, String date, String time
+});
+
+
+
+
+}
+/// @nodoc
+class _$PresenceResponseCopyWithImpl<$Res>
+    implements $PresenceResponseCopyWith<$Res> {
+  _$PresenceResponseCopyWithImpl(this._self, this._then);
+
+  final PresenceResponse _self;
+  final $Res Function(PresenceResponse) _then;
+
+/// Create a copy of PresenceResponse
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? totalEnfant = null,Object? totalFemme = null,Object? totalHomme = null,Object? commentaire = null,Object? date = null,Object? time = null,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,totalEnfant: null == totalEnfant ? _self.totalEnfant : totalEnfant // ignore: cast_nullable_to_non_nullable
+as int,totalFemme: null == totalFemme ? _self.totalFemme : totalFemme // ignore: cast_nullable_to_non_nullable
+as int,totalHomme: null == totalHomme ? _self.totalHomme : totalHomme // ignore: cast_nullable_to_non_nullable
+as int,commentaire: null == commentaire ? _self.commentaire : commentaire // ignore: cast_nullable_to_non_nullable
+as String,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as String,time: null == time ? _self.time : time // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [PresenceResponse].
+extension PresenceResponsePatterns on PresenceResponse {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PresenceResponse value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _PresenceResponse() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PresenceResponse value)  $default,){
+final _that = this;
+switch (_that) {
+case _PresenceResponse():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PresenceResponse value)?  $default,){
+final _that = this;
+switch (_that) {
+case _PresenceResponse() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  int totalEnfant,  int totalFemme,  int totalHomme,  String commentaire,  String date,  String time)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _PresenceResponse() when $default != null:
+return $default(_that.id,_that.totalEnfant,_that.totalFemme,_that.totalHomme,_that.commentaire,_that.date,_that.time);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  int totalEnfant,  int totalFemme,  int totalHomme,  String commentaire,  String date,  String time)  $default,) {final _that = this;
+switch (_that) {
+case _PresenceResponse():
+return $default(_that.id,_that.totalEnfant,_that.totalFemme,_that.totalHomme,_that.commentaire,_that.date,_that.time);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  int totalEnfant,  int totalFemme,  int totalHomme,  String commentaire,  String date,  String time)?  $default,) {final _that = this;
+switch (_that) {
+case _PresenceResponse() when $default != null:
+return $default(_that.id,_that.totalEnfant,_that.totalFemme,_that.totalHomme,_that.commentaire,_that.date,_that.time);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _PresenceResponse implements PresenceResponse {
+   _PresenceResponse({required this.id, required this.totalEnfant, required this.totalFemme, required this.totalHomme, required this.commentaire, required this.date, required this.time});
+  factory _PresenceResponse.fromJson(Map<String, dynamic> json) => _$PresenceResponseFromJson(json);
+
+@override final  String id;
+@override final  int totalEnfant;
+@override final  int totalFemme;
+@override final  int totalHomme;
+@override final  String commentaire;
+@override final  String date;
+@override final  String time;
+
+/// Create a copy of PresenceResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PresenceResponseCopyWith<_PresenceResponse> get copyWith => __$PresenceResponseCopyWithImpl<_PresenceResponse>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$PresenceResponseToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PresenceResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.totalEnfant, totalEnfant) || other.totalEnfant == totalEnfant)&&(identical(other.totalFemme, totalFemme) || other.totalFemme == totalFemme)&&(identical(other.totalHomme, totalHomme) || other.totalHomme == totalHomme)&&(identical(other.commentaire, commentaire) || other.commentaire == commentaire)&&(identical(other.date, date) || other.date == date)&&(identical(other.time, time) || other.time == time));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,totalEnfant,totalFemme,totalHomme,commentaire,date,time);
+
+@override
+String toString() {
+  return 'PresenceResponse(id: $id, totalEnfant: $totalEnfant, totalFemme: $totalFemme, totalHomme: $totalHomme, commentaire: $commentaire, date: $date, time: $time)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$PresenceResponseCopyWith<$Res> implements $PresenceResponseCopyWith<$Res> {
+  factory _$PresenceResponseCopyWith(_PresenceResponse value, $Res Function(_PresenceResponse) _then) = __$PresenceResponseCopyWithImpl;
+@override @useResult
+$Res call({
+ String id, int totalEnfant, int totalFemme, int totalHomme, String commentaire, String date, String time
+});
+
+
+
+
+}
+/// @nodoc
+class __$PresenceResponseCopyWithImpl<$Res>
+    implements _$PresenceResponseCopyWith<$Res> {
+  __$PresenceResponseCopyWithImpl(this._self, this._then);
+
+  final _PresenceResponse _self;
+  final $Res Function(_PresenceResponse) _then;
+
+/// Create a copy of PresenceResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? totalEnfant = null,Object? totalFemme = null,Object? totalHomme = null,Object? commentaire = null,Object? date = null,Object? time = null,}) {
+  return _then(_PresenceResponse(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,totalEnfant: null == totalEnfant ? _self.totalEnfant : totalEnfant // ignore: cast_nullable_to_non_nullable
+as int,totalFemme: null == totalFemme ? _self.totalFemme : totalFemme // ignore: cast_nullable_to_non_nullable
+as int,totalHomme: null == totalHomme ? _self.totalHomme : totalHomme // ignore: cast_nullable_to_non_nullable
+as int,commentaire: null == commentaire ? _self.commentaire : commentaire // ignore: cast_nullable_to_non_nullable
+as String,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as String,time: null == time ? _self.time : time // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
 // dart format on

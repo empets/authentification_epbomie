@@ -373,4 +373,285 @@ as String?,
 
 }
 
+
+/// @nodoc
+mixin _$PresenceResponseModel {
+
+ String? get id; int? get totalEnfant; int? get totalFemme; int? get totalHomme; String? get commentaire; String? get date; String? get time;
+/// Create a copy of PresenceResponseModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PresenceResponseModelCopyWith<PresenceResponseModel> get copyWith => _$PresenceResponseModelCopyWithImpl<PresenceResponseModel>(this as PresenceResponseModel, _$identity);
+
+  /// Serializes this PresenceResponseModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PresenceResponseModel&&(identical(other.id, id) || other.id == id)&&(identical(other.totalEnfant, totalEnfant) || other.totalEnfant == totalEnfant)&&(identical(other.totalFemme, totalFemme) || other.totalFemme == totalFemme)&&(identical(other.totalHomme, totalHomme) || other.totalHomme == totalHomme)&&(identical(other.commentaire, commentaire) || other.commentaire == commentaire)&&(identical(other.date, date) || other.date == date)&&(identical(other.time, time) || other.time == time));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,totalEnfant,totalFemme,totalHomme,commentaire,date,time);
+
+@override
+String toString() {
+  return 'PresenceResponseModel(id: $id, totalEnfant: $totalEnfant, totalFemme: $totalFemme, totalHomme: $totalHomme, commentaire: $commentaire, date: $date, time: $time)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $PresenceResponseModelCopyWith<$Res>  {
+  factory $PresenceResponseModelCopyWith(PresenceResponseModel value, $Res Function(PresenceResponseModel) _then) = _$PresenceResponseModelCopyWithImpl;
+@useResult
+$Res call({
+ String? id, int? totalEnfant, int? totalFemme, int? totalHomme, String? commentaire, String? date, String? time
+});
+
+
+
+
+}
+/// @nodoc
+class _$PresenceResponseModelCopyWithImpl<$Res>
+    implements $PresenceResponseModelCopyWith<$Res> {
+  _$PresenceResponseModelCopyWithImpl(this._self, this._then);
+
+  final PresenceResponseModel _self;
+  final $Res Function(PresenceResponseModel) _then;
+
+/// Create a copy of PresenceResponseModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? totalEnfant = freezed,Object? totalFemme = freezed,Object? totalHomme = freezed,Object? commentaire = freezed,Object? date = freezed,Object? time = freezed,}) {
+  return _then(_self.copyWith(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,totalEnfant: freezed == totalEnfant ? _self.totalEnfant : totalEnfant // ignore: cast_nullable_to_non_nullable
+as int?,totalFemme: freezed == totalFemme ? _self.totalFemme : totalFemme // ignore: cast_nullable_to_non_nullable
+as int?,totalHomme: freezed == totalHomme ? _self.totalHomme : totalHomme // ignore: cast_nullable_to_non_nullable
+as int?,commentaire: freezed == commentaire ? _self.commentaire : commentaire // ignore: cast_nullable_to_non_nullable
+as String?,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as String?,time: freezed == time ? _self.time : time // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [PresenceResponseModel].
+extension PresenceResponseModelPatterns on PresenceResponseModel {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PresenceResponseModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _PresenceResponseModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PresenceResponseModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _PresenceResponseModel():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PresenceResponseModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _PresenceResponseModel() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  int? totalEnfant,  int? totalFemme,  int? totalHomme,  String? commentaire,  String? date,  String? time)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _PresenceResponseModel() when $default != null:
+return $default(_that.id,_that.totalEnfant,_that.totalFemme,_that.totalHomme,_that.commentaire,_that.date,_that.time);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  int? totalEnfant,  int? totalFemme,  int? totalHomme,  String? commentaire,  String? date,  String? time)  $default,) {final _that = this;
+switch (_that) {
+case _PresenceResponseModel():
+return $default(_that.id,_that.totalEnfant,_that.totalFemme,_that.totalHomme,_that.commentaire,_that.date,_that.time);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  int? totalEnfant,  int? totalFemme,  int? totalHomme,  String? commentaire,  String? date,  String? time)?  $default,) {final _that = this;
+switch (_that) {
+case _PresenceResponseModel() when $default != null:
+return $default(_that.id,_that.totalEnfant,_that.totalFemme,_that.totalHomme,_that.commentaire,_that.date,_that.time);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _PresenceResponseModel implements PresenceResponseModel {
+   _PresenceResponseModel({this.id = "", this.totalEnfant = 0, this.totalFemme = 0, this.totalHomme = 0, this.commentaire = "", this.date = "", this.time = ""});
+  factory _PresenceResponseModel.fromJson(Map<String, dynamic> json) => _$PresenceResponseModelFromJson(json);
+
+@override@JsonKey() final  String? id;
+@override@JsonKey() final  int? totalEnfant;
+@override@JsonKey() final  int? totalFemme;
+@override@JsonKey() final  int? totalHomme;
+@override@JsonKey() final  String? commentaire;
+@override@JsonKey() final  String? date;
+@override@JsonKey() final  String? time;
+
+/// Create a copy of PresenceResponseModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PresenceResponseModelCopyWith<_PresenceResponseModel> get copyWith => __$PresenceResponseModelCopyWithImpl<_PresenceResponseModel>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$PresenceResponseModelToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PresenceResponseModel&&(identical(other.id, id) || other.id == id)&&(identical(other.totalEnfant, totalEnfant) || other.totalEnfant == totalEnfant)&&(identical(other.totalFemme, totalFemme) || other.totalFemme == totalFemme)&&(identical(other.totalHomme, totalHomme) || other.totalHomme == totalHomme)&&(identical(other.commentaire, commentaire) || other.commentaire == commentaire)&&(identical(other.date, date) || other.date == date)&&(identical(other.time, time) || other.time == time));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,totalEnfant,totalFemme,totalHomme,commentaire,date,time);
+
+@override
+String toString() {
+  return 'PresenceResponseModel(id: $id, totalEnfant: $totalEnfant, totalFemme: $totalFemme, totalHomme: $totalHomme, commentaire: $commentaire, date: $date, time: $time)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$PresenceResponseModelCopyWith<$Res> implements $PresenceResponseModelCopyWith<$Res> {
+  factory _$PresenceResponseModelCopyWith(_PresenceResponseModel value, $Res Function(_PresenceResponseModel) _then) = __$PresenceResponseModelCopyWithImpl;
+@override @useResult
+$Res call({
+ String? id, int? totalEnfant, int? totalFemme, int? totalHomme, String? commentaire, String? date, String? time
+});
+
+
+
+
+}
+/// @nodoc
+class __$PresenceResponseModelCopyWithImpl<$Res>
+    implements _$PresenceResponseModelCopyWith<$Res> {
+  __$PresenceResponseModelCopyWithImpl(this._self, this._then);
+
+  final _PresenceResponseModel _self;
+  final $Res Function(_PresenceResponseModel) _then;
+
+/// Create a copy of PresenceResponseModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? totalEnfant = freezed,Object? totalFemme = freezed,Object? totalHomme = freezed,Object? commentaire = freezed,Object? date = freezed,Object? time = freezed,}) {
+  return _then(_PresenceResponseModel(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,totalEnfant: freezed == totalEnfant ? _self.totalEnfant : totalEnfant // ignore: cast_nullable_to_non_nullable
+as int?,totalFemme: freezed == totalFemme ? _self.totalFemme : totalFemme // ignore: cast_nullable_to_non_nullable
+as int?,totalHomme: freezed == totalHomme ? _self.totalHomme : totalHomme // ignore: cast_nullable_to_non_nullable
+as int?,commentaire: freezed == commentaire ? _self.commentaire : commentaire // ignore: cast_nullable_to_non_nullable
+as String?,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as String?,time: freezed == time ? _self.time : time // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
 // dart format on

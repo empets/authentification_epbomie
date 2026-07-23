@@ -87,3 +87,34 @@ abstract class ProfileResponseModel with _$ProfileResponseModel {
     );
   }
 }
+
+
+
+//presence response
+@freezed
+abstract class PresenceResponseModel with _$PresenceResponseModel {
+  factory PresenceResponseModel({
+    @Default("") String? id,
+    @Default(0) int? totalEnfant,
+    @Default(0) int? totalFemme,
+    @Default(0) int? totalHomme,
+    @Default("") String? commentaire,
+    @Default("") String? date,
+    @Default("") String? time,
+  }) = _PresenceResponseModel;
+  factory PresenceResponseModel.fromJson(Map<String, dynamic> json) =>
+      _$PresenceResponseModelFromJson(json);
+
+
+   static PresenceResponse toDomain(PresenceResponseModel model) {
+    return PresenceResponse(
+      id: model.id.getOrEmpty(),
+      totalEnfant: model.totalEnfant.getOrEmpty(),
+      totalFemme: model.totalFemme.getOrEmpty(),
+      totalHomme: model.totalHomme.getOrEmpty(),
+      commentaire: model.commentaire.getOrEmpty(),
+      date: model.date.getOrEmpty(),
+      time: model.time.getOrEmpty(),
+    );
+  }
+}

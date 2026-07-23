@@ -81,3 +81,25 @@ Map<String, dynamic> _$ProfileResponseToJson(_ProfileResponse instance) =>
       'groupeSanguin': instance.groupeSanguin,
       'fonction': instance.fonction,
     };
+
+_PresenceResponse _$PresenceResponseFromJson(Map<String, dynamic> json) =>
+    _PresenceResponse(
+      id: json['id'] as String,
+      totalEnfant: (json['totalEnfant'] as num).toInt(),
+      totalFemme: (json['totalFemme'] as num).toInt(),
+      totalHomme: (json['totalHomme'] as num).toInt(),
+      commentaire: json['commentaire'] as String,
+      date: json['date'] as String,
+      time: json['time'] as String,
+    );
+
+Map<String, dynamic> _$PresenceResponseToJson(_PresenceResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'totalEnfant': instance.totalEnfant,
+      'totalFemme': instance.totalFemme,
+      'totalHomme': instance.totalHomme,
+      'commentaire': instance.commentaire,
+      'date': instance.date,
+      'time': instance.time,
+    };

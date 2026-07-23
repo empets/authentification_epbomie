@@ -46,12 +46,18 @@ import '../../feature/dashboard/data/service/steam_remote_service.dart'
     as _i204;
 import '../../feature/dashboard/domaine/repository/home_domain_repository.dart'
     as _i245;
+import '../../feature/dashboard/domaine/usercase/get_presence_list_usercase.dart'
+    as _i391;
 import '../../feature/dashboard/domaine/usercase/get_profile_usercase.dart'
     as _i729;
 import '../../feature/dashboard/presentation/bloc/app_launcher/app_launcher_bloc.dart'
     as _i304;
+import '../../feature/dashboard/presentation/bloc/get_presence/get_presence_bloc.dart'
+    as _i648;
 import '../../feature/dashboard/presentation/bloc/get_profile/get_profile_bloc.dart'
     as _i811;
+import '../../feature/dashboard/presentation/pages/kpi/bloc/menber_kpi_bloc.dart'
+    as _i735;
 import '../../feature/depatement/cellule/data/repositories/cellule_imple_repositories.dart'
     as _i389;
 import '../../feature/depatement/cellule/data/services/celllule_repositories_remote_services.dart'
@@ -192,8 +198,16 @@ extension GetItInjectableX on _i174.GetIt {
         domaineServiceRepository: gh<_i941.DomaineServiceRepository>(),
       ),
     );
+    gh.lazySingleton<_i391.GetPresenceListUsercase>(
+      () => _i391.GetPresenceListUsercase(gh<_i245.HomeDomaineRepository>()),
+    );
     gh.lazySingleton<_i729.GetProfileUsercase>(
       () => _i729.GetProfileUsercase(gh<_i245.HomeDomaineRepository>()),
+    );
+    gh.lazySingleton<_i648.GetPresenceListBloc>(
+      () => _i648.GetPresenceListBloc(
+        getPresenceListUsercase: gh<_i391.GetPresenceListUsercase>(),
+      ),
     );
     gh.lazySingleton<_i16.GetConnexionImpliciteUsercase>(
       () => _i16.GetConnexionImpliciteUsercase(gh<_i653.AuthenRepository>()),
@@ -237,6 +251,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i811.GetProfileBloc>(
       () => _i811.GetProfileBloc(
+        getProfileUsercase: gh<_i729.GetProfileUsercase>(),
+      ),
+    );
+    gh.lazySingleton<_i735.MenberKpiBloc>(
+      () => _i735.MenberKpiBloc(
         getProfileUsercase: gh<_i729.GetProfileUsercase>(),
       ),
     );

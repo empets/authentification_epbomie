@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grace_church/core/injection/injection_container.dart';
 import 'package:grace_church/core/style/app_theme.dart';
+import 'package:grace_church/feature/dashboard/domaine/usercase/get_presence_list_usercase.dart';
 import 'package:grace_church/feature/dashboard/domaine/usercase/get_profile_usercase.dart';
+import 'package:grace_church/feature/dashboard/presentation/bloc/get_presence/get_presence_bloc.dart';
 import 'package:grace_church/feature/dashboard/presentation/bloc/get_profile/event/profile_event.dart';
 import 'package:grace_church/feature/dashboard/presentation/bloc/get_profile/get_profile_bloc.dart';
 import 'package:grace_church/feature/dashboard/presentation/pages/dashboard_overview.dart';
@@ -27,7 +29,8 @@ class EgliseApp extends StatelessWidget {
                 getProfileUsercase: getIt<GetProfileUsercase>(),
               )..add(const ProfileEvent.fetchProfileAll()),
             ),
-            BlocProvider(create: (context) => MenberKpiBloc(getProfileUsercase: getIt<GetProfileUsercase>())..add(ProfileEvent.fetchProfileAll())),
+            BlocProvider(create: (context) => MenberKpiBloc(getProfileUsercase: getIt<GetProfileUsercase>())..add(const ProfileEvent.fetchProfileAll())),
+            BlocProvider(create: (context) => GetPresenceListBloc(getPresenceListUsercase: getIt<GetPresenceListUsercase>())..add(const ProfileEvent.fetchProfileAll())),
           ],
           child: MaterialApp(
             title: "Église Vivante",

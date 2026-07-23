@@ -46,6 +46,22 @@ abstract class ProfileResponse with _$ProfileResponse {
 }
 
 
+//presence response
+@freezed
+abstract class PresenceResponse with _$PresenceResponse {
+  factory PresenceResponse({
+    required String id,
+    required int totalEnfant,
+    required int totalFemme,
+    required int totalHomme,
+    required String commentaire,
+    required String date,
+    required String time,
+  }) = _PresenceResponse;
+  factory PresenceResponse.fromJson(Map<String, dynamic> json) =>
+      _$PresenceResponseFromJson(json);
+}
+
 
 
 

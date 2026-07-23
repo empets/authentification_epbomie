@@ -27,6 +27,16 @@ abstract class DomaineServiceRepository {
     RequestGetProfile notParms,
   );
 
+     /// ----------------------------------------------------------------------------------------------------------------------------
+  /// Methode: getPresenceList                                    
+  /// Paramètre: RequestGetProfile
+  /// Retour: List<PresenceResponseModel>
+  /// Description: Cette methode permet de récupérer la liste des présences
+  /// ----------------------------------------------------------------------------------------------------------------------------
+  Future<FirebaseResult<List<PresenceResponseModel>>> getPresenceList(
+    RequestGetProfile notParms,
+  );
+
    
 
 }

@@ -13,6 +13,14 @@ abstract class HomeDomaineRepository {
   Future<Either<Failure, List<ProfileResponse>>> getProfileAll(RequestGetProfile notParms);
   Future<Either<Failure, ProfileResponse>> getProfile(RequestGetProfile notParms);
 
+
+  // -------------------------------------------------------------
+  //  cette methode permet de recuperer la presence d'un utilisateur
+  //  elle prend en parametre un objet EmptyRequest qui ne contient rien
+  //  elle retourne un objet PresenceResponse qui contient la presence de l'utilisateur
+  // -------------------------------------------------------------
+  Future<Either<Failure, List<PresenceResponse>>> getPresenceList(RequestGetProfile notParms);
+
  
 
 

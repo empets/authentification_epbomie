@@ -6,6 +6,7 @@ import 'package:grace_church/core/build_screen/building_screen.dart';
 import 'package:grace_church/core/extension/extention.dart';
 import 'package:grace_church/core/moke/moke_data.dart';
 import 'package:grace_church/feature/dashboard/domaine/entities/response/home_response.dart';
+import 'package:grace_church/feature/dashboard/presentation/bloc/get_presence/get_presence_bloc.dart';
 import 'package:grace_church/feature/dashboard/presentation/bloc/get_profile/get_profile_bloc.dart';
 import 'package:grace_church/feature/dashboard/presentation/pages/evenement/evenement_card.dart';
 import 'package:grace_church/feature/dashboard/presentation/pages/graphes/goupe_pie_card.dart';
@@ -35,6 +36,24 @@ class _DashboardPageState extends State<DashboardPage> {
     // NavItem(icon: Icons.favorite_outline, label: "Pastoral"),
     // NavItem(icon: Icons.child_care_outlined, label: "Enfants"),
   ];
+
+  // list de presence par dimanche
+
+  int _getPresenceDernierDimanche(List<PresenceResponse> rapportsDepresence) {
+    final dimanches = rapportsDepresence.where((r) {
+      final d = DateTime.tryParse(r.date);
+      return d != null && d.weekday == DateTime.sunday;
+    }).toList();
+
+    if (dimanches.isEmpty) return 0;
+
+    dimanches.sort(
+      (a, b) => DateTime.parse(b.date).compareTo(DateTime.parse(a.date)),
+    );
+
+    final dernier = dimanches.first;
+    return dernier.totalHomme + dernier.totalFemme + dernier.totalEnfant;
+  }
 
   @override
   void dispose() {
@@ -68,9 +87,10 @@ class _DashboardPageState extends State<DashboardPage> {
                                   return const Center(
                                     child: CircularProgressIndicator.adaptive(
                                       backgroundColor: C.border,
-                                      valueColor: AlwaysStoppedAnimation<Color>(C.gold),
-                                      
-                                    )
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        C.gold,
+                                      ),
+                                    ),
                                   );
                                 case FailedState<List<ProfileResponse>>():
                                   return Center(
@@ -390,17 +410,64 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                     ),
                     const SizedBox(width: 16),
-                    KpiCard(
-                      label: "Visiteurs",
-                      value: totalVisitors.toString(),
-                      delta: "12% du total",
-                      icon: Icons.volunteer_activism_outlined,
-                      color: C.greenLight,
-                      isLocked: false,
-                      trendIcon: _activeComparisonIcon(
-                        totalVisitors,
-                        totalVisitors,
-                      ),
+                    BlocBuilder<
+                      GetPresenceListBloc,
+                      ApiState<List<PresenceResponse>>
+                    >(
+                      builder: (context, presenceState) {
+                        if (presenceState
+                            is SuccessState<List<PresenceResponse>>) {
+                          final totalPresence = presenceState.data.last;
+                          return KpiCard(
+                            label: "Presence",
+                            value:
+                                (totalPresence.totalEnfant +
+                                        totalPresence.totalHomme)
+                                    .toString(),
+                            delta: "total pour se dimanche",
+                            icon: Icons.how_to_reg,
+                            color: C.greenLight,
+                            isLocked: false,
+                            trendIcon: Icons.paste_outlined,
+                          );
+                        }
+
+                        return KpiCard(
+                          label: "Presence",
+                          value: "",
+                          delta: "10 se dimanche",
+                          icon: Icons.how_to_reg,
+                          color: C.greenLight,
+                          isLocked: false,
+                          trendIcon: Icons.paste_outlined,
+                        );
+                      },
+                    ),
+                    const SizedBox(width: 16),
+                    BlocBuilder<
+                      GetPresenceListBloc,
+                      ApiState<List<PresenceResponse>>
+                    >(
+                      builder: (context, presenceState) {
+                        int totalVisitors = 0;
+                        if (presenceState
+                            is SuccessState<List<PresenceResponse>>) {
+                          totalVisitors = presenceState.data.length;
+                        }
+                        return KpiCard(
+                          label: "Visiteurs",
+                          value: totalVisitors.toString(),
+                          delta:
+                              "${(totalVisitors / 100 * 12).round()}% du total",
+                          icon: Icons.volunteer_activism_outlined,
+                          color: C.greenLight,
+                          isLocked: false,
+                          trendIcon: _activeComparisonIcon(
+                            totalVisitors,
+                            totalVisitors,
+                          ),
+                        );
+                      },
                     ),
                     const SizedBox(width: 16),
                     KpiCard(
@@ -438,10 +505,24 @@ class _DashboardPageState extends State<DashboardPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // ── Presence Chart ────────────────────────────────────────────────────────────
-              Expanded(flex: 2, child: const PresenceChart()),
+              Expanded(
+                flex: 2,
+                child: BlocBuilder<
+                  GetPresenceListBloc,
+                  ApiState<List<PresenceResponse>>
+                >(
+                  builder: (context, state) {
+                    if (state is SuccessState<List<PresenceResponse>>) {
+                      final data = state.data;
+                      return PresenceEvolutionCard(rapports: data);
+                    }
+                    return const PresenceEvolutionCard(rapports: []);
+                  },
+                ),
+              ),
               const SizedBox(width: 16),
               // ── Pie Card ──────────────────────────────────────────────────────────────────
-              SizedBox(width: 220, child:  GroupePieCard(profile :profile )),
+              SizedBox(width: 220, child: GroupePieCard(profile: profile)),
             ],
           ),
           const SizedBox(height: 20),

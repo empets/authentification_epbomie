@@ -16,3 +16,13 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 # admine-grace-churchs
+
+-------------------- COMMANDS POUR LE DEPLOYEMENT --------------------
+# CMD BASH - Construire le build
+- flutter build web
+# CMD BASH - Deployment
+- firebase deploy --only hosting
+# Firebase Hosting URL:
+[https://epbomie.web.app](https://epbomie.web.app)
+
+

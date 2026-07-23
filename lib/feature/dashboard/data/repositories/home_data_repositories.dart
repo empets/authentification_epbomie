@@ -97,6 +97,17 @@ Future<void> clearProfileCache() async {
     }
     return Left(Failure(message: "Erreur inconnue"));
   }
+  
+  @override
+  Future<Either<Failure, List<PresenceResponse>>> getPresenceList(RequestGetProfile notParms) async {
+        final response = await domaineServiceRepository.getPresenceList(notParms);
+    if (response is FirebaseSuccess<List<PresenceResponseModel>>) {
+      return Right(response.data.map(PresenceResponseModel.toDomain).toList());
+    } else if (response is FirebaseError<List<PresenceResponseModel>>) {
+      return Left(Failure(message: response.message));
+    }
+    return Left(Failure(message: "Erreur inconnue"));
+  }
 
 
 

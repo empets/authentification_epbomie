@@ -438,7 +438,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         return KpiCard(
                           label: "Presence",
                           value: "",
-                          delta: "10 se dimanche",
+                          delta: "10 ce dimanche",
                           icon: Icons.how_to_reg,
                           color: C.greenLight,
                           isLocked: false,

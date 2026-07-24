@@ -118,3 +118,30 @@ abstract class PresenceResponseModel with _$PresenceResponseModel {
     );
   }
 }
+
+
+
+// guest presence response
+@freezed
+abstract class GuestResponseModel with _$GuestResponseModel {
+  factory GuestResponseModel({
+    required String id,
+    required int contact,
+    required int name,
+    required int secondContact,
+    required String date,
+  }) = _GuestResponseModel;
+  factory GuestResponseModel.fromJson(Map<String, dynamic> json) =>
+      _$GuestResponseModelFromJson(json);
+
+   static GuestResponse toDomain(GuestResponseModel model) {
+    return GuestResponse(
+      id: model.id.getOrEmpty(),
+      contact: model.contact.getOrEmpty(),
+      name: model.name.getOrEmpty(),
+      secondContact: model.secondContact.getOrEmpty(),
+      date: model.date.getOrEmpty(),
+    );
+  }
+}
+

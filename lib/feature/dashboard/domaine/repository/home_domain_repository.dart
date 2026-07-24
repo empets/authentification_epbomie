@@ -21,6 +21,14 @@ abstract class HomeDomaineRepository {
   // -------------------------------------------------------------
   Future<Either<Failure, List<PresenceResponse>>> getPresenceList(RequestGetProfile notParms);
 
+  // -------------------------------------------------------------
+  //  cette methode permet de recuperer la presence des invités
+  //  elle prend en parametre un objet EmptyRequest qui ne contient rien
+  //  elle retourne un objet GuestResponse qui contient la presence des invités
+  // -------------------------------------------------------------
+  Future<Either<Failure, List<GuestResponse>>> getGuestList(RequestGetProfile notParms);
+
+
  
 
 

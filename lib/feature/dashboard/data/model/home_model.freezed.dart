@@ -654,4 +654,279 @@ as String?,
 
 }
 
+
+/// @nodoc
+mixin _$GuestResponseModel {
+
+ String get id; int get contact; int get name; int get secondContact; String get date;
+/// Create a copy of GuestResponseModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$GuestResponseModelCopyWith<GuestResponseModel> get copyWith => _$GuestResponseModelCopyWithImpl<GuestResponseModel>(this as GuestResponseModel, _$identity);
+
+  /// Serializes this GuestResponseModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GuestResponseModel&&(identical(other.id, id) || other.id == id)&&(identical(other.contact, contact) || other.contact == contact)&&(identical(other.name, name) || other.name == name)&&(identical(other.secondContact, secondContact) || other.secondContact == secondContact)&&(identical(other.date, date) || other.date == date));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,contact,name,secondContact,date);
+
+@override
+String toString() {
+  return 'GuestResponseModel(id: $id, contact: $contact, name: $name, secondContact: $secondContact, date: $date)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $GuestResponseModelCopyWith<$Res>  {
+  factory $GuestResponseModelCopyWith(GuestResponseModel value, $Res Function(GuestResponseModel) _then) = _$GuestResponseModelCopyWithImpl;
+@useResult
+$Res call({
+ String id, int contact, int name, int secondContact, String date
+});
+
+
+
+
+}
+/// @nodoc
+class _$GuestResponseModelCopyWithImpl<$Res>
+    implements $GuestResponseModelCopyWith<$Res> {
+  _$GuestResponseModelCopyWithImpl(this._self, this._then);
+
+  final GuestResponseModel _self;
+  final $Res Function(GuestResponseModel) _then;
+
+/// Create a copy of GuestResponseModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? contact = null,Object? name = null,Object? secondContact = null,Object? date = null,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,contact: null == contact ? _self.contact : contact // ignore: cast_nullable_to_non_nullable
+as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as int,secondContact: null == secondContact ? _self.secondContact : secondContact // ignore: cast_nullable_to_non_nullable
+as int,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [GuestResponseModel].
+extension GuestResponseModelPatterns on GuestResponseModel {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _GuestResponseModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _GuestResponseModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _GuestResponseModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _GuestResponseModel():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _GuestResponseModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _GuestResponseModel() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  int contact,  int name,  int secondContact,  String date)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _GuestResponseModel() when $default != null:
+return $default(_that.id,_that.contact,_that.name,_that.secondContact,_that.date);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  int contact,  int name,  int secondContact,  String date)  $default,) {final _that = this;
+switch (_that) {
+case _GuestResponseModel():
+return $default(_that.id,_that.contact,_that.name,_that.secondContact,_that.date);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  int contact,  int name,  int secondContact,  String date)?  $default,) {final _that = this;
+switch (_that) {
+case _GuestResponseModel() when $default != null:
+return $default(_that.id,_that.contact,_that.name,_that.secondContact,_that.date);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _GuestResponseModel implements GuestResponseModel {
+   _GuestResponseModel({required this.id, required this.contact, required this.name, required this.secondContact, required this.date});
+  factory _GuestResponseModel.fromJson(Map<String, dynamic> json) => _$GuestResponseModelFromJson(json);
+
+@override final  String id;
+@override final  int contact;
+@override final  int name;
+@override final  int secondContact;
+@override final  String date;
+
+/// Create a copy of GuestResponseModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$GuestResponseModelCopyWith<_GuestResponseModel> get copyWith => __$GuestResponseModelCopyWithImpl<_GuestResponseModel>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$GuestResponseModelToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GuestResponseModel&&(identical(other.id, id) || other.id == id)&&(identical(other.contact, contact) || other.contact == contact)&&(identical(other.name, name) || other.name == name)&&(identical(other.secondContact, secondContact) || other.secondContact == secondContact)&&(identical(other.date, date) || other.date == date));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,contact,name,secondContact,date);
+
+@override
+String toString() {
+  return 'GuestResponseModel(id: $id, contact: $contact, name: $name, secondContact: $secondContact, date: $date)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$GuestResponseModelCopyWith<$Res> implements $GuestResponseModelCopyWith<$Res> {
+  factory _$GuestResponseModelCopyWith(_GuestResponseModel value, $Res Function(_GuestResponseModel) _then) = __$GuestResponseModelCopyWithImpl;
+@override @useResult
+$Res call({
+ String id, int contact, int name, int secondContact, String date
+});
+
+
+
+
+}
+/// @nodoc
+class __$GuestResponseModelCopyWithImpl<$Res>
+    implements _$GuestResponseModelCopyWith<$Res> {
+  __$GuestResponseModelCopyWithImpl(this._self, this._then);
+
+  final _GuestResponseModel _self;
+  final $Res Function(_GuestResponseModel) _then;
+
+/// Create a copy of GuestResponseModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? contact = null,Object? name = null,Object? secondContact = null,Object? date = null,}) {
+  return _then(_GuestResponseModel(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,contact: null == contact ? _self.contact : contact // ignore: cast_nullable_to_non_nullable
+as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as int,secondContact: null == secondContact ? _self.secondContact : secondContact // ignore: cast_nullable_to_non_nullable
+as int,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
 // dart format on

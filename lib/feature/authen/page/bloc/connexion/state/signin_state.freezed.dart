@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SigninState {
 
- TextFormz get email; TextFormz get password; PhoneFormz get contact; String get errorMessage; FormzSubmissionStatus get status; bool get isValid; bool get isSubmitting;
+ TextFormz get email; TextFormz get password; PhoneFormz get contact; String get errorMessage; AuthenResponse get admine; FormzSubmissionStatus get status; bool get isValid; bool get isSubmitting;
 /// Create a copy of SigninState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $SigninStateCopyWith<SigninState> get copyWith => _$SigninStateCopyWithImpl<Sign
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SigninState&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.contact, contact) || other.contact == contact)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.status, status) || other.status == status)&&(identical(other.isValid, isValid) || other.isValid == isValid)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SigninState&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.contact, contact) || other.contact == contact)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.admine, admine) || other.admine == admine)&&(identical(other.status, status) || other.status == status)&&(identical(other.isValid, isValid) || other.isValid == isValid)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,email,password,contact,errorMessage,status,isValid,isSubmitting);
+int get hashCode => Object.hash(runtimeType,email,password,contact,errorMessage,admine,status,isValid,isSubmitting);
 
 @override
 String toString() {
-  return 'SigninState(email: $email, password: $password, contact: $contact, errorMessage: $errorMessage, status: $status, isValid: $isValid, isSubmitting: $isSubmitting)';
+  return 'SigninState(email: $email, password: $password, contact: $contact, errorMessage: $errorMessage, admine: $admine, status: $status, isValid: $isValid, isSubmitting: $isSubmitting)';
 }
 
 
@@ -45,11 +45,11 @@ abstract mixin class $SigninStateCopyWith<$Res>  {
   factory $SigninStateCopyWith(SigninState value, $Res Function(SigninState) _then) = _$SigninStateCopyWithImpl;
 @useResult
 $Res call({
- TextFormz email, TextFormz password, PhoneFormz contact, String errorMessage, FormzSubmissionStatus status, bool isValid, bool isSubmitting
+ TextFormz email, TextFormz password, PhoneFormz contact, String errorMessage, AuthenResponse admine, FormzSubmissionStatus status, bool isValid, bool isSubmitting
 });
 
 
-
+$AuthenResponseCopyWith<$Res> get admine;
 
 }
 /// @nodoc
@@ -62,19 +62,29 @@ class _$SigninStateCopyWithImpl<$Res>
 
 /// Create a copy of SigninState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? email = null,Object? password = null,Object? contact = null,Object? errorMessage = null,Object? status = null,Object? isValid = null,Object? isSubmitting = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? email = null,Object? password = null,Object? contact = null,Object? errorMessage = null,Object? admine = null,Object? status = null,Object? isValid = null,Object? isSubmitting = null,}) {
   return _then(_self.copyWith(
 email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as TextFormz,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as TextFormz,contact: null == contact ? _self.contact : contact // ignore: cast_nullable_to_non_nullable
 as PhoneFormz,errorMessage: null == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
-as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String,admine: null == admine ? _self.admine : admine // ignore: cast_nullable_to_non_nullable
+as AuthenResponse,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as FormzSubmissionStatus,isValid: null == isValid ? _self.isValid : isValid // ignore: cast_nullable_to_non_nullable
 as bool,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
-
+/// Create a copy of SigninState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AuthenResponseCopyWith<$Res> get admine {
+  
+  return $AuthenResponseCopyWith<$Res>(_self.admine, (value) {
+    return _then(_self.copyWith(admine: value));
+  });
+}
 }
 
 
@@ -156,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( TextFormz email,  TextFormz password,  PhoneFormz contact,  String errorMessage,  FormzSubmissionStatus status,  bool isValid,  bool isSubmitting)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( TextFormz email,  TextFormz password,  PhoneFormz contact,  String errorMessage,  AuthenResponse admine,  FormzSubmissionStatus status,  bool isValid,  bool isSubmitting)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SigninState() when $default != null:
-return $default(_that.email,_that.password,_that.contact,_that.errorMessage,_that.status,_that.isValid,_that.isSubmitting);case _:
+return $default(_that.email,_that.password,_that.contact,_that.errorMessage,_that.admine,_that.status,_that.isValid,_that.isSubmitting);case _:
   return orElse();
 
 }
@@ -177,10 +187,10 @@ return $default(_that.email,_that.password,_that.contact,_that.errorMessage,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( TextFormz email,  TextFormz password,  PhoneFormz contact,  String errorMessage,  FormzSubmissionStatus status,  bool isValid,  bool isSubmitting)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( TextFormz email,  TextFormz password,  PhoneFormz contact,  String errorMessage,  AuthenResponse admine,  FormzSubmissionStatus status,  bool isValid,  bool isSubmitting)  $default,) {final _that = this;
 switch (_that) {
 case _SigninState():
-return $default(_that.email,_that.password,_that.contact,_that.errorMessage,_that.status,_that.isValid,_that.isSubmitting);case _:
+return $default(_that.email,_that.password,_that.contact,_that.errorMessage,_that.admine,_that.status,_that.isValid,_that.isSubmitting);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +207,10 @@ return $default(_that.email,_that.password,_that.contact,_that.errorMessage,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( TextFormz email,  TextFormz password,  PhoneFormz contact,  String errorMessage,  FormzSubmissionStatus status,  bool isValid,  bool isSubmitting)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( TextFormz email,  TextFormz password,  PhoneFormz contact,  String errorMessage,  AuthenResponse admine,  FormzSubmissionStatus status,  bool isValid,  bool isSubmitting)?  $default,) {final _that = this;
 switch (_that) {
 case _SigninState() when $default != null:
-return $default(_that.email,_that.password,_that.contact,_that.errorMessage,_that.status,_that.isValid,_that.isSubmitting);case _:
+return $default(_that.email,_that.password,_that.contact,_that.errorMessage,_that.admine,_that.status,_that.isValid,_that.isSubmitting);case _:
   return null;
 
 }
@@ -212,13 +222,14 @@ return $default(_that.email,_that.password,_that.contact,_that.errorMessage,_tha
 
 
 class _SigninState implements SigninState {
-   _SigninState({required this.email, required this.password, required this.contact, required this.errorMessage, required this.status, required this.isValid, required this.isSubmitting});
+   _SigninState({required this.email, required this.password, required this.contact, required this.errorMessage, this.admine = const AuthenResponse(nom: '', email: '', password: '', contact: '', role: ''), required this.status, required this.isValid, required this.isSubmitting});
   
 
 @override final  TextFormz email;
 @override final  TextFormz password;
 @override final  PhoneFormz contact;
 @override final  String errorMessage;
+@override@JsonKey() final  AuthenResponse admine;
 @override final  FormzSubmissionStatus status;
 @override final  bool isValid;
 @override final  bool isSubmitting;
@@ -233,16 +244,16 @@ _$SigninStateCopyWith<_SigninState> get copyWith => __$SigninStateCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SigninState&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.contact, contact) || other.contact == contact)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.status, status) || other.status == status)&&(identical(other.isValid, isValid) || other.isValid == isValid)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SigninState&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.contact, contact) || other.contact == contact)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.admine, admine) || other.admine == admine)&&(identical(other.status, status) || other.status == status)&&(identical(other.isValid, isValid) || other.isValid == isValid)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,email,password,contact,errorMessage,status,isValid,isSubmitting);
+int get hashCode => Object.hash(runtimeType,email,password,contact,errorMessage,admine,status,isValid,isSubmitting);
 
 @override
 String toString() {
-  return 'SigninState(email: $email, password: $password, contact: $contact, errorMessage: $errorMessage, status: $status, isValid: $isValid, isSubmitting: $isSubmitting)';
+  return 'SigninState(email: $email, password: $password, contact: $contact, errorMessage: $errorMessage, admine: $admine, status: $status, isValid: $isValid, isSubmitting: $isSubmitting)';
 }
 
 
@@ -253,11 +264,11 @@ abstract mixin class _$SigninStateCopyWith<$Res> implements $SigninStateCopyWith
   factory _$SigninStateCopyWith(_SigninState value, $Res Function(_SigninState) _then) = __$SigninStateCopyWithImpl;
 @override @useResult
 $Res call({
- TextFormz email, TextFormz password, PhoneFormz contact, String errorMessage, FormzSubmissionStatus status, bool isValid, bool isSubmitting
+ TextFormz email, TextFormz password, PhoneFormz contact, String errorMessage, AuthenResponse admine, FormzSubmissionStatus status, bool isValid, bool isSubmitting
 });
 
 
-
+@override $AuthenResponseCopyWith<$Res> get admine;
 
 }
 /// @nodoc
@@ -270,20 +281,30 @@ class __$SigninStateCopyWithImpl<$Res>
 
 /// Create a copy of SigninState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? email = null,Object? password = null,Object? contact = null,Object? errorMessage = null,Object? status = null,Object? isValid = null,Object? isSubmitting = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? email = null,Object? password = null,Object? contact = null,Object? errorMessage = null,Object? admine = null,Object? status = null,Object? isValid = null,Object? isSubmitting = null,}) {
   return _then(_SigninState(
 email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as TextFormz,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as TextFormz,contact: null == contact ? _self.contact : contact // ignore: cast_nullable_to_non_nullable
 as PhoneFormz,errorMessage: null == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
-as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String,admine: null == admine ? _self.admine : admine // ignore: cast_nullable_to_non_nullable
+as AuthenResponse,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as FormzSubmissionStatus,isValid: null == isValid ? _self.isValid : isValid // ignore: cast_nullable_to_non_nullable
 as bool,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
 
-
+/// Create a copy of SigninState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AuthenResponseCopyWith<$Res> get admine {
+  
+  return $AuthenResponseCopyWith<$Res>(_self.admine, (value) {
+    return _then(_self.copyWith(admine: value));
+  });
+}
 }
 
 // dart format on

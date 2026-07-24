@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grace_church/core/extension/custome_extension.dart';
+import 'package:grace_church/core/moke/moke_data.dart';
 
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
@@ -52,10 +53,12 @@ class PrimaryButton extends StatelessWidget {
             ? SizedBox(
                 width: 24,
                 height: 24,
-                child: CircularProgressIndicator(
-                  color: context.appColor.primaryBlue,
-                  backgroundColor: context.appColor.primaryWhite,
-                ),
+                child:  CircularProgressIndicator.adaptive(
+                                      backgroundColor: C.border,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        C.gold,
+                                      ),
+                                    ),
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -149,7 +152,12 @@ class ShareButton extends StatelessWidget {
             ? const SizedBox(
                 width: 24,
                 height: 24,
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator.adaptive(
+                  backgroundColor: Colors.grey,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Colors.white,
+                  ),
+                ),
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,

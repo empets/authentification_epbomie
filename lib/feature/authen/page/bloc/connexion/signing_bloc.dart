@@ -5,6 +5,7 @@ import 'package:formz/formz.dart';
 import 'package:grace_church/core/extension/custome_extension.dart';
 import 'package:grace_church/core/extension/extention.dart';
 import 'package:grace_church/feature/authen/domaine/entities/request/authen_request.dart';
+import 'package:grace_church/feature/authen/domaine/entities/response/authen_response.dart';
 import 'package:grace_church/feature/authen/domaine/usercase/update_profile_deviceid_usercase.dart';
 import 'package:grace_church/feature/authen/page/bloc/connexion/event/signin_event.dart';
 import 'package:grace_church/feature/authen/page/bloc/connexion/state/signin_state.dart';
@@ -76,7 +77,7 @@ class SigningBloc extends Bloc<SigninEvent, SigninState> {
                 return state.copyWith(
                 errorMessage: profile.toString(),
                 status: FormzSubmissionStatus.success,
-                
+                admine: profile
               );
               },
             ),

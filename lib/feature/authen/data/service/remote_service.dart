@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart' as databaseReference;
 import 'package:grace_church/core/data_process/request/request.dart';
 import 'package:grace_church/core/data_process/success.dart';
+import 'package:grace_church/feature/authen/data/model/authen_model.dart';
 import 'package:grace_church/feature/authen/data/service/impl_remote_service.dart';
 import 'package:grace_church/feature/authen/domaine/entities/request/authen_request.dart';
 import 'package:grace_church/feature/dashboard/data/model/home_model.dart';
@@ -612,41 +613,61 @@ class ImplRemoteService implements AuthenRemoteService {
 /// • Enregistrement du `menberId` dans SharedPreferences (`menberkey`).
 /// • Retour de l'identifiant utilisateur via [FirebaseSuccess].
 /// • Encapsulation des erreurs dans [FirebaseError].
-  @override
-  Future<FirebaseResult<String?>> createSignIn(
-    RequestAuthenSignIn params,
-  ) async {
-    try {
-      final emailSnapshot = await db
-          .child('menber')
-          .orderByChild('email')
-          .equalTo(params.email)
-          .get();
+@override
+Future<FirebaseResult<AuthenResponseModel>> createSignIn(
+  RequestAuthenSignIn params,
+) async {
+  try {
+    final emailSnapshot = await db
+        .child('emsecteur')
+        .orderByChild('email')
+        .equalTo(params.email)
+        .get();
 
-      final data = emailSnapshot.value as Map<dynamic, dynamic>;
+    if (!emailSnapshot.exists) {
+      return FirebaseError('Aucun utilisateur trouver');
+    }
 
-      if (data.isNotEmpty) {
-        final user = data.values.firstWhere(
+    final rawValue = emailSnapshot.value;
+    final List<dynamic> values;
+
+    if (rawValue is Map) {
+      values = rawValue.values.toList();
+    } else if (rawValue is List) {
+      values = rawValue.where((e) => e != null).toList();
+    } else {
+      return FirebaseError('Aucun utilisateur trouver');
+    }
+
+    if (values.isEmpty) {
+      return FirebaseError('Aucun utilisateur trouver');
+    }
+
+    final user = values.cast<Map<dynamic, dynamic>>().firstWhere(
           (x) =>
               x['email'] == params.email &&
               x['password'] == params.password &&
               x['contact'] == params.contact,
+          orElse: () => {},
         );
-        if (user != null) {
-          log("--->>User: ${user['menberId']}");
-          final shared = await shareData.SharedPreferences.getInstance();
-          await shared.setString('menberkey', user['menberId']);
-          return FirebaseSuccess(user['menberId']);
-        }
-      }
 
+    if (user.isEmpty) {
       return FirebaseError('Aucun utilisateur trouver');
-    } catch (e) {
-      log('🔥Error getting profile: $e');
-      return FirebaseError('${e.toString()}');
     }
+
+    final userMap = Map<String, dynamic>.from(user);
+
+    final model = AuthenResponseModel.fromJson(userMap);
+
+    final shared = await shareData.SharedPreferences.getInstance();
+    await shared.setString('menberkey', userMap['menberId'] ?? '');
+
+    return FirebaseSuccess(model);
+  } catch (e) {
+    log('🔥Error getting profile: $e');
+    return FirebaseError('${e.toString()}');
   }
-  
+}
 /// -------------------------- Method:[updateProfileId] --------------------------------------------
 /// Description:
 /// Met à jour l'identifiant utilisateur associé à un profil dans

@@ -5,9 +5,11 @@ import 'package:grace_church/core/bloc_state/bloc_state.dart';
 import 'package:grace_church/core/build_screen/building_screen.dart';
 import 'package:grace_church/core/extension/extention.dart';
 import 'package:grace_church/core/moke/moke_data.dart';
+import 'package:grace_church/feature/authen/domaine/entities/response/authen_response.dart';
 import 'package:grace_church/feature/dashboard/domaine/entities/response/home_response.dart';
 import 'package:grace_church/feature/dashboard/presentation/bloc/get_presence/get_presence_bloc.dart';
 import 'package:grace_church/feature/dashboard/presentation/bloc/get_profile/get_profile_bloc.dart';
+import 'package:grace_church/feature/dashboard/presentation/bloc/guest/guest_list_bloc.dart';
 import 'package:grace_church/feature/dashboard/presentation/pages/evenement/evenement_card.dart';
 import 'package:grace_church/feature/dashboard/presentation/pages/graphes/goupe_pie_card.dart';
 import 'package:grace_church/feature/dashboard/presentation/pages/graphes/presence_graphe.dart';
@@ -18,7 +20,8 @@ import 'package:grace_church/feature/dashboard/presentation/pages/menu/menu_side
 import 'package:grace_church/feature/dashboard/presentation/pages/menu/widget/side_bar_component.dart';
 
 class DashboardPage extends StatefulWidget {
-  const DashboardPage({super.key});
+  const DashboardPage({super.key, required this.admine});
+  final AuthenResponse admine;
   @override
   State<DashboardPage> createState() => _DashboardPageState();
 }
@@ -68,7 +71,7 @@ class _DashboardPageState extends State<DashboardPage> {
       body: Row(
         children: [
           // ── Sidebar ────────────────────────────────────────────────────────────────
-          BuildSideBar(navItems: _navItems),
+          BuildSideBar(navItems: _navItems, admine: widget.admine),
           Expanded(
             child: BlocBuilder<GetProfileBloc, ApiState<List<ProfileResponse>>>(
               builder: (context, state) {
@@ -445,20 +448,19 @@ class _DashboardPageState extends State<DashboardPage> {
                     ),
                     const SizedBox(width: 16),
                     BlocBuilder<
-                      GetPresenceListBloc,
-                      ApiState<List<PresenceResponse>>
+                      GuestListBloc,
+                      ApiState<List<GuestResponse>>
                     >(
                       builder: (context, presenceState) {
-                        int totalVisitors = 0;
+                       
                         if (presenceState
-                            is SuccessState<List<PresenceResponse>>) {
-                          totalVisitors = presenceState.data.length;
-                        }
-                        return KpiCard(
+                            is SuccessState<List<GuestResponse>>) {
+                          final totalVisiteur = presenceState.data.length;
+                           return  KpiCard(
                           label: "Visiteurs",
-                          value: totalVisitors.toString(),
+                          value: totalVisiteur.toString(),
                           delta:
-                              "${(totalVisitors / 100 * 12).round()}% du total",
+                              "${(totalVisiteur / 100 * 12).round()}% du total",
                           icon: Icons.volunteer_activism_outlined,
                           color: C.greenLight,
                           isLocked: false,
@@ -467,13 +469,24 @@ class _DashboardPageState extends State<DashboardPage> {
                             totalVisitors,
                           ),
                         );
+                        }
+                        
+                        return KpiCard(
+                          label: "Visiteurs",
+                          value: '0',
+                          delta: "N/A% du total",
+                          icon: Icons.volunteer_activism_outlined,
+                          color: C.greenLight,
+                          isLocked: false,
+                          trendIcon: Icons.lock,
+                        );
                       },
                     ),
                     const SizedBox(width: 16),
                     KpiCard(
                       label: "Groupes & Cellules",
-                      value: "14",
-                      delta: "5 catégories",
+                      value: "0",
+                      delta: "0 catégories",
                       icon: Icons.groups,
                       color: C.violet,
                       isLocked: true,
@@ -482,8 +495,8 @@ class _DashboardPageState extends State<DashboardPage> {
                     const SizedBox(width: 16),
                     KpiCard(
                       label: "Événements ce mois",
-                      value: "9",
-                      delta: "+2 vs juillet",
+                      value: "0",
+                      delta: "0 vs juillet",
                       icon: Icons.event_available,
                       color: C.blue,
                       isLocked: true,

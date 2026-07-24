@@ -62,6 +62,20 @@ abstract class PresenceResponse with _$PresenceResponse {
       _$PresenceResponseFromJson(json);
 }
 
+// guest presence response
+@freezed
+abstract class GuestResponse with _$GuestResponse {
+  factory GuestResponse({
+    required String id,
+    required int contact,
+    required int name,
+    required int secondContact,
+    required String date,
+  }) = _GuestResponse;
+  factory GuestResponse.fromJson(Map<String, dynamic> json) =>
+      _$GuestResponseFromJson(json);
+}
+
 
 
 

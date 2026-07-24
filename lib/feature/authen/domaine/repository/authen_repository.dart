@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:grace_church/core/api/failure/fail.dart';
 import 'package:grace_church/feature/authen/domaine/entities/request/authen_request.dart';
+import 'package:grace_church/feature/authen/domaine/entities/response/authen_response.dart';
 import 'package:grace_church/feature/dashboard/domaine/entities/request/home_request.dart';
 import 'package:grace_church/feature/dashboard/domaine/entities/response/home_response.dart';
 import 'package:grace_church/feature/depatement/cellule/domaine/entities/request/cellule_request.dart';
@@ -46,7 +47,7 @@ abstract class AuthenRepository {
   // il prend en paramètre un objet RequestAuthenSignIn qui contient les parametre de la requette 
   // il retourne un objet String? qui contient l'id de la connexion cree ou mis a jour
   // ---------------------------------------------------------------------------------------------
-  Future<Either<Failure, String?>> createSignIn(RequestAuthenSignIn request);
+  Future<Either<Failure, AuthenResponse>> createSignIn(RequestAuthenSignIn request);
   
   // ---------------------------------------------------------------------------------------------
   // Cette permet de mettre a jour le device id apres la sign 

@@ -1,3 +1,4 @@
+
 import 'package:grace_church/core/data_process/success.dart';
 import 'package:grace_church/feature/dashboard/data/model/home_model.dart';
 import 'package:grace_church/feature/dashboard/domaine/entities/request/home_request.dart'
@@ -37,6 +38,13 @@ abstract class DomaineServiceRepository {
     RequestGetProfile notParms,
   );
 
+
+ // -------------------------------------------------------------
+  //  cette methode permet de recuperer la presence des invités
+  //  elle prend en parametre un objet EmptyRequest qui ne contient rien
+  //  elle retourne un objet GuestResponse qui contient la presence des invités
+  // -------------------------------------------------------------
+  Future<FirebaseResult<List<GuestResponseModel>>> getGuestList(RequestGetProfile notParms);
    
 
 }

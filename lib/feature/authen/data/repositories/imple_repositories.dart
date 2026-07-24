@@ -4,8 +4,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:grace_church/core/api/failure/fail.dart';
 import 'package:grace_church/core/data_process/success.dart';
+import 'package:grace_church/feature/authen/data/model/authen_model.dart';
 import 'package:grace_church/feature/authen/data/service/impl_remote_service.dart';
 import 'package:grace_church/feature/authen/domaine/entities/request/authen_request.dart';
+import 'package:grace_church/feature/authen/domaine/entities/response/authen_response.dart';
 import 'package:grace_church/feature/authen/domaine/repository/authen_repository.dart';
 import 'package:grace_church/feature/dashboard/domaine/entities/request/home_request.dart';
 import 'package:grace_church/feature/depatement/cellule/domaine/entities/request/cellule_request.dart';
@@ -96,15 +98,13 @@ class ImpleAuthenRepository implements AuthenRepository {
   }
 
   @override
-  Future<Either<Failure,String?>> createSignIn(
+  Future<Either<Failure,AuthenResponse>> createSignIn(
     RequestAuthenSignIn request,
   ) async {
     final response = await authenRemoteService.createSignIn(request);
-    if (response is FirebaseSuccess<String?>) {
-      final shared = await SharedPreferences.getInstance();
-      await shared.setString('menberkey', response.data ?? '');
-      return Right(response.data);
-    } else if (response is FirebaseError<String?>) {
+    if (response is FirebaseSuccess<AuthenResponseModel>) {
+      return Right(AuthenResponseModel.domaine(response.data));
+    } else if (response is FirebaseError<AuthenResponseModel>) {
       return Left(Failure(message: response.message));
     }
     return Left(Failure(message: "Erreur inconnue"));

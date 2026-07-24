@@ -103,3 +103,21 @@ Map<String, dynamic> _$PresenceResponseToJson(_PresenceResponse instance) =>
       'date': instance.date,
       'time': instance.time,
     };
+
+_GuestResponse _$GuestResponseFromJson(Map<String, dynamic> json) =>
+    _GuestResponse(
+      id: json['id'] as String,
+      contact: (json['contact'] as num).toInt(),
+      name: (json['name'] as num).toInt(),
+      secondContact: (json['secondContact'] as num).toInt(),
+      date: json['date'] as String,
+    );
+
+Map<String, dynamic> _$GuestResponseToJson(_GuestResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'contact': instance.contact,
+      'name': instance.name,
+      'secondContact': instance.secondContact,
+      'date': instance.date,
+    };

@@ -26,3 +26,14 @@ samples, guidance on mobile development, and a full API reference.
 [https://epbomie.web.app](https://epbomie.web.app)
 
 
+
+-------------------- FIREBASE DB --------------------
+# BASH cellule :
+  elle stocke les informations des invités chaque dimanche
+# BASH emsecteur :
+  elle stocke les informations sur l'acces des administrateurs
+# BASH emzone :
+  elle stocke les informations sur le nombre de présences par dimanche
+# BASH menber : 
+  elle stocke les données des menbre
+

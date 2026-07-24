@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grace_church/core/extension/custome_extension.dart';
+import 'package:grace_church/core/moke/moke_data.dart';
 
 class AppAlert {
   static void showSuccess(
@@ -192,6 +193,163 @@ class AppAlert {
       },
     );
   }
+
+     static void showErrorOnSheetBotton(
+    BuildContext context,
+    String message, {
+    IconData? iconRight,
+    IconData? icon,
+    String? imageIcon,
+    Duration duration = const Duration(seconds: 3),
+    bool showOnTop = false,
+    EdgeInsetsGeometry? margin,
+  }) {
+    showOverlayMessage(
+      context,
+      message: message,
+      backgroundColor: Colors.red,
+      icon: Icons.error,
+      iconRight: iconRight,
+      imageIcon: imageIcon,
+      duration: duration,
+    );
+  }
+
+  static void showSuccessOnSheetBotton(
+    BuildContext context,
+    String message, {
+    IconData? iconRight,
+    IconData? icon,
+    String? imageIcon,
+    Duration duration = const Duration(seconds: 3),
+    bool showOnTop = false,
+    EdgeInsetsGeometry? margin,
+  }) {
+    showOverlayMessage(
+      context,
+      message: message,
+      backgroundColor: C.greenLight,
+      icon: Icons.check_circle,
+      iconRight: iconRight,
+      imageIcon: imageIcon,
+      duration: duration,
+    );
+  }
+
+
+
+
+
+
+    /// Fonction générique pour afficher une snackbar personnalisée au dessur de sheetBoutto,
+  ///
+  /// [context] : le BuildContext de la vue actuelle.
+  /// [message] : le texte à afficher.
+  /// [icon] : une icône optionnelle (ex: Icons.error, Icons.check_circle).
+  /// [backgroundColor] : la couleur de fond de la snackbar.
+  /// [duration] : durée d’affichage (par défaut 3 secondes).
+  ///
+  static void showOverlayMessage(
+    BuildContext context, {
+    required String message,
+    Duration duration = const Duration(seconds: 3),
+    Color backgroundColor = Colors.red,
+    IconData? icon,
+    IconData? iconRight,
+    String? imageIcon,
+  }) {
+    final overlay = Overlay.of(context);
+    late OverlayEntry overlayEntry;
+
+    overlayEntry = OverlayEntry(
+      builder: (context) {
+        return Positioned(
+          left: 16,
+          right: 16,
+          bottom: 24,
+          child: IgnorePointer(
+            child: Material(
+              color: Colors.transparent,
+              child: SafeArea(
+                child: AnimatedOpacity(
+                  opacity: 1,
+                  duration: const Duration(seconds: 3),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 7.w,
+                      vertical: 9.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: backgroundColor,
+                      borderRadius: BorderRadius.circular(6.r),
+                      boxShadow: const [
+                        BoxShadow(
+                          blurRadius: 4,
+                          color: Colors.black26,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        if (icon != null) ...[
+                          Icon(icon, color: Colors.white),
+                          SizedBox(width: 10.w),
+                        ],
+                        if (imageIcon != null && imageIcon.isNotEmpty) ...[
+                          SvgPicture.asset(imageIcon),
+                          SizedBox(width: 10.w),
+                        ],
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsetsGeometry.symmetric(
+                              horizontal: 7.w,
+                              vertical: 3.h,
+                            ),
+                            child: Text(
+                              message,
+                              style: context.appTypographie.body.copyWith(
+                                color: Colors.white,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                        if (iconRight != null) ...[
+                          IconButton(
+                            onPressed: () {
+                              ScaffoldMessenger.of(context)
+                                  .hideCurrentSnackBar();
+                            },
+                            icon: Icon(iconRight, color: Colors.white),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+
+    overlay.insert(overlayEntry);
+    Future.delayed(duration, () {
+      overlayEntry.remove();
+    });
+  }
+
+
+
+
+
+
+
+
+
+
 }
 
 class AppBottomSheet {
@@ -398,6 +556,168 @@ class AppGeneretedColors {
       _random.nextInt(256),
       _random.nextInt(256),
       _random.nextInt(256),
+    );
+  }
+
+
+
+ 
+
+}
+
+
+
+class TopToast {
+  static OverlayEntry? _currentEntry;
+
+  static void showError(
+    BuildContext context, {
+    required String message,
+    Duration duration = const Duration(seconds: 3),
+  }) {
+    _show(
+      context,
+      message: message,
+      backgroundColor: Colors.red.shade600,
+      icon: Icons.error_outline,
+      duration: duration,
+    );
+  }
+
+  static void showSuccess(
+    BuildContext context, {
+    required String message,
+    Duration duration = const Duration(seconds: 3),
+  }) {
+    _show(
+      context,
+      message: message,
+      backgroundColor: Colors.green.shade600,
+      icon: Icons.check_circle_outline,
+      duration: duration,
+    );
+  }
+
+  static void _show(
+    BuildContext context, {
+    required String message,
+    required Color backgroundColor,
+    required IconData icon,
+    required Duration duration,
+  }) {
+    _currentEntry?.remove();
+    _currentEntry = null;
+
+    final overlay = Overlay.of(context, rootOverlay: true);
+    late OverlayEntry entry;
+
+    entry = OverlayEntry(
+      builder: (context) => _ToastWidget(
+        message: message,
+        backgroundColor: backgroundColor,
+        icon: icon,
+        duration: duration,
+        onDismissed: () {
+          entry.remove();
+          if (_currentEntry == entry) _currentEntry = null;
+        },
+      ),
+    );
+
+    _currentEntry = entry;
+    overlay.insert(entry);
+  }
+}
+
+class _ToastWidget extends StatefulWidget {
+  final String message;
+  final Color backgroundColor;
+  final IconData icon;
+  final Duration duration;
+  final VoidCallback onDismissed;
+
+  const _ToastWidget({
+    required this.message,
+    required this.backgroundColor,
+    required this.icon,
+    required this.duration,
+    required this.onDismissed,
+  });
+
+  @override
+  State<_ToastWidget> createState() => _ToastWidgetState();
+}
+
+class _ToastWidgetState extends State<_ToastWidget>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<Offset> _offsetAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 250),
+    );
+    _offsetAnim = Tween<Offset>(
+      begin: const Offset(0, -1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+
+    _controller.forward();
+
+    Future.delayed(widget.duration, () async {
+      if (!mounted) return;
+      await _controller.reverse();
+      widget.onDismissed();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: MediaQuery.of(context).padding.top + 8,
+      left: 16,
+      right: 16,
+      child: SlideTransition(
+        position: _offsetAnim,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: widget.backgroundColor,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.15),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                Icon(widget.icon, color: Colors.white),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    widget.message,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -46,6 +46,8 @@ import '../../feature/dashboard/data/service/steam_remote_service.dart'
     as _i204;
 import '../../feature/dashboard/domaine/repository/home_domain_repository.dart'
     as _i245;
+import '../../feature/dashboard/domaine/usercase/get_guest_list_usercase.dart'
+    as _i837;
 import '../../feature/dashboard/domaine/usercase/get_presence_list_usercase.dart'
     as _i391;
 import '../../feature/dashboard/domaine/usercase/get_profile_usercase.dart'
@@ -56,6 +58,8 @@ import '../../feature/dashboard/presentation/bloc/get_presence/get_presence_bloc
     as _i648;
 import '../../feature/dashboard/presentation/bloc/get_profile/get_profile_bloc.dart'
     as _i811;
+import '../../feature/dashboard/presentation/bloc/guest/guest_list_bloc.dart'
+    as _i1046;
 import '../../feature/dashboard/presentation/pages/kpi/bloc/menber_kpi_bloc.dart'
     as _i735;
 import '../../feature/depatement/cellule/data/repositories/cellule_imple_repositories.dart'
@@ -198,6 +202,9 @@ extension GetItInjectableX on _i174.GetIt {
         domaineServiceRepository: gh<_i941.DomaineServiceRepository>(),
       ),
     );
+    gh.lazySingleton<_i837.GetGuestListUsercase>(
+      () => _i837.GetGuestListUsercase(gh<_i245.HomeDomaineRepository>()),
+    );
     gh.lazySingleton<_i391.GetPresenceListUsercase>(
       () => _i391.GetPresenceListUsercase(gh<_i245.HomeDomaineRepository>()),
     );
@@ -247,6 +254,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i702.GetRapportCelluleBloc>(
       () => _i702.GetRapportCelluleBloc(
         getRapportCelluleUsercase: gh<_i577.GetRapportCelluleUsercase>(),
+      ),
+    );
+    gh.lazySingleton<_i1046.GuestListBloc>(
+      () => _i1046.GuestListBloc(
+        getGuestListUsercase: gh<_i837.GetGuestListUsercase>(),
       ),
     );
     gh.lazySingleton<_i811.GetProfileBloc>(

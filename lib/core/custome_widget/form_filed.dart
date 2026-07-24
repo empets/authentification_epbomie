@@ -68,7 +68,7 @@ class ProductionFormCustomer extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
         ),
-        SizedBox(height: 3.h),
+    
         TextFormField(
           readOnly: readOnly ?? false,
           controller: controller,
@@ -146,7 +146,7 @@ class ProductionFormCustomer extends StatelessWidget {
             ),
             hintStyle: GoogleFonts.roboto(
               color: const Color(0xFF888888),
-              fontSize: 14.sp,
+              fontSize: 12,
               fontWeight: FontWeight.w400,
             ),
             fillColor: Colors.grey.shade50,

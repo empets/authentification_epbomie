@@ -51,11 +51,15 @@ class PhoneFormz extends FormzInput<String, EmailFormzValidationError> {
   const PhoneFormz.dirty([super.value = '']) : super.dirty();
   const PhoneFormz.pure() : super.pure('');
 
+  static final RegExp _digitsOnly = RegExp(r'^[0-9]+$');
+
   @override
   EmailFormzValidationError? validator(String value) {
     final result = value.trim();
 
-    return result.isNotEmpty && result.length == 10
+    return result.isNotEmpty &&
+            result.length == 10 &&
+            _digitsOnly.hasMatch(result)
         ? null
         : EmailFormzValidationError.empty;
   }

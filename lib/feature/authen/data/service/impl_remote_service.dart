@@ -1,4 +1,5 @@
 import 'package:grace_church/core/data_process/success.dart';
+import 'package:grace_church/feature/authen/data/model/authen_model.dart';
 import 'package:grace_church/feature/authen/domaine/entities/request/authen_request.dart';
 import 'package:grace_church/feature/dashboard/data/model/home_model.dart';
 import 'package:grace_church/feature/depatement/cellule/domaine/entities/request/cellule_request.dart';
@@ -35,7 +36,7 @@ abstract class AuthenRemoteService {
   // il prend en paramètre un objet RequestAuthenSignIn qui contient les parametre de la requette 
   // il retourne un objet String? qui contient l'id de la connexion cree ou mis a jour
   // ---------------------------------------------------------------------------------------------
-  Future<FirebaseResult<String?>> createSignIn(RequestAuthenSignIn params);
+  Future<FirebaseResult<AuthenResponseModel>> createSignIn(RequestAuthenSignIn params);
   
   // ---------------------------------------------------------------------------------------------
   // Cette permet de mettre a jour le profile 

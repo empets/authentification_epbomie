@@ -4,14 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grace_church/core/build_screen/building_screen.dart';
 import 'package:grace_church/core/extension/custome_extension.dart';
 import 'package:grace_church/core/moke/moke_data.dart';
+import 'package:grace_church/feature/authen/domaine/entities/response/authen_response.dart';
 import 'package:grace_church/feature/authen/page/login.dart';
 import 'package:grace_church/feature/dashboard/presentation/pages/menu/widget/side_bar_component.dart';
 import 'package:grace_church/gen/assets.gen.dart';
 
 class BuildSideBar extends StatefulWidget {
-  const BuildSideBar({super.key, required this.navItems});
+  const BuildSideBar({super.key, required this.navItems, required this.admine});
 
   final List<NavItem> navItems;
+  final AuthenResponse admine;
 
   @override
   State<BuildSideBar> createState() => _BuildSideBarState();
@@ -188,58 +190,58 @@ class _BuildSideBarState extends State<BuildSideBar> {
           const SizedBox(height: 12),
 
           // User card
-          // Padding(
-          //   padding: const EdgeInsets.fromLTRB(12, 0, 12, 16),
-          //   child: Container(
-          //     padding: const EdgeInsets.all(12),
-          //     decoration: BoxDecoration(
-          //       color: C.gold.withValues(alpha: 0.08),
-          //       borderRadius: BorderRadius.circular(12),
-          //       border: Border.all(color: C.gold.withValues(alpha: 0.15)),
-          //     ),
-          //     child: Row(
-          //       children: [
-          //         CircleAvatar(
-          //           radius: 16,
-          //           backgroundColor: C.gold,
-          //           child: const Text(
-          //             "JP",
-          //             style: TextStyle(
-          //               color: Colors.white,
-          //               fontSize: 11,
-          //               fontWeight: FontWeight.bold,
-          //             ),
-          //           ),
-          //         ),
-          //         const SizedBox(width: 10),
-          //         Expanded(
-          //           child: Column(
-          //             crossAxisAlignment: CrossAxisAlignment.start,
-          //             children: [
-          //               Text(
-          //                 "Past. Jean-Pierre",
-          //                 style: TextStyle(
-          //                   color: C.sidebarText,
-          //                   fontSize: 11,
-          //                   fontWeight: FontWeight.w600,
-          //                 ),
-          //               ),
-          //               Text(
-          //                 "Administrateur",
-          //                 style: TextStyle(color: C.sidebarMuted, fontSize: 10),
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //         Icon(
-          //           Icons.shield_outlined,
-          //           color: C.gold.withOpacity(0.7),
-          //           size: 14,
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 0, 12, 16),
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: C.gold.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: C.gold.withValues(alpha: 0.15)),
+              ),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 16,
+                    backgroundColor: C.gold,
+                    child: const Text(
+                      "JP",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.admine.nom,
+                          style: TextStyle(
+                            color: C.sidebarText,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          widget.admine.role,
+                          style: TextStyle(color: C.sidebarMuted, fontSize: 10),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(
+                    Icons.shield_outlined,
+                    color: C.gold.withOpacity(0.7),
+                    size: 14,
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

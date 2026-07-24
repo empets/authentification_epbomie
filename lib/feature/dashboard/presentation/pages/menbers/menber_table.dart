@@ -36,14 +36,13 @@ class MembresTable extends StatelessWidget {
                     color: C.dark,
                   ),
                 ),
-                Text(
-                  "Voir tout →",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: C.gold,
-                    fontWeight: FontWeight.w600,
-                  ),
+                Icon(
+                  Icons.filter_list,
+                  color: Colors.grey.shade300,
+                  size: 20,
+                  fontWeight: FontWeight.w600,
                 ),
+            
               ],
             ),
           ),

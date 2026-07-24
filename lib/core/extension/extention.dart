@@ -12,6 +12,8 @@ import 'package:intl/intl.dart';
 import 'package:crypto/crypto.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform;
+
 
 
 
@@ -394,36 +396,41 @@ Future<FirebaseResult<String?>> updateForKey({
 bool isValidDiscipleStatusBaptiserOrNon(String value) {
   return RegExp(r'^(Oui|Non)$', caseSensitive: false).hasMatch(value.trim());
 }
-
 Future<String> getDeviceFingerprint() async {
   final deviceInfo = DeviceInfoPlugin();
   String raw = '';
 
-  if (Platform.isAndroid) {
+  if (kIsWeb) {
+    final info = await deviceInfo.webBrowserInfo;
+    raw = [
+      info.userAgent ?? '',
+      info.vendor ?? '',
+      info.platform ?? '',
+      info.hardwareConcurrency?.toString() ?? '',
+    ].join('|');
+  } else if (defaultTargetPlatform == TargetPlatform.android) {
     final info = await deviceInfo.androidInfo;
     raw = [
       info.id, // ANDROID_ID
-      info.model, // ex: "Samsung Galaxy S23"
-      info.brand, // ex: "samsung"
-      info.hardware, // ex: "qcom"
-      info.fingerprint, // build fingerprint unique
+      info.model,
+      info.brand,
+      info.hardware,
+      info.fingerprint,
     ].join('|');
-  } else if (Platform.isIOS) {
+  } else if (defaultTargetPlatform == TargetPlatform.iOS) {
     final info = await deviceInfo.iosInfo;
     raw = [
       info.identifierForVendor ?? '',
-      info.model, // ex: "iPhone14,3"
+      info.model,
       info.systemVersion,
       info.name,
     ].join('|');
   }
 
-  // Hash SHA-256 → token propre pour l'auth
   final bytes = utf8.encode(raw);
   final hash = sha256.convert(bytes);
-  return hash.toString(); // ex: "a3f1c8d2..."
+  return hash.toString();
 }
-
 // 20 mars 2025 à 14:30
 String formatDate(String date) {
   DateTime dateTime = DateTime.parse(date);

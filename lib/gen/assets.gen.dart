@@ -24,14 +24,38 @@ class $AssetsAlerteGen {
 class $AssetsAuthGen {
   const $AssetsAuthGen();
 
+  /// File path: assets/auth/github.svg
+  String get github => 'assets/auth/github.svg';
+
+  /// File path: assets/auth/linkedin.svg
+  String get linkedin => 'assets/auth/linkedin.svg';
+
+  /// File path: assets/auth/profile_background.svg
+  String get profileBackground => 'assets/auth/profile_background.svg';
+
+  /// File path: assets/auth/profile_image.png
+  AssetGenImage get profileImage =>
+      const AssetGenImage('assets/auth/profile_image.png');
+
   /// File path: assets/auth/sign_in.svg
   String get signIn => 'assets/auth/sign_in.svg';
 
   /// File path: assets/auth/undraw_join_niai.svg
   String get undrawJoinNiai => 'assets/auth/undraw_join_niai.svg';
 
+  /// File path: assets/auth/whatsapp.svg
+  String get whatsapp => 'assets/auth/whatsapp.svg';
+
   /// List of all assets
-  List<String> get values => [signIn, undrawJoinNiai];
+  List<dynamic> get values => [
+    github,
+    linkedin,
+    profileBackground,
+    profileImage,
+    signIn,
+    undrawJoinNiai,
+    whatsapp,
+  ];
 }
 
 class $AssetsBuildingScreenGen {

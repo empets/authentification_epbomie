@@ -54,6 +54,8 @@ import '../../feature/dashboard/domaine/usercase/get_profile_usercase.dart'
     as _i729;
 import '../../feature/dashboard/presentation/bloc/app_launcher/app_launcher_bloc.dart'
     as _i304;
+import '../../feature/dashboard/presentation/bloc/dashboard_manager/dashbord_bloc.dart'
+    as _i846;
 import '../../feature/dashboard/presentation/bloc/get_presence/get_presence_bloc.dart'
     as _i648;
 import '../../feature/dashboard/presentation/bloc/get_profile/get_profile_bloc.dart'
@@ -108,6 +110,7 @@ extension GetItInjectableX on _i174.GetIt {
   }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final injectableModule = _$InjectableModule();
+    gh.factory<_i846.DashboardBloc>(() => _i846.DashboardBloc());
     gh.lazySingleton<_i345.DatabaseReference>(() => injectableModule.userDb);
     gh.lazySingleton<_i519.Client>(() => injectableModule.httpClient);
     gh.lazySingleton<_i558.FlutterSecureStorage>(() => injectableModule.prefs);

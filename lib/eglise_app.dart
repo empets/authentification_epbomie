@@ -8,6 +8,7 @@ import 'package:grace_church/core/style/app_theme.dart';
 import 'package:grace_church/feature/authen/domaine/usercase/signin_profile.dart';
 import 'package:grace_church/feature/authen/domaine/usercase/update_profile_deviceid_usercase.dart';
 import 'package:grace_church/feature/authen/page/bloc/connexion/signing_bloc.dart';
+import 'package:grace_church/feature/authen/page/dev_profile.dart';
 import 'package:grace_church/feature/authen/page/login.dart';
 import 'package:grace_church/feature/dashboard/domaine/usercase/get_guest_list_usercase.dart';
 import 'package:grace_church/feature/dashboard/domaine/usercase/get_presence_list_usercase.dart';
@@ -40,10 +41,7 @@ class EgliseApp extends StatelessWidget {
             ),
             BlocProvider(create: (context) => MenberKpiBloc(getProfileUsercase: getIt<GetProfileUsercase>())..add(const ProfileEvent.fetchProfileAll())),
             BlocProvider(create: (context) => GetPresenceListBloc(getPresenceListUsercase: getIt<GetPresenceListUsercase>())..add(const ProfileEvent.fetchProfileAll())),
-            BlocProvider(create: (context) => SigningBloc(
-              createSignInProfileUsercase: getIt<CreateSignInProfileUsercase>(),
-              updateProfileDeviceIdUsercase: getIt<UpdateProfileDeviceIdUsercase>(),
-            )),
+        
              BlocProvider(create: (context) => GuestListBloc(
               getGuestListUsercase: getIt<GetGuestListUsercase>(),
             )..add(const ProfileEvent.fetchProfileAll())),
@@ -63,7 +61,9 @@ class EgliseApp extends StatelessWidget {
                 AppTypographieTheme.appTheme,
               ],
             ),
-            home: const LoginPage(),
+            home: const 
+          LoginPage(),
+            // DevProfile(),
             //  ScreenTypeLayout(
             //   mobile: MenbersOverview(),
             //   desktop: MenbersOverview(),
@@ -74,3 +74,7 @@ class EgliseApp extends StatelessWidget {
     );
   }
 }
+
+
+
+

@@ -190,6 +190,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^28.1.37
   responsive_builder: ^0.7.1
   fl_chart: ^1.2.0
+  simple_icons: ^16.23.0
   # workmanager: ^0.5.2
 
 

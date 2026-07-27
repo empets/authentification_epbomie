@@ -5,14 +5,14 @@ import 'package:grace_church/core/moke/moke_data.dart';
 import 'package:grace_church/feature/dashboard/presentation/pages/evenement/widget/evenement_title.dart';
 
 class EvenementsCard extends StatelessWidget {
-  const EvenementsCard();
+  const EvenementsCard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(38),
           decoration: BoxDecoration(
             color: C.card,
             borderRadius: BorderRadius.circular(16),

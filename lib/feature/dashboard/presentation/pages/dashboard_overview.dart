@@ -43,24 +43,6 @@ class _DashboardPageState extends State<DashboardPage> {
     // NavItem(icon: Icons.child_care_outlined, label: "Enfants"),
   ];
 
-  // list de presence par dimanche
-
-  int _getPresenceDernierDimanche(List<PresenceResponse> rapportsDepresence) {
-    final dimanches = rapportsDepresence.where((r) {
-      final d = DateTime.tryParse(r.date);
-      return d != null && d.weekday == DateTime.sunday;
-    }).toList();
-
-    if (dimanches.isEmpty) return 0;
-
-    dimanches.sort(
-      (a, b) => DateTime.parse(b.date).compareTo(DateTime.parse(a.date)),
-    );
-
-    final dernier = dimanches.first;
-    return dernier.totalHomme + dernier.totalFemme + dernier.totalEnfant;
-  }
-
   @override
   void dispose() {
     _searchController.dispose();
@@ -635,140 +617,147 @@ class _DashboardPageState extends State<DashboardPage> {
           BlocBuilder<DashboardBloc, DashboardState>(
             builder: (context, dashboardState) {
               return AnimatedSwitcher(
-            duration: const Duration(milliseconds: 400),
-              transitionBuilder: (child, animation) {
-                final slideAnimation = Tween<Offset>(
-                  begin: const Offset(0.20, 0), // glissement plus prononcé (était 0.05)
-                  end: Offset.zero,
-                ).animate(CurvedAnimation(
-                  parent: animation,
-                  curve: Curves.easeOut,
-                ));
+                duration: const Duration(milliseconds: 400),
+                transitionBuilder: (child, animation) {
+                  final slideAnimation =
+                      Tween<Offset>(
+                        begin: const Offset(
+                          0.20,
+                          0,
+                        ), // glissement plus prononcé (était 0.05)
+                        end: Offset.zero,
+                      ).animate(
+                        CurvedAnimation(
+                          parent: animation,
+                          curve: Curves.easeOut,
+                        ),
+                      );
 
-                return FadeTransition(
-                  opacity: animation,
-                  child: SlideTransition(
-                    position: slideAnimation,
-                    child: child,
-                  ),
-                );
-              },
+                  return FadeTransition(
+                    opacity: animation,
+                    child: SlideTransition(
+                      position: slideAnimation,
+                      child: child,
+                    ),
+                  );
+                },
                 child: Column(
-                children: [
-                  switch (dashboardState.selectedMenu) {
-                    DashboardMenu.presence => // Charts row
-                    Row(
-                         key: const ValueKey('presence'),
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // ── Presence Chart ────────────────────────────────────────────────────────────
-                        Expanded(
-                          flex: 2,
-                          child:
-                              BlocBuilder<
-                                GetPresenceListBloc,
-                                ApiState<List<PresenceResponse>>
-                              >(
-                                builder: (context, state) {
-                                  if (state
-                                      is SuccessState<List<PresenceResponse>>) {
-                                    final data = state.data;
-                                    return PresenceEvolutionCard(
-                                      rapports: data,
-                                    );
-                                  }
-                                  return const PresenceEvolutionCard(
-                                    rapports: [],
-                                  );
-                                },
-                              ),
-                        ),
-                        const SizedBox(width: 16),
-                        // ── Pie Card ──────────────────────────────────────────────────────────────────
-                        SizedBox(
-                          width: 220,
-                          child: GroupePieCard(profile: profile),
-                        ),
-                      ],
-                    ),
-
-                    DashboardMenu.membres => Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          key: const ValueKey('membres'),
-                          child: MembresTable(membres: filteredMembres),
-                        ),
-                      ],
-                    ),
-
-                    DashboardMenu
-                        .evenement => // ── Événements Card ───────────────────────────────────────────────────────────
-                      SizedBox(
-                        width: 500,
-                        key: const ValueKey('evenement'),
-                        child: EvenementsCard(),
-                      ),
-                    DashboardMenu.home => Column(
-                      key: const ValueKey('home'),
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // ── Presence Chart ────────────────────────────────────────────────────────────
-                            Expanded(
-                              flex: 2,
-                              child:
-                                  BlocBuilder<
-                                    GetPresenceListBloc,
-                                    ApiState<List<PresenceResponse>>
-                                  >(
-                                    builder: (context, state) {
-                                      if (state
-                                          is SuccessState<
-                                            List<PresenceResponse>
-                                          >) {
-                                        final data = state.data;
-                                        return PresenceEvolutionCard(
-                                          rapports: data,
-                                        );
-                                      }
-                                      return const PresenceEvolutionCard(
-                                        rapports: [],
+                  children: [
+                    switch (dashboardState.selectedMenu) {
+                      DashboardMenu.presence => // Charts row
+                      Row(
+                        key: const ValueKey('presence'),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // ── Presence Chart ────────────────────────────────────────────────────────────
+                          Expanded(
+                            flex: 2,
+                            child:
+                                BlocBuilder<
+                                  GetPresenceListBloc,
+                                  ApiState<List<PresenceResponse>>
+                                >(
+                                  builder: (context, state) {
+                                    if (state
+                                        is SuccessState<
+                                          List<PresenceResponse>
+                                        >) {
+                                      final data = state.data;
+                                      return PresenceEvolutionCard(
+                                        rapports: data,
                                       );
-                                    },
-                                  ),
-                            ),
-                            const SizedBox(width: 16),
-                            // ── Pie Card ──────────────────────────────────────────────────────────────────
-                            SizedBox(
-                              width: 220,
-                              child: GroupePieCard(profile: profile),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
+                                    }
+                                    return const PresenceEvolutionCard(
+                                      rapports: [],
+                                    );
+                                  },
+                                ),
+                          ),
+                          const SizedBox(width: 16),
+                          // ── Pie Card ──────────────────────────────────────────────────────────────────
+                          SizedBox(
+                            width: 220,
+                            child: GroupePieCard(profile: profile),
+                          ),
+                        ],
+                      ),
 
-                        // Bottom row
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: MembresTable(membres: filteredMembres),
-                            ),
-                            const SizedBox(width: 16),
+                      DashboardMenu.membres => Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            key: const ValueKey('membres'),
+                            child: MembresTable(membres: filteredMembres),
+                          ),
+                        ],
+                      ),
 
-                            // ── Événements Card ───────────────────────────────────────────────────────────
-                            SizedBox(width: 260, child: EvenementsCard()),
-                          ],
+                      DashboardMenu
+                          .evenement => // ── Événements Card ───────────────────────────────────────────────────────────
+                        SizedBox(
+                          width: 500,
+                          key: const ValueKey('evenement'),
+                          child: EvenementsCard(),
                         ),
-                      ],
-                    ),
-                  },
-                ],
-              )
-          
+                      DashboardMenu.home => Column(
+                        key: const ValueKey('home'),
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // ── Presence Chart ────────────────────────────────────────────────────────────
+                              Expanded(
+                                flex: 2,
+                                child:
+                                    BlocBuilder<
+                                      GetPresenceListBloc,
+                                      ApiState<List<PresenceResponse>>
+                                    >(
+                                      builder: (context, state) {
+                                        if (state
+                                            is SuccessState<
+                                              List<PresenceResponse>
+                                            >) {
+                                          final data = state.data;
+                                          return PresenceEvolutionCard(
+                                            rapports: data,
+                                          );
+                                        }
+                                        return const PresenceEvolutionCard(
+                                          rapports: [],
+                                        );
+                                      },
+                                    ),
+                              ),
+                              const SizedBox(width: 16),
+                              // ── Pie Card ──────────────────────────────────────────────────────────────────
+                              SizedBox(
+                                width: 220,
+                                child: GroupePieCard(profile: profile),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+
+                          // Bottom row
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: MembresTable(membres: filteredMembres),
+                              ),
+                              const SizedBox(width: 16),
+
+                              // ── Événements Card ───────────────────────────────────────────────────────────
+                              SizedBox(width: 260, child: EvenementsCard()),
+                            ],
+                          ),
+                        ],
+                      ),
+                    },
+                  ],
+                ),
               );
             },
           ),

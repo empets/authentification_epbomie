@@ -65,7 +65,7 @@ class _MembreTableRowState extends State<MembreTableRow> {
                           radius: 15,
                           backgroundColor: C().randomColor(),
                           child: Text(
-                            widget.m.name.isNotEmpty ? widget.m.name[0].toUpperCase() : '',
+                           getInitiales(widget.m.name),
                             style: context.appTypographie.body.copyWith(
                               color: Colors.white,
                               fontSize: 10,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grace_church/core/enumeration/enumeration_place.dart';
 import 'package:grace_church/core/injection/injection_container.dart';
 import 'package:grace_church/core/style/app_theme.dart';
 import 'package:grace_church/feature/authen/domaine/usercase/signin_profile.dart';
@@ -11,6 +12,8 @@ import 'package:grace_church/feature/authen/page/login.dart';
 import 'package:grace_church/feature/dashboard/domaine/usercase/get_guest_list_usercase.dart';
 import 'package:grace_church/feature/dashboard/domaine/usercase/get_presence_list_usercase.dart';
 import 'package:grace_church/feature/dashboard/domaine/usercase/get_profile_usercase.dart';
+import 'package:grace_church/feature/dashboard/presentation/bloc/dashboard_manager/dashbord_bloc.dart';
+import 'package:grace_church/feature/dashboard/presentation/bloc/dashboard_manager/event/dashboard_event.dart';
 import 'package:grace_church/feature/dashboard/presentation/bloc/get_presence/get_presence_bloc.dart';
 import 'package:grace_church/feature/dashboard/presentation/bloc/get_profile/event/profile_event.dart';
 import 'package:grace_church/feature/dashboard/presentation/bloc/get_profile/get_profile_bloc.dart';
@@ -29,6 +32,7 @@ class EgliseApp extends StatelessWidget {
       builder: (_, child) {
         return MultiBlocProvider(
           providers: [
+            BlocProvider(create: (context)=> DashboardBloc()..add( DashboardEvent.menuSelected(DashboardMenu.home))),
             BlocProvider(
               create: (context) => GetProfileBloc(
                 getProfileUsercase: getIt<GetProfileUsercase>(),

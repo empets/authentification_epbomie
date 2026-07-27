@@ -64,3 +64,18 @@ class PhoneFormz extends FormzInput<String, EmailFormzValidationError> {
         : EmailFormzValidationError.empty;
   }
 }
+
+
+
+
+String getInitiales(String nomComplet) {
+  final mots = nomComplet.trim().split(RegExp(r'\s+'));
+
+  if (mots.isEmpty || mots[0].isEmpty) return '';
+
+  if (mots.length == 1) {
+    return mots[0][0].toUpperCase();
+  }
+
+  return (mots[0][0] + mots[1][0]).toUpperCase();
+}

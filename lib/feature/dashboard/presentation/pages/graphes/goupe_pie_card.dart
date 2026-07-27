@@ -63,7 +63,7 @@ class _GroupePieCardState extends State<GroupePieCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(45),
       decoration: BoxDecoration(
         color: C.card,
         borderRadius: BorderRadius.circular(16),
@@ -149,7 +149,7 @@ class _GroupePieCardState extends State<GroupePieCard> {
           ),
           const SizedBox(height: 15),
           ...List.generate(
-            2,
+            1,
             (index) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: Row(

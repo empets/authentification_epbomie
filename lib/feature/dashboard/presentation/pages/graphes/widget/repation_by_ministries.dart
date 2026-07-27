@@ -13,7 +13,7 @@ class GroupePieCardMoreDatail extends StatelessWidget {
     return AlertDialog(
       backgroundColor: Colors.grey.shade300,
       title: Text(
-        "Répartition des 500 membres actifs par ministère",
+        "Répartition des membres par ministère",
         style: context.appTypographie.body.copyWith(
           fontSize: 13,
           color: Colors.black,

@@ -181,7 +181,7 @@ class _MenberprofileState extends State<Menberprofile> {
                           borderRadius: BorderRadius.circular(5.r),
                         ),
                         child: Text(
-                          "MC",
+                            getInitiales(widget.member.name),
                           style: context.appTypographie.body.copyWith(
                             color: C.background,
                             fontWeight: FontWeight.w700,

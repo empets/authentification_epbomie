@@ -3,10 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grace_church/core/bloc_state/bloc_state.dart';
 import 'package:grace_church/core/build_screen/building_screen.dart';
+import 'package:grace_church/core/enumeration/enumeration_place.dart';
 import 'package:grace_church/core/extension/extention.dart';
 import 'package:grace_church/core/moke/moke_data.dart';
 import 'package:grace_church/feature/authen/domaine/entities/response/authen_response.dart';
 import 'package:grace_church/feature/dashboard/domaine/entities/response/home_response.dart';
+import 'package:grace_church/feature/dashboard/presentation/bloc/dashboard_manager/dashbord_bloc.dart';
+import 'package:grace_church/feature/dashboard/presentation/bloc/dashboard_manager/state/dasbord_state.dart';
 import 'package:grace_church/feature/dashboard/presentation/bloc/get_presence/get_presence_bloc.dart';
 import 'package:grace_church/feature/dashboard/presentation/bloc/get_profile/get_profile_bloc.dart';
 import 'package:grace_church/feature/dashboard/presentation/bloc/guest/guest_list_bloc.dart';
@@ -31,11 +34,11 @@ class _DashboardPageState extends State<DashboardPage> {
   String _search = "";
 
   final List<NavItem> _navItems = const [
-    NavItem(icon: Icons.church_outlined, label: "Tableau de bord"),
+    NavItem(icon: Icons.dashboard_outlined, label: "Tableau de bord"),
     NavItem(icon: Icons.people_outline, label: "Membres"),
-    NavItem(icon: Icons.track_changes_outlined, label: "Présences"),
+    NavItem(icon: Icons.bar_chart_rounded, label: "Statistiques"),
     NavItem(icon: Icons.calendar_today_outlined, label: "Événements"),
-    // NavItem(icon: Icons.menu_book_outlined, label: "Groupes"),
+    // NavItem(icon: Icons.menu_book_outlined, label: "Groupes"),track_changes_outlined
     // NavItem(icon: Icons.favorite_outline, label: "Pastoral"),
     // NavItem(icon: Icons.child_care_outlined, label: "Enfants"),
   ];
@@ -288,6 +291,11 @@ class _DashboardPageState extends State<DashboardPage> {
               m.name.toLowerCase().contains(_search),
         )
         .toList();
+    IconData _activeComparisonIcon(int thisMonth, int lastMonth) {
+      return thisMonth >= lastMonth
+          ? Icons.trending_up
+          : (thisMonth == 0 ? Icons.remove : Icons.trending_down);
+    }
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(28),
@@ -381,6 +389,9 @@ class _DashboardPageState extends State<DashboardPage> {
 
                 return Row(
                   children: [
+                    /// ----------------------
+                    /// Membres actifs
+                    /// ----------------------
                     KpiCard(
                       label: "Membres actifs",
                       value: totalActive.toString(),
@@ -397,6 +408,10 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                     ),
                     const SizedBox(width: 16),
+
+                    /// ----------------------
+                    /// Membres non actifs
+                    /// ----------------------
                     KpiCard(
                       label: "Membres non actifs",
                       value: totalInactive.toString(),
@@ -413,6 +428,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                     ),
                     const SizedBox(width: 16),
+
                     BlocBuilder<
                       GetPresenceListBloc,
                       ApiState<List<PresenceResponse>>
@@ -447,30 +463,26 @@ class _DashboardPageState extends State<DashboardPage> {
                       },
                     ),
                     const SizedBox(width: 16),
-                    BlocBuilder<
-                      GuestListBloc,
-                      ApiState<List<GuestResponse>>
-                    >(
+                    BlocBuilder<GuestListBloc, ApiState<List<GuestResponse>>>(
                       builder: (context, presenceState) {
-                       
                         if (presenceState
                             is SuccessState<List<GuestResponse>>) {
                           final totalVisiteur = presenceState.data.length;
-                           return  KpiCard(
-                          label: "Visiteurs",
-                          value: totalVisiteur.toString(),
-                          delta:
-                              "${(totalVisiteur / 100 * 12).round()}% du total",
-                          icon: Icons.volunteer_activism_outlined,
-                          color: C.greenLight,
-                          isLocked: false,
-                          trendIcon: _activeComparisonIcon(
-                            totalVisitors,
-                            totalVisitors,
-                          ),
-                        );
+                          return KpiCard(
+                            label: "Visiteurs",
+                            value: totalVisiteur.toString(),
+                            delta:
+                                "${(totalVisiteur / 100 * 12).round()}% du total",
+                            icon: Icons.volunteer_activism_outlined,
+                            color: C.greenLight,
+                            isLocked: false,
+                            trendIcon: _activeComparisonIcon(
+                              totalVisitors,
+                              totalVisitors,
+                            ),
+                          );
                         }
-                        
+
                         return KpiCard(
                           label: "Visiteurs",
                           value: '0',
@@ -505,52 +517,263 @@ class _DashboardPageState extends State<DashboardPage> {
                   ],
                 );
               }
-              return const SizedBox();
+
+              return Row(
+                children: [
+                  KpiCard(
+                    label: "Membres actifs",
+                    value: "0",
+                    delta: "0",
+                    icon: Icons.water_drop_outlined,
+                    color: C.green,
+                    isLocked: false,
+                    trendIcon: Icons.minimize,
+                  ),
+                  const SizedBox(width: 16),
+                  KpiCard(
+                    label: "Membres non actifs",
+                    value: "",
+                    delta: "",
+                    icon: Icons.people_outline,
+                    color: C.greenLight,
+                    isLocked: false,
+                    trendIcon: Icons.minimize,
+                  ),
+
+                  const SizedBox(width: 16),
+                  BlocBuilder<
+                    GetPresenceListBloc,
+                    ApiState<List<PresenceResponse>>
+                  >(
+                    builder: (context, presenceState) {
+                      if (presenceState
+                          is SuccessState<List<PresenceResponse>>) {
+                        final totalPresence = presenceState.data.last;
+                        return KpiCard(
+                          label: "Presence",
+                          value:
+                              (totalPresence.totalEnfant +
+                                      totalPresence.totalHomme)
+                                  .toString(),
+                          delta: "total pour se dimanche",
+                          icon: Icons.how_to_reg,
+                          color: C.greenLight,
+                          isLocked: false,
+                          trendIcon: Icons.paste_outlined,
+                        );
+                      }
+
+                      return KpiCard(
+                        label: "Presence",
+                        value: "",
+                        delta: "10 ce dimanche",
+                        icon: Icons.how_to_reg,
+                        color: C.greenLight,
+                        isLocked: false,
+                        trendIcon: Icons.paste_outlined,
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 16),
+                  BlocBuilder<GuestListBloc, ApiState<List<GuestResponse>>>(
+                    builder: (context, presenceState) {
+                      if (presenceState is SuccessState<List<GuestResponse>>) {
+                        final totalVisiteur = presenceState.data.length;
+                        return KpiCard(
+                          label: "Visiteurs",
+                          value: totalVisiteur.toString(),
+                          delta:
+                              "${(totalVisiteur / 100 * 12).round()}% du total",
+                          icon: Icons.volunteer_activism_outlined,
+                          color: C.greenLight,
+                          isLocked: false,
+                          trendIcon: _activeComparisonIcon(
+                            totalVisiteur,
+                            totalVisiteur,
+                          ),
+                        );
+                      }
+
+                      return KpiCard(
+                        label: "Visiteurs",
+                        value: '0',
+                        delta: "N/A% du total",
+                        icon: Icons.volunteer_activism_outlined,
+                        color: C.greenLight,
+                        isLocked: false,
+                        trendIcon: Icons.lock,
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 16),
+                  KpiCard(
+                    label: "Groupes & Cellules",
+                    value: "0",
+                    delta: "0 catégories",
+                    icon: Icons.groups,
+                    color: C.violet,
+                    isLocked: true,
+                    trendIcon: Icons.lock,
+                  ),
+                  const SizedBox(width: 16),
+                  KpiCard(
+                    label: "Événements ce mois",
+                    value: "0",
+                    delta: "0 vs juillet",
+                    icon: Icons.event_available,
+                    color: C.blue,
+                    isLocked: true,
+                    trendIcon: Icons.lock,
+                  ),
+                ],
+              );
             },
           ),
-          // presence dimanche
-          //Groupes & Cellules
-          //Événements ce mois
+
           const SizedBox(height: 20),
+
+          BlocBuilder<DashboardBloc, DashboardState>(
+            builder: (context, dashboardState) {
+              return AnimatedSwitcher(
+            duration: const Duration(milliseconds: 400),
+              transitionBuilder: (child, animation) {
+                final slideAnimation = Tween<Offset>(
+                  begin: const Offset(0.20, 0), // glissement plus prononcé (était 0.05)
+                  end: Offset.zero,
+                ).animate(CurvedAnimation(
+                  parent: animation,
+                  curve: Curves.easeOut,
+                ));
+
+                return FadeTransition(
+                  opacity: animation,
+                  child: SlideTransition(
+                    position: slideAnimation,
+                    child: child,
+                  ),
+                );
+              },
+                child: Column(
+                children: [
+                  switch (dashboardState.selectedMenu) {
+                    DashboardMenu.presence => // Charts row
+                    Row(
+                         key: const ValueKey('presence'),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // ── Presence Chart ────────────────────────────────────────────────────────────
+                        Expanded(
+                          flex: 2,
+                          child:
+                              BlocBuilder<
+                                GetPresenceListBloc,
+                                ApiState<List<PresenceResponse>>
+                              >(
+                                builder: (context, state) {
+                                  if (state
+                                      is SuccessState<List<PresenceResponse>>) {
+                                    final data = state.data;
+                                    return PresenceEvolutionCard(
+                                      rapports: data,
+                                    );
+                                  }
+                                  return const PresenceEvolutionCard(
+                                    rapports: [],
+                                  );
+                                },
+                              ),
+                        ),
+                        const SizedBox(width: 16),
+                        // ── Pie Card ──────────────────────────────────────────────────────────────────
+                        SizedBox(
+                          width: 220,
+                          child: GroupePieCard(profile: profile),
+                        ),
+                      ],
+                    ),
+
+                    DashboardMenu.membres => Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          key: const ValueKey('membres'),
+                          child: MembresTable(membres: filteredMembres),
+                        ),
+                      ],
+                    ),
+
+                    DashboardMenu
+                        .evenement => // ── Événements Card ───────────────────────────────────────────────────────────
+                      SizedBox(
+                        width: 500,
+                        key: const ValueKey('evenement'),
+                        child: EvenementsCard(),
+                      ),
+                    DashboardMenu.home => Column(
+                      key: const ValueKey('home'),
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // ── Presence Chart ────────────────────────────────────────────────────────────
+                            Expanded(
+                              flex: 2,
+                              child:
+                                  BlocBuilder<
+                                    GetPresenceListBloc,
+                                    ApiState<List<PresenceResponse>>
+                                  >(
+                                    builder: (context, state) {
+                                      if (state
+                                          is SuccessState<
+                                            List<PresenceResponse>
+                                          >) {
+                                        final data = state.data;
+                                        return PresenceEvolutionCard(
+                                          rapports: data,
+                                        );
+                                      }
+                                      return const PresenceEvolutionCard(
+                                        rapports: [],
+                                      );
+                                    },
+                                  ),
+                            ),
+                            const SizedBox(width: 16),
+                            // ── Pie Card ──────────────────────────────────────────────────────────────────
+                            SizedBox(
+                              width: 220,
+                              child: GroupePieCard(profile: profile),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Bottom row
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: MembresTable(membres: filteredMembres),
+                            ),
+                            const SizedBox(width: 16),
+
+                            // ── Événements Card ───────────────────────────────────────────────────────────
+                            SizedBox(width: 260, child: EvenementsCard()),
+                          ],
+                        ),
+                      ],
+                    ),
+                  },
+                ],
+              )
+          
+              );
+            },
+          ),
 
           // Charts row
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ── Presence Chart ────────────────────────────────────────────────────────────
-              Expanded(
-                flex: 2,
-                child: BlocBuilder<
-                  GetPresenceListBloc,
-                  ApiState<List<PresenceResponse>>
-                >(
-                  builder: (context, state) {
-                    if (state is SuccessState<List<PresenceResponse>>) {
-                      final data = state.data;
-                      return PresenceEvolutionCard(rapports: data);
-                    }
-                    return const PresenceEvolutionCard(rapports: []);
-                  },
-                ),
-              ),
-              const SizedBox(width: 16),
-              // ── Pie Card ──────────────────────────────────────────────────────────────────
-              SizedBox(width: 220, child: GroupePieCard(profile: profile)),
-            ],
-          ),
-          const SizedBox(height: 20),
-
-          // Bottom row
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(flex: 2, child: MembresTable(membres: filteredMembres)),
-              const SizedBox(width: 16),
-
-              // ── Événements Card ───────────────────────────────────────────────────────────
-              SizedBox(width: 260, child: EvenementsCard()),
-            ],
-          ),
         ],
       ),
     );

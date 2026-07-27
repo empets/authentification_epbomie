@@ -1,7 +1,9 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grace_church/core/animation_hover_mouse/animation_hover_mouse.dart';
 import 'package:grace_church/core/moke/moke_data.dart';
 
 // ── Nav tile ──────────────────────────────────────────────────────────────────
@@ -15,43 +17,50 @@ class NavTile extends StatelessWidget {
   final NavItem item;
   final bool selected;
   final VoidCallback onTap;
-  const NavTile({required this.item, required this.selected, required this.onTap});
+  final void Function(PointerEnterEvent)? onEnter;
+  final void Function(PointerExitEvent)? onExit;
+  const NavTile({required this.item, required this.selected, required this.onTap, this.onEnter, this.onExit, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 1),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(
-          color: selected ? C.gold.withOpacity(0.10) : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          children: [
-            if (selected)
-              Container(
-                width: 2,
-                height: 18,
-                margin: const EdgeInsets.only(right: 10),
-                decoration: BoxDecoration(color: C.gold, borderRadius: BorderRadius.circular(2)),
+    return AnimationMouseHoverCardre(
+      onEnter: onEnter,
+      onExit: onExit,
+      isHover: selected,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 1),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: BoxDecoration(
+            color: selected ? C.gold.withOpacity(0.10) : Colors.transparent,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            children: [
+              if (selected)
+                Container(
+                  width: 2,
+                  height: 18,
+                  margin: const EdgeInsets.only(right: 10),
+                  decoration: BoxDecoration(color: C.gold, borderRadius: BorderRadius.circular(2)),
+                ),
+              Icon(
+                item.icon,
+                size: 16,
+                color: selected ? C.background : C.sidebarMuted,
               ),
-            Icon(
-              item.icon,
-              size: 16,
-              color: selected ? C.background : C.sidebarMuted,
-            ),
-            const SizedBox(width: 10),
-            Text(
-              item.label,
-              style: GoogleFonts.roboto(
-                color: selected ? C.background : C.sidebarText.withOpacity(0.6),
-                fontSize: 13,
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+              const SizedBox(width: 10),
+              Text(
+                item.label,
+                style: GoogleFonts.roboto(
+                  color: selected ? C.background : C.sidebarText.withOpacity(0.6),
+                  fontSize: 13,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

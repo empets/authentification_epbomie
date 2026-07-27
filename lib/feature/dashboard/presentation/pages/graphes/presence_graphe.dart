@@ -118,8 +118,8 @@ class PresenceEvolutionCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Évolution de la présence',
-            style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w600, color: C.sidebarText),
+            'Présence',
+            style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w600, color: C.sidebar),
           ),
           const SizedBox(height: 4),
           Text(

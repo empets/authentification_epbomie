@@ -7,6 +7,7 @@ import 'package:grace_church/core/enumeration/enumeration_place.dart';
 import 'package:grace_church/core/injection/injection_container.dart';
 import 'package:grace_church/core/style/app_theme.dart';
 import 'package:grace_church/feature/authen/page/dev_profiles/dev_profile.dart';
+import 'package:grace_church/feature/authen/page/login.dart';
 import 'package:grace_church/feature/dashboard/domaine/usercase/get_guest_list_usercase.dart';
 import 'package:grace_church/feature/dashboard/domaine/usercase/get_presence_list_usercase.dart';
 import 'package:grace_church/feature/dashboard/domaine/usercase/get_profile_usercase.dart';
@@ -77,9 +78,9 @@ class EgliseApp extends StatelessWidget {
                   ],
                 ),
                 home:
-                    //const LoginPage(),
+               LoginPage(),
                     //
-                    DevProfile(),
+                  // DevProfile(),
                 //  ScreenTypeLayout(
                 //   mobile: MenbersOverview(),
                 //   desktop: MenbersOverview(),

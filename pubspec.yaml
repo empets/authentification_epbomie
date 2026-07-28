@@ -192,6 +192,8 @@ dependencies:
   fl_chart: ^1.2.0
   simple_icons: ^16.23.0
   # workmanager: ^0.5.2
+  # flutter_animate: ^4.5.0
+  visibility_detector: ^0.4.0+2
 
 
   

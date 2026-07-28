@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grace_church/core/color/color_information.dart';
 import 'package:grace_church/core/enumeration/enumeration_place.dart';
 import 'package:grace_church/core/injection/injection_container.dart';
 import 'package:grace_church/core/style/app_theme.dart';
-import 'package:grace_church/feature/authen/domaine/usercase/signin_profile.dart';
-import 'package:grace_church/feature/authen/domaine/usercase/update_profile_deviceid_usercase.dart';
-import 'package:grace_church/feature/authen/page/bloc/connexion/signing_bloc.dart';
-import 'package:grace_church/feature/authen/page/dev_profile.dart';
-import 'package:grace_church/feature/authen/page/login.dart';
+import 'package:grace_church/feature/authen/page/dev_profiles/dev_profile.dart';
 import 'package:grace_church/feature/dashboard/domaine/usercase/get_guest_list_usercase.dart';
 import 'package:grace_church/feature/dashboard/domaine/usercase/get_presence_list_usercase.dart';
 import 'package:grace_church/feature/dashboard/domaine/usercase/get_profile_usercase.dart';
@@ -33,48 +30,65 @@ class EgliseApp extends StatelessWidget {
       builder: (_, child) {
         return MultiBlocProvider(
           providers: [
-            BlocProvider(create: (context)=> DashboardBloc()..add( DashboardEvent.menuSelected(DashboardMenu.home))),
+            BlocProvider(create: (context) => ThemeCubit()),
+            BlocProvider(
+              create: (context) =>
+                  DashboardBloc()
+                    ..add(DashboardEvent.menuSelected(DashboardMenu.home)),
+            ),
             BlocProvider(
               create: (context) => GetProfileBloc(
                 getProfileUsercase: getIt<GetProfileUsercase>(),
               )..add(const ProfileEvent.fetchProfileAll()),
             ),
-            BlocProvider(create: (context) => MenberKpiBloc(getProfileUsercase: getIt<GetProfileUsercase>())..add(const ProfileEvent.fetchProfileAll())),
-            BlocProvider(create: (context) => GetPresenceListBloc(getPresenceListUsercase: getIt<GetPresenceListUsercase>())..add(const ProfileEvent.fetchProfileAll())),
-        
-             BlocProvider(create: (context) => GuestListBloc(
-              getGuestListUsercase: getIt<GetGuestListUsercase>(),
-            )..add(const ProfileEvent.fetchProfileAll())),
-          ],
-          child: MaterialApp(
-            title: "Église Vivante",
-            debugShowCheckedModeBanner: false,
-            // navigatorKey: navigatorKey,
-            theme: ThemeData.light().copyWith(
-              primaryColor: Colors.black,
-              textTheme: GoogleFonts.robotoTextTheme(
-                Theme.of(context).textTheme,
-              ),
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
-              extensions: <ThemeExtension<dynamic>>[
-                AppColorsTheme.appColors,
-                AppTypographieTheme.appTheme,
-              ],
+            BlocProvider(
+              create: (context) =>
+                  MenberKpiBloc(getProfileUsercase: getIt<GetProfileUsercase>())
+                    ..add(const ProfileEvent.fetchProfileAll()),
             ),
-            home: const 
-          LoginPage(),
-            // DevProfile(),
-            //  ScreenTypeLayout(
-            //   mobile: MenbersOverview(),
-            //   desktop: MenbersOverview(),
-            // ),
+            BlocProvider(
+              create: (context) => GetPresenceListBloc(
+                getPresenceListUsercase: getIt<GetPresenceListUsercase>(),
+              )..add(const ProfileEvent.fetchProfileAll()),
+            ),
+
+            BlocProvider(
+              create: (context) => GuestListBloc(
+                getGuestListUsercase: getIt<GetGuestListUsercase>(),
+              )..add(const ProfileEvent.fetchProfileAll()),
+            ),
+          ],
+          child: BlocBuilder<ThemeCubit, AppColors>(
+            builder: (context, stateColor) {
+              return MaterialApp(
+                title: "Église Vivante",
+                debugShowCheckedModeBanner: false,
+                // navigatorKey: navigatorKey,
+                theme: ThemeData.light().copyWith(
+                  primaryColor: Colors.black,
+                  textTheme: GoogleFonts.robotoTextTheme(
+                    Theme.of(context).textTheme,
+                  ),
+                  colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+                  extensions: <ThemeExtension<dynamic>>[
+                    AppColorsTheme.appColors,
+                    AppTypographieTheme.appTheme,
+                    stateColor,
+                  ],
+                ),
+                home:
+                    //const LoginPage(),
+                    //
+                    DevProfile(),
+                //  ScreenTypeLayout(
+                //   mobile: MenbersOverview(),
+                //   desktop: MenbersOverview(),
+                // ),
+              );
+            },
           ),
         );
       },
     );
   }
 }
-
-
-
-

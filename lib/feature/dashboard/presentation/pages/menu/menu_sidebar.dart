@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grace_church/core/build_screen/building_screen.dart';
+import 'package:grace_church/core/color/color_information.dart';
 import 'package:grace_church/core/enumeration/enumeration_place.dart';
-import 'package:grace_church/core/extension/custome_extension.dart';
 import 'package:grace_church/core/extension/custome_extension.dart' as exten;
+import 'package:grace_church/core/extension/custome_extension.dart';
 import 'package:grace_church/core/moke/moke_data.dart';
 import 'package:grace_church/feature/authen/domaine/entities/response/authen_response.dart';
 import 'package:grace_church/feature/authen/page/login.dart';
@@ -27,19 +28,29 @@ class BuildSideBar extends StatefulWidget {
 
 class _BuildSideBarState extends State<BuildSideBar> {
   int selectedNav = 0;
+  late bool isSelectGlobalColor = false;
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColors>()!;
     return BlocBuilder<DashboardBloc, DashboardState>(
       builder: (context, state) {
         return Container(
           width: 232,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Color(0xFF0F1824), Color(0xFF071018)],
+              colors: [
+                colors.sidebarBackground,
+                colors.sidebarBackground.withValues(alpha: 0.96),
+              ],
             ),
+            // : LinearGradient(
+            //     begin: Alignment.topLeft,
+            //     end: Alignment.bottomRight,
+            //     colors: [Color(0xFF0F1824), Color(0xFF071018)],
+            //   ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,75 +136,63 @@ class _BuildSideBarState extends State<BuildSideBar> {
                 child: ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   itemCount: widget.navItems.length,
-                  itemBuilder: (_, i) => BlocBuilder<DashboardBloc, DashboardState>(
-                    builder: (context, state) {
-                      return NavTile(
-                        item: widget.navItems[i],
-                        selected: selectedNav == i,
-                        // onEnter: (event) {
-                 
-                        // },
-                        // onExit: (event) {
-                        //   setState(() => selectedNav = -1);
-                        // },
-                        onTap: () {
-                          setState(() => selectedNav = i);
-                          switch (i) {
-                            case 0:
-                              context.read<DashboardBloc>().add(
-                                DashboardEvent.menuSelected(DashboardMenu.home),
-                              );
-                              break;
-                            case 1:
-                              context.read<DashboardBloc>().add(
-                                DashboardEvent.menuSelected(
-                                  DashboardMenu.membres,
-                                ),
-                              );
-                              break;
-                            case 2:
-                              context.read<DashboardBloc>().add(
-                                DashboardEvent.menuSelected(
-                                  DashboardMenu.presence,
-                                ),
-                              );
-                              break;
-                            case 3:
-                              context.read<DashboardBloc>().add(
-                                DashboardEvent.menuSelected(
-                                  DashboardMenu.evenement,
-                                ),
-                              );
-                              break;
-                            case 4:
-                              // Prayer requests
-                              break;
-                            case 5:
-                              // Contact
-                              break;
-                          }
+                  itemBuilder: (_, i) =>
+                      BlocBuilder<DashboardBloc, DashboardState>(
+                        builder: (context, state) {
+                          return NavTile(
+                            item: widget.navItems[i],
+                            selected: selectedNav == i,
+                            // onEnter: (event) {
 
-           
-                          // if (i != 0) {
-                          //   // showDialog(
-                          //   //   context: context,
-                          //   //   builder: (context) => ScreenNotAvailable(
-                          //   //     showInfoButton: false,
-                          //   //     moreInfoMessage: switch (i) {
-                          //   //       1 => 'Sermons page is under development',
-                          //   //       2 => 'Events page is under development',
-                          //   //       3 => 'Giving page is under development',
-                          //   //       4 => 'Prayer requests page is under development',
-                          //   //       5 => 'Contact page is under development',
-                          //   //       _ => 'This feature is not available yet',
-                          //   //     },
-                          //   //   ),
-                          //   // );
-                          // }
+                            // },
+                            // onExit: (event) {
+                            //   setState(() => selectedNav = -1);
+                            // },
+                            onTap: () {
+                              setState(() => selectedNav = i);
+                              switch (i) {
+                                case 0:
+                                  context.read<DashboardBloc>().add(
+                                    DashboardEvent.menuSelected(
+                                      DashboardMenu.home,
+                                    ),
+                                  );
+                                  break;
+                                case 1:
+                                  context.read<DashboardBloc>().add(
+                                    DashboardEvent.menuSelected(
+                                      DashboardMenu.membres,
+                                    ),
+                                  );
+                                  break;
+                                case 2:
+                                  context.read<DashboardBloc>().add(
+                                    DashboardEvent.menuSelected(
+                                      DashboardMenu.presence,
+                                    ),
+                                  );
+                                  break;
+                                case 3:
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => ScreenNotAvailable(
+                                      showInfoButton: false,
+                                      moreInfoMessage:
+                                          'Sermons page is under development',
+                                    ),
+                                  );
+                                  break;
+                                case 4:
+                                  // Prayer requests
+                                  break;
+                                case 5:
+                                  // Contact
+                                  break;
+                              }
+                            },
+                          );
                         },
-                      );
-                    },
-                  ),
+                      ),
                 ),
               ),
 
@@ -212,14 +211,43 @@ class _BuildSideBarState extends State<BuildSideBar> {
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
                   children: [
-                    SidebarAction(
-                      icon: Icons.settings_outlined,
-                      label: "Paramètres",
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) =>
-                              ScreenNotAvailable(showInfoButton: false),
+                    BlocBuilder<ThemeCubit, AppColors>(
+                      builder: (context, state) {
+                        return SidebarAction(
+                          //icon: Icons.settings_outlined,
+                          icon: isSelectGlobalColor
+                              ? Icons.dark_mode_rounded
+                              : Icons.light_rounded,
+                          iconColor: isSelectGlobalColor
+                              ? Colors.white
+                              : C.gold,
+                          label: "Paramètres",
+                          onTap: () {
+                            setState(() {
+                              isSelectGlobalColor = !isSelectGlobalColor;
+                            });
+                            if (isSelectGlobalColor) {
+                              context.read<ThemeCubit>().updateColor(
+                                update: (current) => current.copyWith(
+                                  sidebarBackground: Color(
+                                    0xFF071018,
+                                  ).withValues(alpha: 0.88),
+                                  background: Color.fromARGB(255, 44, 66, 53).withValues(
+                                    alpha: 0.5,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              context.read<ThemeCubit>().updateColor(
+                                update: (current) => current.copyWith(
+                                  sidebarBackground: Color(0xFF0F1824),
+                                  background: Color(
+                                    0xFFF0F5F2,
+                                  ).withValues(alpha: 0.3),
+                                ),
+                              );
+                            }
+                          },
                         );
                       },
                     ),

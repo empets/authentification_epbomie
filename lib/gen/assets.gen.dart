@@ -24,8 +24,20 @@ class $AssetsAlerteGen {
 class $AssetsAuthGen {
   const $AssetsAuthGen();
 
+  /// File path: assets/auth/code.svg
+  String get code => 'assets/auth/code.svg';
+
+  /// File path: assets/auth/database.svg
+  String get database => 'assets/auth/database.svg';
+
   /// File path: assets/auth/github.svg
   String get github => 'assets/auth/github.svg';
+
+  /// File path: assets/auth/instagram.svg
+  String get instagram => 'assets/auth/instagram.svg';
+
+  /// File path: assets/auth/linkedin-01.svg
+  String get linkedin01 => 'assets/auth/linkedin-01.svg';
 
   /// File path: assets/auth/linkedin.svg
   String get linkedin => 'assets/auth/linkedin.svg';
@@ -48,7 +60,11 @@ class $AssetsAuthGen {
 
   /// List of all assets
   List<dynamic> get values => [
+    code,
+    database,
     github,
+    instagram,
+    linkedin01,
     linkedin,
     profileBackground,
     profileImage,

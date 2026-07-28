@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grace_church/core/bloc_state/bloc_state.dart';
 import 'package:grace_church/core/build_screen/building_screen.dart';
+import 'package:grace_church/core/color/color_information.dart';
 import 'package:grace_church/core/enumeration/enumeration_place.dart';
 import 'package:grace_church/core/extension/extention.dart';
 import 'package:grace_church/core/moke/moke_data.dart';
@@ -51,54 +52,74 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: C.background.withValues(alpha: 0.3),
-      body: Row(
-        children: [
-          // ── Sidebar ────────────────────────────────────────────────────────────────
-          BuildSideBar(navItems: _navItems, admine: widget.admine),
-          Expanded(
-            child: BlocBuilder<GetProfileBloc, ApiState<List<ProfileResponse>>>(
-              builder: (context, state) {
-                return Column(
-                  children: [
-                    _buildTopbar(isOpened: false),
-                    Expanded(
-                      child:
-                          BlocBuilder<
-                            GetProfileBloc,
-                            ApiState<List<ProfileResponse>>
-                          >(
-                            builder: (context, state) {
-                              switch (state) {
-                                case LoadState<List<ProfileResponse>>():
-                                  return const Center(
-                                    child: CircularProgressIndicator.adaptive(
-                                      backgroundColor: C.border,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        C.gold,
-                                      ),
-                                    ),
-                                  );
-                                case FailedState<List<ProfileResponse>>():
-                                  return Center(
-                                    child: Text(state.message.getOrEmpty()),
-                                  );
-                                case SuccessState<List<ProfileResponse>>():
-                                  final _profile = state.data;
-                                  return _buildContent(profile: _profile);
-                                default:
-                                  return const SizedBox();
-                              }
-                            },
-                          ),
-                    ),
-                  ],
-                );
-              },
+    return BlocListener<DashboardBloc, DashboardState>(
+      listener: (context, state) {
+        if (state.selectedMenu == DashboardMenu.evenement) {
+          showDialog(
+            context: context,
+            builder: (context) => ScreenNotAvailable(
+              showInfoButton: false,
+              moreInfoMessage: 'Sermons page is under development',
             ),
-          ),
-        ],
+          );
+        }
+      },
+      child: Scaffold(
+        backgroundColor: C.background.withValues(alpha: 0.3),
+        body: Row(
+          children: [
+            // ── Sidebar ────────────────────────────────────────────────────────────────
+            BuildSideBar(navItems: _navItems, admine: widget.admine),
+            Expanded(
+              child:
+                  BlocBuilder<GetProfileBloc, ApiState<List<ProfileResponse>>>(
+                    builder: (context, state) {
+                      return Column(
+                        children: [
+                          _buildTopbar(isOpened: false),
+                          Expanded(
+                            child:
+                                BlocBuilder<
+                                  GetProfileBloc,
+                                  ApiState<List<ProfileResponse>>
+                                >(
+                                  builder: (context, state) {
+                                    switch (state) {
+                                      case LoadState<List<ProfileResponse>>():
+                                        return const Center(
+                                          child:
+                                              CircularProgressIndicator.adaptive(
+                                                backgroundColor: C.border,
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                      Color
+                                                    >(C.gold),
+                                              ),
+                                        );
+                                      case FailedState<List<ProfileResponse>>():
+                                        return Center(
+                                          child: Text(
+                                            state.message.getOrEmpty(),
+                                          ),
+                                        );
+                                      case SuccessState<
+                                        List<ProfileResponse>
+                                      >():
+                                        final _profile = state.data;
+                                        return _buildContent(profile: _profile);
+                                      default:
+                                        return const SizedBox();
+                                    }
+                                  },
+                                ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -106,159 +127,165 @@ class _DashboardPageState extends State<DashboardPage> {
   // ── Topbar ─────────────────────────────────────────────────────────────────
 
   Widget _buildTopbar({required bool isOpened}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-      decoration: BoxDecoration(
-        color: C.background.withOpacity(0.9),
-        border: Border(bottom: BorderSide(color: C.border)),
-      ),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return   BlocBuilder<ThemeCubit, AppColors>(
+      builder: (context, state) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          decoration: BoxDecoration(
+            color:   C.background,
+            border: Border(bottom: BorderSide(color: C.border)),
+          ),
+          child: Row(
             children: [
-              Text(
-                "Tableau de bord",
-                style: GoogleFonts.lora(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: C.dark,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Tableau de bord",
+                    style: GoogleFonts.lora(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: C.dark,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    formatDateWithWeek(DateTime.now().toString()),
+                    style: TextStyle(fontSize: 12, color: C.muted),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              // Search
+              SizedBox(
+                width: 240,
+                height: 38,
+                child: TextField(
+                  controller: _searchController,
+                  onChanged: (v) => setState(() => _search = v.toLowerCase()),
+                  style: TextStyle(fontSize: 13, color: C.dark),
+                  decoration: InputDecoration(
+                    hintText: "Chercher un membre…",
+                    hintStyle: TextStyle(color: C.muted, fontSize: 13),
+                    prefixIcon: Icon(Icons.search, size: 16, color: C.muted),
+                    filled: true,
+                    fillColor: C.input,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: C.border),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: C.border),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: C.gold),
+                    ),
+                  ),
                 ),
               ),
-              const SizedBox(height: 2),
-              Text(
-                formatDateWithWeek(DateTime.now().toString()),
-                style: TextStyle(fontSize: 12, color: C.muted),
+              const SizedBox(width: 12),
+              // Bell
+              GestureDetector(
+                onTap: () {
+                  if (!isOpened) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => ScreenNotAvailable(
+                        showInfoButton: false,
+                        message:
+                            "Cette fonctionnalité est en cours de développement et sera bientôt disponible. Merci de votre patience.",
+                      ),
+                    );
+                  }
+                },
+                child: Container(
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    color: isOpened ? C.input : Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: C.border),
+                  ),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Icon(
+                        Icons.notifications_outlined,
+                        size: 18,
+                        color: isOpened ? C.muted : Colors.grey.shade700,
+                      ),
+                      if (isOpened)
+                        Positioned(
+                          top: 8,
+                          right: 8,
+                          child: Container(
+                            width: 7,
+                            height: 7,
+                            decoration: BoxDecoration(
+                              color: isOpened ? C.gold : Colors.grey.shade700,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              // CTA
+              Container(
+                height: 38,
+                decoration: BoxDecoration(
+                  color: isOpened ? null : Colors.grey.shade300,
+                  gradient: isOpened
+                      ? const LinearGradient(
+                          colors: [C.gold, Color(0xFFB8860B)],
+                        )
+                      : null,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: isOpened
+                      ? [
+                          BoxShadow(
+                            color: C.gold.withValues(alpha: 0.3),
+                            blurRadius: 8,
+                            offset: const Offset(0, 3),
+                          ),
+                        ]
+                      : null,
+                ),
+                child: TextButton.icon(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => ScreenNotAvailable(
+                        showInfoButton: false,
+                        message:
+                            "Cette fonctionnalité est en cours de développement et sera bientôt disponible. Merci de votre patience.",
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.person_add_outlined,
+                    color: isOpened ? Colors.white : Colors.grey.shade700,
+                    size: 16,
+                  ),
+                  label: Text(
+                    "Nouveau membre",
+                    style: TextStyle(
+                      color: isOpened ? Colors.white : Colors.grey.shade700,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
-          const Spacer(),
-          // Search
-          SizedBox(
-            width: 240,
-            height: 38,
-            child: TextField(
-              controller: _searchController,
-              onChanged: (v) => setState(() => _search = v.toLowerCase()),
-              style: TextStyle(fontSize: 13, color: C.dark),
-              decoration: InputDecoration(
-                hintText: "Chercher un membre…",
-                hintStyle: TextStyle(color: C.muted, fontSize: 13),
-                prefixIcon: Icon(Icons.search, size: 16, color: C.muted),
-                filled: true,
-                fillColor: C.input,
-                contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: C.border),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: C.border),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: C.gold),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          // Bell
-          GestureDetector(
-            onTap: () {
-              if (!isOpened) {
-                showDialog(
-                  context: context,
-                  builder: (context) => ScreenNotAvailable(
-                    showInfoButton: false,
-                    message:
-                        "Cette fonctionnalité est en cours de développement et sera bientôt disponible. Merci de votre patience.",
-                  ),
-                );
-              }
-            },
-            child: Container(
-              width: 38,
-              height: 38,
-              decoration: BoxDecoration(
-                color: isOpened ? C.input : Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: C.border),
-              ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Icon(
-                    Icons.notifications_outlined,
-                    size: 18,
-                    color: isOpened ? C.muted : Colors.grey.shade700,
-                  ),
-                  if (isOpened)
-                    Positioned(
-                      top: 8,
-                      right: 8,
-                      child: Container(
-                        width: 7,
-                        height: 7,
-                        decoration: BoxDecoration(
-                          color: isOpened ? C.gold : Colors.grey.shade700,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          // CTA
-          Container(
-            height: 38,
-            decoration: BoxDecoration(
-              color: isOpened ? null : Colors.grey.shade300,
-              gradient: isOpened
-                  ? const LinearGradient(colors: [C.gold, Color(0xFFB8860B)])
-                  : null,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: isOpened
-                  ? [
-                      BoxShadow(
-                        color: C.gold.withValues(alpha: 0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 3),
-                      ),
-                    ]
-                  : null,
-            ),
-            child: TextButton.icon(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => ScreenNotAvailable(
-                    showInfoButton: false,
-                    message:
-                        "Cette fonctionnalité est en cours de développement et sera bientôt disponible. Merci de votre patience.",
-                  ),
-                );
-              },
-              icon: Icon(
-                Icons.person_add_outlined,
-                color: isOpened ? Colors.white : Colors.grey.shade700,
-                size: 16,
-              ),
-              label: Text(
-                "Nouveau membre",
-                style: TextStyle(
-                  color: isOpened ? Colors.white : Colors.grey.shade700,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -514,8 +541,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   const SizedBox(width: 16),
                   KpiCard(
                     label: "Membres non actifs",
-                    value: "",
-                    delta: "",
+                    value: "0",
+                    delta: "0",
                     icon: Icons.people_outline,
                     color: C.greenLight,
                     isLocked: false,
@@ -547,7 +574,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
                       return KpiCard(
                         label: "Presence",
-                        value: "",
+                        value: "0",
                         delta: "10 ce dimanche",
                         icon: Icons.how_to_reg,
                         color: C.greenLight,

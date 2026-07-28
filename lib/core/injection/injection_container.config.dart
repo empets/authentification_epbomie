@@ -100,6 +100,7 @@ import '../../feature/depatement/cellule/presentation/bloc/get_responsable_zone.
     as _i352;
 import '../../feature/depatement/cellule/presentation/bloc/rapport_cellule.dart/get_rapport_cellule_bloc.dart'
     as _i702;
+import '../color/color_information.dart' as _i887;
 import 'injection_container.dart' as _i809;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -111,6 +112,7 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final injectableModule = _$InjectableModule();
     gh.factory<_i846.DashboardBloc>(() => _i846.DashboardBloc());
+    gh.lazySingleton<_i887.ThemeCubit>(() => _i887.ThemeCubit());
     gh.lazySingleton<_i345.DatabaseReference>(() => injectableModule.userDb);
     gh.lazySingleton<_i519.Client>(() => injectableModule.httpClient);
     gh.lazySingleton<_i558.FlutterSecureStorage>(() => injectableModule.prefs);

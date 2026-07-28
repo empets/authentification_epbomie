@@ -30,15 +30,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-     create: (context) => SigningBloc(
-              createSignInProfileUsercase: getIt<CreateSignInProfileUsercase>(),
-              updateProfileDeviceIdUsercase: getIt<UpdateProfileDeviceIdUsercase>(),
-            ),
+      create: (context) => SigningBloc(
+        createSignInProfileUsercase: getIt<CreateSignInProfileUsercase>(),
+        updateProfileDeviceIdUsercase: getIt<UpdateProfileDeviceIdUsercase>(),
+      ),
       child: BlocListener<SigningBloc, SigninState>(
         listener: (context, state) async {
           if (state.status.isSuccess) {
-          
-
             Navigator.of(context).pushAndRemoveUntil(
               fadeRoute(DashboardPage(admine: state.admine)),
               (route) => false,
@@ -95,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const Spacer(),
 
-                          const Text(
+                          Text(
                             "Bienvenue !",
                             style: TextStyle(
                               color: Colors.white,

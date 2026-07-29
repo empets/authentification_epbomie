@@ -9,7 +9,7 @@ import 'package:grace_church/core/extension/custome_extension.dart' as exten;
 import 'package:grace_church/core/extension/custome_extension.dart';
 import 'package:grace_church/core/moke/moke_data.dart';
 import 'package:grace_church/feature/authen/domaine/entities/response/authen_response.dart';
-import 'package:grace_church/feature/authen/page/login.dart';
+import 'package:grace_church/feature/authen/page/login.dart' hide C;
 import 'package:grace_church/feature/dashboard/presentation/bloc/dashboard_manager/dashbord_bloc.dart';
 import 'package:grace_church/feature/dashboard/presentation/bloc/dashboard_manager/event/dashboard_event.dart';
 import 'package:grace_church/feature/dashboard/presentation/bloc/dashboard_manager/state/dasbord_state.dart';

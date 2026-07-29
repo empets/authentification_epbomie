@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grace_church/feature/authen/page/dev_profiles/contact.dart' show SectionTag;
 import 'package:grace_church/feature/authen/page/dev_profiles/header.dart';
 
 

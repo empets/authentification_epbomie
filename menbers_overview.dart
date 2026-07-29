@@ -70,13 +70,13 @@ class _MenbersOverviewState extends State<MenbersOverview> {
                                       },
                                   errorBuilder: (_, __, ___) => ClipOval(
                                     child: Image.asset(
-                                      MyAssets.iconLauncher.icon.path,
+                                      Assets.iconLauncher.icon.path,
                                       fit: BoxFit.contain,
                                       height: 0.04.sh,
                                       width: 0.04.sh,
                                     ),
                                   ),
-                                  MyAssets.iconLauncher.icon.path,
+                                  Assets.iconLauncher.icon.path,
                                   fit: BoxFit.cover,
                                   height: 0.04.sh,
                                   width: 0.04.sh,

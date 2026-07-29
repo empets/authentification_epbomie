@@ -49,6 +49,9 @@ class $AssetsAuthGen {
   AssetGenImage get profileImage =>
       const AssetGenImage('assets/auth/profile_image.png');
 
+  /// File path: assets/auth/send-email.svg
+  String get sendEmail => 'assets/auth/send-email.svg';
+
   /// File path: assets/auth/sign_in.svg
   String get signIn => 'assets/auth/sign_in.svg';
 
@@ -68,6 +71,7 @@ class $AssetsAuthGen {
     linkedin,
     profileBackground,
     profileImage,
+    sendEmail,
     signIn,
     undrawJoinNiai,
     whatsapp,

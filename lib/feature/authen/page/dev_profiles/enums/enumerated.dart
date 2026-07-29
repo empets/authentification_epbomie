@@ -1,0 +1,1 @@
+ enum NavigatEnum { home, about, projects, contact }  

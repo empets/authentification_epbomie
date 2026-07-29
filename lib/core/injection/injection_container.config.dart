@@ -37,6 +37,8 @@ import '../../feature/authen/domaine/usercase/update_profile_deviceid_usercase.d
     as _i240;
 import '../../feature/authen/domaine/usercase/update_profile_usercase.dart'
     as _i256;
+import '../../feature/authen/page/dev_profiles/bloc/navigate_bloc.dart'
+    as _i779;
 import '../../feature/dashboard/data/repositories/home_data_repositories.dart'
     as _i69;
 import '../../feature/dashboard/data/service/remot_service.dart' as _i736;
@@ -111,6 +113,7 @@ extension GetItInjectableX on _i174.GetIt {
   }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final injectableModule = _$InjectableModule();
+    gh.factory<_i779.NavigateBloc>(() => _i779.NavigateBloc());
     gh.factory<_i846.DashboardBloc>(() => _i846.DashboardBloc());
     gh.lazySingleton<_i887.ThemeCubit>(() => _i887.ThemeCubit());
     gh.lazySingleton<_i345.DatabaseReference>(() => injectableModule.userDb);

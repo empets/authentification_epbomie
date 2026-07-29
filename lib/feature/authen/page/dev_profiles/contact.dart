@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grace_church/feature/authen/page/dev_profiles/header.dart';
 import 'package:grace_church/gen/assets.gen.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 
 class ContactSection extends StatefulWidget {
   const ContactSection({super.key});
@@ -51,86 +49,118 @@ class _ContactSectionState extends State<ContactSection> {
 
   @override
   Widget build(BuildContext context) {
-    final isWide = MediaQuery.of(context).size.width > 900;
+    return  LayoutBuilder(
+        builder: (context, constraints) {
+          final width = constraints.maxWidth;
+          final isMobile = width < 600;
+          final isTablet = width >= 600 && width < 1024;
+          final isDesktop = width >= 1024;
 
-    return Container(
-      color: AppColorsProfile.light,
-      padding: EdgeInsets.symmetric(vertical: 96, horizontal: 0.16.sw),
-      child: Column(
-        children: [
-          // ── En-tête ──────────────────────────────────────────
-          Column(
-            children: [
-              const SectionTag(label: 'CONTACT'),
-              const SizedBox(height: 12),
-              Text(
-                'Travaillons ensemble',
-                style: GoogleFonts.poppins(
-                  fontSize: isWide ? 44 : 30,
-                  fontWeight: FontWeight.w700,
-                  color: AppColorsProfile.dark,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                'Vous avez un projet en tête ? Je suis disponible '
-                'pour de nouvelles collaborations.',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.inter(
-                  fontSize: 15,
-                  color: AppColorsProfile.muted,
-                  height: 1.6,
-                ),
-              ),
-            ],
-          ).animate().fadeIn(duration: 500.ms).slideY(begin: 0.2, end: 0),
+          final horizontalPad = isMobile
+              ? 20.0
+              : (isTablet ? 0.08.sw : 0.16.sw);
+          final verticalPad = isMobile ? 56.0 : 96.0;
 
-          const SizedBox(height: 56),
- 
-          // ── Corps : carte + formulaire ────────────────────────
-          if (isWide)
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          return Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(
+              vertical: verticalPad,
+              horizontal: horizontalPad,
+            ),
+            decoration: BoxDecoration(
+            color: AppColorsProfile.light,
+            borderRadius: BorderRadius.circular(20),
+
+            ),
+            child: Column(
               children: [
-                SizedBox(width: 280, child: _ContactCard(onLaunch: _launch)),
-                const SizedBox(width: 32),
-                Expanded(
-                  child: _sent
-                      ? _SuccessCard(
-                          onReset: () => setState(() => _sent = false),
-                        )
-                      : _FormCard(
-                          formKey: _formKey,
-                          nameCtrl: _nameCtrl,
-                          emailCtrl: _emailCtrl,
-                          subjectCtrl: _subjectCtrl,
-                          msgCtrl: _msgCtrl,
-                          sending: _sending,
-                          onSubmit: _submit,
-                        ),
-                ),
-              ],
-            )
-          else
-            Column(
-              children: [
-                _ContactCard(onLaunch: _launch),
-                const SizedBox(height: 24),
-                _sent
-                    ? _SuccessCard(onReset: () => setState(() => _sent = false))
-                    : _FormCard(
-                        formKey: _formKey,
-                        nameCtrl: _nameCtrl,
-                        emailCtrl: _emailCtrl,
-                        subjectCtrl: _subjectCtrl,
-                        msgCtrl: _msgCtrl,
-                        sending: _sending,
-                        onSubmit: _submit,
+                // ── En-tête ──────────────────────────────────────────
+                Column(
+                  children: [
+                    const SectionTag(label: 'CONTACT'),
+                    const SizedBox(height: 12),
+                    Text(
+                      'Travaillons ensemble',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                        fontSize: isDesktop ? 44 : (isTablet ? 36 : 26),
+                        fontWeight: FontWeight.w700,
+                        color: AppColorsProfile.dark,
                       ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Vous avez un projet en tête ? Je suis disponible '
+                      'pour de nouvelles collaborations.',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.inter(
+                        fontSize: isMobile ? 13 : 15,
+                        color: AppColorsProfile.muted,
+                        height: 1.6,
+                      ),
+                    ),
+                  ],
+                ).animate().fadeIn(duration: 500.ms).slideY(begin: 0.2, end: 0),
+
+                SizedBox(height: isMobile ? 36 : 56),
+
+                // ── Corps : carte + formulaire ────────────────────────
+                if (isDesktop)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 280,
+                        child: _ContactCard(
+                          onLaunch: _launch,
+                          fixedHeight: true,
+                        ),
+                      ),
+                      const SizedBox(width: 32),
+                      Expanded(
+                        child: _sent
+                            ? _SuccessCard(
+                                onReset: () => setState(() => _sent = false),
+                              )
+                            : _FormCard(
+                                formKey: _formKey,
+                                nameCtrl: _nameCtrl,
+                                emailCtrl: _emailCtrl,
+                                subjectCtrl: _subjectCtrl,
+                                msgCtrl: _msgCtrl,
+                                sending: _sending,
+                                onSubmit: _submit,
+                                isMobile: isMobile,
+                              ),
+                      ),
+                    ],
+                  )
+                else
+                  Column(
+                    children: [
+                      _ContactCard(onLaunch: _launch, fixedHeight: false),
+                      const SizedBox(height: 24),
+                      _sent
+                          ? _SuccessCard(
+                              onReset: () => setState(() => _sent = false),
+                            )
+                          : _FormCard(
+                              formKey: _formKey,
+                              nameCtrl: _nameCtrl,
+                              emailCtrl: _emailCtrl,
+                              subjectCtrl: _subjectCtrl,
+                              msgCtrl: _msgCtrl,
+                              sending: _sending,
+                              onSubmit: _submit,
+                              isMobile: isMobile,
+                            ),
+                    ],
+                  ),
               ],
             ),
-        ],
-      ),
+          );
+        },
+
     );
   }
 }
@@ -141,101 +171,103 @@ class _ContactSectionState extends State<ContactSection> {
 
 class _ContactCard extends StatelessWidget {
   final void Function(String) onLaunch;
+  final bool fixedHeight;
 
-  const _ContactCard({required this.onLaunch});
+  const _ContactCard({required this.onLaunch, required this.fixedHeight});
 
   @override
   Widget build(BuildContext context) {
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          'Votre Nom',
+          style: GoogleFonts.poppins(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          'Flutter Developer · Senior',
+          style: GoogleFonts.inter(
+            fontSize: 12,
+            color: AppColorsProfile.primary,
+          ),
+        ),
+        const SizedBox(height: 24),
+
+        ...[
+          (
+            Icons.email_rounded,
+            'emmanuelpet@gmail.com',
+            'mailto:emmanuelpeters@gmail.com',
+          ),
+          (Icons.phone_rounded, '+225 07 88 88 41 18', 'tel:+2250788884118'),
+          (Icons.location_on_rounded, 'Abidjan, Côte d\'Ivoire', '#'),
+        ].map(
+          (e) => Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: _ContactRow(
+              icon: e.$1,
+              label: e.$2,
+              url: e.$3,
+              onLaunch: onLaunch,
+            ),
+          ),
+        ),
+
+        Divider(color: Colors.white.withValues(alpha: 0.08)),
+        const SizedBox(height: 16),
+
+        Text(
+          'Me retrouver sur',
+          style: GoogleFonts.inter(fontSize: 11, color: Colors.white30),
+        ),
+        const SizedBox(height: 12),
+
+        Row(
+          children: [
+            _SocialBtn(
+              icon: Icons.code_rounded,
+              url: 'https://github.com',
+              onLaunch: onLaunch,
+              isSvpIcon: true,
+              svpIcon: Assets.auth.github,
+            ),
+            const SizedBox(width: 10),
+            _SocialBtn(
+              icon: Icons.work_rounded,
+              url: 'https://linkedin.com',
+              onLaunch: onLaunch,
+              isSvpIcon: true,
+              svpIcon: Assets.auth.linkedin01,
+            ),
+            const SizedBox(width: 10),
+            _SocialBtn(
+              icon: Icons.chat_rounded,
+              url: 'https://wa.me',
+              onLaunch: onLaunch,
+              isSvpIcon: true,
+              svpIcon: Assets.auth.whatsapp,
+            ),
+          ],
+        ),
+      ],
+    );
+
     return Container(
-          height: 0.420.sh,
+          height: fixedHeight ? 0.420.sh : null,
+          width: double.infinity,
           padding: const EdgeInsets.all(28),
           decoration: BoxDecoration(
             color: AppColorsProfile.dark,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Nom + titre
-              Text(
-                'Votre Nom',
-                style: GoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                'Flutter Developer · Senior',
-                style: GoogleFonts.inter(
-                  fontSize: 12,
-                  color: AppColorsProfile.primary,
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              // Infos
-              ...[
-                (
-                  Icons.email_rounded,
-                  'emmanuelpet@gmail.com',
-                  'mailto:emmanuelpeters@gmail.com',
-                ),
-                (Icons.phone_rounded, '+225 07 88 88 41 18', 'tel:+2250788884118'),
-                (Icons.location_on_rounded, 'Abidjan, Côte d\'Ivoire', '#'),
-              ].map(
-                (e) => Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: _ContactRow(
-                    icon: e.$1,
-                    label: e.$2,
-                    url: e.$3,
-                    onLaunch: onLaunch,
-                  ),
-                ),
-              ),
-
-              Divider(color: Colors.white.withOpacity(0.08)),
-              const SizedBox(height: 16),
-
-              Text(
-                'Me retrouver sur',
-                style: GoogleFonts.inter(fontSize: 11, color: Colors.white30),
-              ),
-              const SizedBox(height: 12),
-
-              // Réseaux sociaux
-              Row(
-                children: [
-                  _SocialBtn(
-                    icon: Icons.code_rounded,
-                    url: 'https://github.com',
-                    onLaunch: onLaunch,
-                    isSvpIcon: true,
-                    svpIcon: Assets.auth.github,
-                  ),
-                  const SizedBox(width: 10),
-                  _SocialBtn(
-                    icon: Icons.work_rounded,
-                    url: 'https://linkedin.com',
-                    onLaunch: onLaunch,
-                    isSvpIcon: true,
-                    svpIcon: Assets.auth.linkedin01
-                  ),
-                  const SizedBox(width: 10),
-                  _SocialBtn(
-                    icon: Icons.chat_rounded,
-                    url: 'https://wa.me',
-                    onLaunch: onLaunch,
-                    isSvpIcon: true,
-                    svpIcon: Assets.auth.whatsapp,
-                  ),
-                ],
-              ),
-            ],
-          ),
+          child: content,
         )
         .animate(delay: 100.ms)
         .fadeIn(duration: 500.ms)
@@ -276,7 +308,6 @@ class _ContactRowState extends State<_ContactRow> {
         onTap: () => widget.onLaunch(widget.url),
         child: Row(
           children: [
-            // Icône
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               width: 40,
@@ -284,7 +315,7 @@ class _ContactRowState extends State<_ContactRow> {
               decoration: BoxDecoration(
                 color: _hovered
                     ? AppColorsProfile.primary
-                    : AppColorsProfile.primary.withOpacity(0.1),
+                    : AppColorsProfile.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
@@ -294,13 +325,15 @@ class _ContactRowState extends State<_ContactRow> {
               ),
             ),
             const SizedBox(width: 12),
-
-            // Texte
-            Text(
-              widget.label,
-              style: GoogleFonts.inter(
-                fontSize: 13,
-                color: _hovered ? Colors.white : Colors.white.withOpacity(0.6),
+            Expanded(
+              child: Text(
+                widget.label,
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  color: _hovered
+                      ? Colors.white
+                      : Colors.white.withValues(alpha: 0.6),
+                ),
               ),
             ),
           ],
@@ -348,7 +381,7 @@ class _SocialBtnState extends State<_SocialBtn> {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(_hovered ? 0.12 : 0.07),
+            color: Colors.white.withValues(alpha: _hovered ? 0.12 : 0.07),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
           ),
@@ -388,6 +421,7 @@ class _FormCard extends StatelessWidget {
   final TextEditingController subjectCtrl;
   final TextEditingController msgCtrl;
   final bool sending;
+  final bool isMobile;
   final VoidCallback onSubmit;
 
   const _FormCard({
@@ -398,19 +432,20 @@ class _FormCard extends StatelessWidget {
     required this.msgCtrl,
     required this.sending,
     required this.onSubmit,
+    required this.isMobile,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-          padding: const EdgeInsets.all(32),
+          padding: EdgeInsets.all(isMobile ? 20 : 32),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: AppColorsProfile.border),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: Colors.black.withValues(alpha: 0.04),
                 blurRadius: 32,
                 offset: const Offset(0, 8),
               ),
@@ -421,7 +456,6 @@ class _FormCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Nom + Email côte à côte si assez large
                 LayoutBuilder(
                   builder: (_, c) => c.maxWidth > 480
                       ? Row(
@@ -523,18 +557,16 @@ class _FieldState extends State<_Field> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Label
         Text(
           widget.label,
           style: GoogleFonts.inter(
             fontSize: 11,
             fontWeight: FontWeight.w600,
-            color: AppColorsProfile.dark.withOpacity(0.6),
+            color: AppColorsProfile.dark.withValues(alpha: 0.6),
           ),
         ),
         const SizedBox(height: 6),
 
-        // Input
         Focus(
           onFocusChange: (v) => setState(() => _focused = v),
           child: AnimatedContainer(
@@ -545,7 +577,7 @@ class _FieldState extends State<_Field> {
               border: Border.all(
                 color: _focused
                     ? AppColorsProfile.primary
-                    : Colors.black.withOpacity(0.08),
+                    : Colors.black.withValues(alpha: 0.08),
                 width: _focused ? 1.5 : 1,
               ),
             ),
@@ -571,7 +603,7 @@ class _FieldState extends State<_Field> {
                 hintText: widget.hint,
                 hintStyle: GoogleFonts.inter(
                   fontSize: 13,
-                  color: AppColorsProfile.muted.withOpacity(0.6),
+                  color: AppColorsProfile.muted.withValues(alpha: 0.6),
                 ),
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.symmetric(
@@ -625,7 +657,7 @@ class _SubmitButtonState extends State<_SubmitButton> {
             boxShadow: _hovered && !widget.sending
                 ? [
                     BoxShadow(
-                      color: AppColorsProfile.primary.withOpacity(0.35),
+                      color: AppColorsProfile.primary.withValues(alpha: 0.35),
                       blurRadius: 24,
                       offset: const Offset(0, 8),
                     ),
@@ -706,18 +738,21 @@ class _SuccessCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Icône checkmark
           Container(
             width: 64,
             height: 64,
             decoration: BoxDecoration(
-              color: AppColorsProfile.primary.withOpacity(0.1),
+              color: AppColorsProfile.primary.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: const Icon(
-              Icons.check_rounded,
-              color: AppColorsProfile.primary,
-              size: 32,
+            child: SvgPicture.asset(
+              Assets.auth.sendEmail,
+              colorFilter: ColorFilter.mode(
+                AppColorsProfile.primary,
+                BlendMode.srcIn,
+              ),
+              width: 32,
+              height: 32,
             ),
           ).animate().scale(
             begin: const Offset(0.5, 0.5),
@@ -775,7 +810,6 @@ class SectionTag extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Ligne verte décorative
         Container(
           width: 24,
           height: 2,
@@ -785,8 +819,6 @@ class SectionTag extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 10),
-
-        // Texte du tag
         Text(
           label,
           style: GoogleFonts.inter(
